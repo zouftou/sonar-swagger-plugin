@@ -1,0 +1,4 @@
+org\sonar\plugins\swagger\SwaggerPlugin.class
+org\sonar\plugins\swagger\SwaggerSquidSensor.class
+org\sonar\plugins\swagger\Swagger.class
+org\sonar\plugins\swagger\SwaggerRulesDefinition.class
