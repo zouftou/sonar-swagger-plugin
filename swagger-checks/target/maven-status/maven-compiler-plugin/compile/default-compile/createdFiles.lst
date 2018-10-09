@@ -1,0 +1,2 @@
+org\sonar\swagger\checks\CheckList.class
+org\sonar\swagger\checks\generic\FileNameCheck.class
