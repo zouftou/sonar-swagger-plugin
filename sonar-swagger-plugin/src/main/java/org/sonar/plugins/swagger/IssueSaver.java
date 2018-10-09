@@ -14,123 +14,113 @@ import org.sonar.plugins.swagger.api.visitors.issue.*;
 
 public class IssueSaver {
 
-	  private final SensorContext sensorContext;
-	  private final SwaggerChecks checks;
-	  private final FileSystem fileSystem;
+	private final SensorContext sensorContext;
+	private final SwaggerChecks checks;
+	private final FileSystem fileSystem;
 
-	  public IssueSaver(SensorContext sensorContext, SwaggerChecks checks) {
-	    this.sensorContext = sensorContext;
-	    this.fileSystem = sensorContext.fileSystem();
-	    this.checks = checks;
-	  }
+	public IssueSaver(SensorContext sensorContext, SwaggerChecks checks) {
+		this.sensorContext = sensorContext;
+		this.fileSystem = sensorContext.fileSystem();
+		this.checks = checks;
+	}
 
-	  public SwaggerChecks getChecks() {
-	    return checks;
-	  }
-	  
-	  public void saveIssue(Issue issue) {
-		    if (issue instanceof FileIssue) {
-		      saveFileIssue((FileIssue) issue);
-		    } else if (issue instanceof LineIssue) {
-		      saveLineIssue((LineIssue) issue);
-		    } else {
-		      savePreciseIssue((PreciseIssue) issue);
-		    }
-		  }
+	public SwaggerChecks getChecks() {
+		return checks;
+	}
 
-		  private void savePreciseIssue(PreciseIssue issue) {
-		    NewIssue newIssue = sensorContext.newIssue();
-		    InputFile primaryFile = Preconditions.checkNotNull(fileSystem.inputFile(fileSystem.predicates().is(issue.primaryLocation().file())));
+	public void saveIssue(Issue issue) {
+		if (issue instanceof FileIssue) {
+			saveFileIssue((FileIssue) issue);
+		} else if (issue instanceof LineIssue) {
+			saveLineIssue((LineIssue) issue);
+		} else {
+			savePreciseIssue((PreciseIssue) issue);
+		}
+	}
 
-		    newIssue
-		      .forRule(ruleKey(issue.check()))
-		      .at(newLocation(primaryFile, newIssue, issue.primaryLocation()));
+	private void savePreciseIssue(PreciseIssue issue) {
+		NewIssue newIssue = sensorContext.newIssue();
+		InputFile primaryFile = Preconditions
+				.checkNotNull(fileSystem.inputFile(fileSystem.predicates().is(issue.primaryLocation().file())));
 
-		    if (issue.cost() != null) {
-		      newIssue.gap(issue.cost());
-		    }
+		newIssue.forRule(ruleKey(issue.check())).at(newLocation(primaryFile, newIssue, issue.primaryLocation()));
 
-		    InputFile secondaryFile;
-		    for (IssueLocation secondary : issue.secondaryLocations()) {
-		      secondaryFile = fileSystem.inputFile(fileSystem.predicates().is(secondary.file()));
-		      if (secondaryFile == null) {
-		        secondaryFile = primaryFile;
-		      }
-		      newIssue.addLocation(newLocation(secondaryFile, newIssue, secondary));
-		    }
+		if (issue.cost() != null) {
+			newIssue.gap(issue.cost());
+		}
 
-		    newIssue.save();
-		  }
+		InputFile secondaryFile;
+		for (IssueLocation secondary : issue.secondaryLocations()) {
+			secondaryFile = fileSystem.inputFile(fileSystem.predicates().is(secondary.file()));
+			if (secondaryFile == null) {
+				secondaryFile = primaryFile;
+			}
+			newIssue.addLocation(newLocation(secondaryFile, newIssue, secondary));
+		}
 
-		  private void saveFileIssue(FileIssue issue) {
-		    NewIssue newIssue = sensorContext.newIssue();
-		    InputFile primaryFile = Preconditions.checkNotNull(fileSystem.inputFile(fileSystem.predicates().is(issue.file())));
+		newIssue.save();
+	}
 
-		    NewIssueLocation primaryLocation = newIssue.newLocation()
-		      .message(issue.message())
-		      .on(primaryFile);
+	private void saveFileIssue(FileIssue issue) {
+		NewIssue newIssue = sensorContext.newIssue();
+		InputFile primaryFile = Preconditions
+				.checkNotNull(fileSystem.inputFile(fileSystem.predicates().is(issue.file())));
 
-		    newIssue
-		      .forRule(ruleKey(issue.check()))
-		      .at(primaryLocation);
+		NewIssueLocation primaryLocation = newIssue.newLocation().message(issue.message()).on(primaryFile);
 
-		    if (issue.cost() != null) {
-		      newIssue.gap(issue.cost());
-		    }
+		newIssue.forRule(ruleKey(issue.check())).at(primaryLocation);
 
-		    InputFile secondaryFile;
-		    for (IssueLocation secondary : issue.secondaryLocations()) {
-		      secondaryFile = fileSystem.inputFile(fileSystem.predicates().is(secondary.file()));
-		      if (secondaryFile == null) {
-		        secondaryFile = primaryFile;
-		      }
-		      newIssue.addLocation(newLocation(secondaryFile, newIssue, secondary));
-		    }
+		if (issue.cost() != null) {
+			newIssue.gap(issue.cost());
+		}
 
-		    newIssue.save();
-		  }
+		InputFile secondaryFile;
+		for (IssueLocation secondary : issue.secondaryLocations()) {
+			secondaryFile = fileSystem.inputFile(fileSystem.predicates().is(secondary.file()));
+			if (secondaryFile == null) {
+				secondaryFile = primaryFile;
+			}
+			newIssue.addLocation(newLocation(secondaryFile, newIssue, secondary));
+		}
 
-		  private void saveLineIssue(LineIssue issue) {
-		    NewIssue newIssue = sensorContext.newIssue();
-		    InputFile primaryFile = Preconditions.checkNotNull(fileSystem.inputFile(fileSystem.predicates().is(issue.file())));
+		newIssue.save();
+	}
 
-		    NewIssueLocation primaryLocation = newIssue.newLocation()
-		      .message(issue.message())
-		      .on(primaryFile)
-		      .at(primaryFile.selectLine(issue.line()));
+	private void saveLineIssue(LineIssue issue) {
+		NewIssue newIssue = sensorContext.newIssue();
+		InputFile primaryFile = Preconditions
+				.checkNotNull(fileSystem.inputFile(fileSystem.predicates().is(issue.file())));
 
-		    newIssue
-		      .forRule(ruleKey(issue.check()))
-		      .at(primaryLocation);
+		NewIssueLocation primaryLocation = newIssue.newLocation().message(issue.message()).on(primaryFile)
+				.at(primaryFile.selectLine(issue.line()));
 
-		    if (issue.cost() != null) {
-		      newIssue.gap(issue.cost());
-		    }
+		newIssue.forRule(ruleKey(issue.check())).at(primaryLocation);
 
-		    newIssue.save();
-		  }
+		if (issue.cost() != null) {
+			newIssue.gap(issue.cost());
+		}
 
-		  private NewIssueLocation newLocation(InputFile inputFile, NewIssue issue, IssueLocation location) {
-		    TextRange range = inputFile.newRange(
-		      location.startLine(), location.startLineOffset(), location.endLine(), location.endLineOffset());
+		newIssue.save();
+	}
 
-		    NewIssueLocation newLocation = issue.newLocation()
-		      .on(inputFile)
-		      .at(range);
+	private NewIssueLocation newLocation(InputFile inputFile, NewIssue issue, IssueLocation location) {
+		TextRange range = inputFile.newRange(location.startLine(), location.startLineOffset(), location.endLine(),
+				location.endLineOffset());
 
-		    if (location.message() != null) {
-		      newLocation.message(location.message());
-		    }
-		    return newLocation;
-		  }
+		NewIssueLocation newLocation = issue.newLocation().on(inputFile).at(range);
 
-		  private RuleKey ruleKey(SwaggerCheck check) {
-		    Preconditions.checkNotNull(check);
-		    RuleKey ruleKey = checks.ruleKeyFor(check);
-		    if (ruleKey == null) {
-		      throw new IllegalStateException("No rule key found for a rule");
-		    }
-		    return ruleKey;
-		  }
+		if (location.message() != null) {
+			newLocation.message(location.message());
+		}
+		return newLocation;
+	}
 
+	private RuleKey ruleKey(SwaggerCheck check) {
+		Preconditions.checkNotNull(check);
+		RuleKey ruleKey = checks.ruleKeyFor(check);
+		if (ruleKey == null) {
+			throw new IllegalStateException("No rule key found for a rule");
+		}
+		return ruleKey;
+	}
 }

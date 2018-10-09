@@ -4,6 +4,6 @@ public interface SwaggerTree extends Tree {
 
 	  boolean hasByteOrderMark();
 
-	  //ValueTree value();
+	  ValueTree value();
 
 }

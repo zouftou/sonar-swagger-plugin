@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import org.sonar.api.batch.rule.CheckFactory;
 import org.sonar.api.batch.rule.Checks;
 import org.sonar.api.rule.RuleKey;
+import org.sonar.plugins.swagger.api.CustomSwaggerRulesDefinition;
 import org.sonar.plugins.swagger.api.SwaggerCheck;
 import org.sonar.plugins.swagger.api.visitors.TreeVisitor;
 
@@ -36,6 +37,16 @@ public class SwaggerChecks {
     return this;
   }
 
+  public SwaggerChecks addCustomChecks(@Nullable CustomSwaggerRulesDefinition[] customRulesDefinitions) {
+	    if (customRulesDefinitions != null) {
+
+	      for (CustomSwaggerRulesDefinition rulesDefinition : customRulesDefinitions) {
+	        addChecks(rulesDefinition.repositoryKey(), Lists.newArrayList(rulesDefinition.checkClasses()));
+	      }
+	    }
+	    return this;
+	  }
+  
   public List<SwaggerCheck> all() {
     List<SwaggerCheck> allVisitors = Lists.newArrayList();
 

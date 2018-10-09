@@ -1,6 +1,5 @@
 package org.sonar.plugins.swagger;
 
-import org.sonar.api.config.Configuration;
 import org.sonar.api.resources.AbstractLanguage;
 
 import com.google.common.base.Splitter;
@@ -15,7 +14,7 @@ public class Swagger extends AbstractLanguage {
 
 	public static final String DEFAULT_FILE_SUFFIXES = ".yaml,.yml";
 
-	public Swagger(Configuration settings) {
+	public Swagger() {
 		super(KEY, NAME);
 	}
 

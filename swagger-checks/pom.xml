@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
-		<groupId>org.codehaus.sonar-plugins</groupId>
+		<groupId>org.codehaus.sonar-plugins.swagger</groupId>
 		<artifactId>swagger</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -12,10 +12,17 @@
 	<artifactId>swagger-checks</artifactId>
 
 	<dependencies>
+	    <dependency>
+	      <groupId>org.sonarsource.sonarqube</groupId>
+	      <artifactId>sonar-plugin-api</artifactId>
+	    </dependency>
+	    <dependency>
+	      <groupId>commons-lang</groupId>
+	      <artifactId>commons-lang</artifactId>
+	    </dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>26.0-jre</version>
-		</dependency>
+			</dependency>
 	</dependencies>
 </project>

@@ -1,2 +1,4 @@
-org\sonar\swagger\checks\CheckList.class
 org\sonar\swagger\checks\generic\FileNameCheck.class
+org\sonar\swagger\checks\Tags.class
+org\sonar\swagger\checks\generic\ParsingErrorCheck.class
+org\sonar\swagger\checks\CheckList.class
