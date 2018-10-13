@@ -23,7 +23,7 @@ public class SwaggerProfile extends ProfileDefinition {
 		return annotationBasedProfileBuilder.build(
 				CheckList.REPOSITORY_KEY,
 				SONARQUBE_WAY_PROFILE_NAME,
-				Swagger.KEY,
+				SwaggerLanguage.KEY,
 				CheckList.getChecks(),
 				messages);
 	}

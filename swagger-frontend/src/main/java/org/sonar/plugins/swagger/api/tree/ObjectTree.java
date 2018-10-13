@@ -4,7 +4,9 @@ import java.util.List;
 
 public interface ObjectTree extends Tree {
 
-  SyntaxToken leftSpace();
+  KeyTree key();
+  
+  SyntaxToken colon();
 
   List<PairTree> pairs();
 

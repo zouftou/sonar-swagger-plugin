@@ -9,10 +9,10 @@ public class SwaggerRulesDefinition implements RulesDefinition {
 	@Override
 	public void define(Context context) {
 	    NewRepository repository = context
-	    	      .createRepository(CheckList.REPOSITORY_KEY, Swagger.KEY)
+	    	      .createRepository(CheckList.REPOSITORY_KEY, SwaggerLanguage.KEY)
 	    	      .setName(CheckList.REPOSITORY_NAME);
 
-	    new AnnotationBasedRulesDefinition(repository, Swagger.KEY).addRuleClasses(false, CheckList.getChecks());
+	    new AnnotationBasedRulesDefinition(repository, SwaggerLanguage.KEY).addRuleClasses(false, CheckList.getChecks());
 	    repository.done();
 	}
 }

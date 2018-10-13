@@ -2,6 +2,8 @@ package org.sonar.swagger.tree.impl;
 
 import com.google.common.base.Functions;
 import com.google.common.collect.Iterators;
+
+import org.sonar.plugins.swagger.api.tree.KeyTree;
 import org.sonar.plugins.swagger.api.tree.ObjectTree;
 import org.sonar.plugins.swagger.api.tree.PairTree;
 import org.sonar.plugins.swagger.api.tree.SyntaxToken;
@@ -16,11 +18,13 @@ import java.util.List;
 
 public class ObjectTreeImpl extends SWAGGERTree implements ObjectTree {
 
-  private final SyntaxToken leftSpace;
-  private final SeparatedList<PairTree> pairs;
+  private final KeyTree key;
+  private final SyntaxToken colon;
+  private final List<PairTree> pairs;
 
-  public ObjectTreeImpl(SyntaxToken leftSpace, @Nullable SeparatedList<PairTree> pairs) {
-    this.leftSpace = leftSpace;
+  public ObjectTreeImpl(KeyTree key, SyntaxToken colon, @Nullable List<PairTree> pairs) {
+    this.key = key;
+    this.colon = colon;
     this.pairs = pairs;
   }
 
@@ -32,8 +36,9 @@ public class ObjectTreeImpl extends SWAGGERTree implements ObjectTree {
   @Override
   public Iterator<Tree> childrenIterator() {
     return Iterators.concat(
-      Iterators.singletonIterator(leftSpace),
-      pairs != null ? pairs.elementsAndSeparators(Functions.identity()) : new ArrayList<Tree>().iterator());
+      Iterators.singletonIterator(key),
+      Iterators.singletonIterator(colon),
+      pairs != null ? pairs.iterator() : new ArrayList<Tree>().iterator());
   }
 
   @Override
@@ -42,13 +47,17 @@ public class ObjectTreeImpl extends SWAGGERTree implements ObjectTree {
   }
 
   @Override
-  public SyntaxToken leftSpace() {
-    return leftSpace;
+  public KeyTree key() {
+  	return key;
   }
 
+  @Override
+  public SyntaxToken colon() {
+  	return colon;
+  }
+  
   @Override
   public List<PairTree> pairs() {
     return pairs != null ? pairs : Collections.emptyList();
   }
-
 }

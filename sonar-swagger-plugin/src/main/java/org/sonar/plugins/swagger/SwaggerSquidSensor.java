@@ -30,8 +30,8 @@ import org.sonar.swagger.checks.generic.ParsingErrorCheck;
 import org.sonar.swagger.parser.SwaggerParserBuilder;
 import org.sonar.swagger.visitors.CharsetAwareVisitor;
 import org.sonar.swagger.visitors.SwaggerVisitorContext;
-//import org.sonar.swagger.visitors.SyntaxHighlighterVisitor;
-//import org.sonar.swagger.visitors.metrics.MetricsVisitor;
+import org.sonar.swagger.visitors.SyntaxHighlighterVisitor;
+import org.sonar.swagger.visitors.metrics.MetricsVisitor;
 import org.sonar.plugins.swagger.api.CustomSwaggerRulesDefinition;
 import org.sonar.plugins.swagger.api.SwaggerCheck;
 import org.sonar.plugins.swagger.api.tree.SwaggerTree;
@@ -56,24 +56,24 @@ public class SwaggerSquidSensor implements Sensor {
 	    this(fileSystem, checkFactory, null);
 	  }
 
-	  public SwaggerSquidSensor(FileSystem fileSystem, CheckFactory checkFactory, @Nullable CustomSwaggerRulesDefinition[] customRulesDefinition) {
-	    this.fileSystem = fileSystem;
+  public SwaggerSquidSensor(FileSystem fileSystem, CheckFactory checkFactory, @Nullable CustomSwaggerRulesDefinition[] customRulesDefinition) {
+    this.fileSystem = fileSystem;
 
-	    this.mainFilePredicate = fileSystem.predicates().and(
-	      fileSystem.predicates().hasType(InputFile.Type.MAIN),
-	      fileSystem.predicates().hasLanguage(Swagger.KEY));
+    this.mainFilePredicate = fileSystem.predicates().and(
+      fileSystem.predicates().hasType(InputFile.Type.MAIN),
+      fileSystem.predicates().hasLanguage(SwaggerLanguage.KEY));
 
-	    this.parser = SwaggerParserBuilder.createParser(fileSystem.encoding());
+    this.parser = null;//SwaggerParserBuilder.createParser(fileSystem.encoding());
 
-	    this.checks = SwaggerChecks.createSwaggerCheck(checkFactory)
-	      .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
-	      .addCustomChecks(customRulesDefinition);
-	  }
+    this.checks = SwaggerChecks.createSwaggerCheck(checkFactory)
+      .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())
+      .addCustomChecks(customRulesDefinition);
+  }
 
   @Override
   public void describe(SensorDescriptor descriptor) {
     descriptor
-      .onlyOnLanguage(Swagger.KEY)
+      .onlyOnLanguage(SwaggerLanguage.KEY)
       .name("Swagger Squid Sensor")
       .onlyOnFileType(Type.MAIN);
   }
@@ -82,8 +82,8 @@ public class SwaggerSquidSensor implements Sensor {
   public void execute(SensorContext sensorContext) {
     List<TreeVisitor> treeVisitors = Lists.newArrayList();
     treeVisitors.addAll(checks.visitorChecks());
-    //treeVisitors.add(new SyntaxHighlighterVisitor(sensorContext));
-    //treeVisitors.add(new MetricsVisitor(sensorContext));
+    treeVisitors.add(new SyntaxHighlighterVisitor(sensorContext));
+    treeVisitors.add(new MetricsVisitor(sensorContext));
 
     setParsingErrorCheckIfActivated(treeVisitors);
 

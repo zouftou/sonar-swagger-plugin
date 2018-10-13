@@ -6,13 +6,15 @@ org\sonar\plugins\swagger\api\tree\SwaggerTree.class
 org\sonar\swagger\tree\impl\FalseTreeImpl.class
 org\sonar\plugins\swagger\api\tree\Tree$Kind.class
 org\sonar\plugins\swagger\api\visitors\TreeVisitor.class
+org\sonar\swagger\visitors\metrics\StatementsVisitor.class
 org\sonar\plugins\swagger\api\visitors\issue\Issue.class
 org\sonar\plugins\swagger\api\visitors\DoubleDispatchVisitorCheck.class
 org\sonar\swagger\tree\impl\ValueTreeImpl.class
-org\sonar\swagger\api\Info.class
+org\sonar\swagger\visitors\metrics\MetricsVisitor.class
 org\sonar\swagger\parser\SwaggerGrammar.class
 org\sonar\swagger\tree\impl\SeparatedList$ElementAndSeparatorIterator.class
 org\sonar\swagger\parser\SwaggerNodeBuilder.class
+org\sonar\swagger\visitors\SyntaxHighlighterVisitor.class
 org\sonar\plugins\swagger\api\visitors\issue\IssueLocation.class
 org\sonar\swagger\tree\impl\KeyTreeImpl.class
 org\sonar\plugins\swagger\api\visitors\SubscriptionVisitorCheck.class
@@ -27,7 +29,6 @@ org\sonar\swagger\parser\SwaggerLexicalGrammar.class
 org\sonar\plugins\swagger\api\visitors\issue\FileIssue.class
 org\sonar\plugins\swagger\api\tree\LiteralTree.class
 org\sonar\plugins\swagger\api\visitors\DoubleDispatchVisitor.class
-org\sonar\swagger\visitors\Info.class
 org\sonar\swagger\tree\impl\ArrayTreeImpl.class
 org\sonar\swagger\tree\impl\NumberTreeImpl.class
 org\sonar\plugins\swagger\api\visitors\SubscriptionVisitor.class
@@ -49,6 +50,7 @@ org\sonar\swagger\parser\SwaggerParserBuilder.class
 org\sonar\swagger\tree\impl\SwaggerTreeImpl.class
 org\sonar\plugins\swagger\api\tree\Tree.class
 org\sonar\swagger\tree\impl\SWAGGERTree.class
+org\sonar\swagger\visitors\metrics\LinesOfCodeVisitor.class
 org\sonar\swagger\parser\SwaggerNodeBuilder$1.class
 org\sonar\swagger\parser\TreeFactory.class
 org\sonar\swagger\tree\impl\NullTreeImpl.class

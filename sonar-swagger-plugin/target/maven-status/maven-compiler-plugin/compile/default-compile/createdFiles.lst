@@ -1,7 +1,7 @@
 org\sonar\plugins\swagger\SwaggerProfile.class
 org\sonar\plugins\swagger\SwaggerChecks.class
 org\sonar\plugins\swagger\SwaggerRulesDefinition.class
+org\sonar\plugins\swagger\SwaggerLanguage.class
 org\sonar\plugins\swagger\SwaggerPlugin.class
 org\sonar\plugins\swagger\SwaggerSquidSensor.class
 org\sonar\plugins\swagger\IssueSaver.class
-org\sonar\plugins\swagger\Swagger.class

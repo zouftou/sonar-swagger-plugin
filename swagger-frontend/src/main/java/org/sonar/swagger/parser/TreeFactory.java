@@ -9,17 +9,17 @@ import java.util.List;
 
 public class TreeFactory {
 
-  public SwaggerTree json(Optional<SyntaxToken> byteOrderMark, Optional<ValueTree> value, SyntaxToken eof) {
+  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, Optional<ValueTree> value, SyntaxToken eof) {
     return new SwaggerTreeImpl(byteOrderMark.orNull(), value.orNull(), eof);
   }
 
-  public ObjectTree object(InternalSyntaxToken leftSpace, Optional<SeparatedList<PairTree>> pairs) {
-    return new ObjectTreeImpl(leftSpace, pairs.orNull());
-  }
-
-  public ArrayTree array(InternalSyntaxToken leftSpace, Optional<SeparatedList<ValueTree>> values) {
-    return new ArrayTreeImpl(leftSpace, values.orNull());
-  }
+	public ObjectTree object(KeyTree key, SyntaxToken colon, Optional<List<PairTree>> pairs) {
+		return new ObjectTreeImpl(key, colon,pairs.orNull());
+	}
+	
+	public ArrayTree array(InternalSyntaxToken leftBracket, Optional<SeparatedList<ValueTree>> values) {
+		return new ArrayTreeImpl(leftBracket, values.orNull());
+	}
 
   public PairTree pair(KeyTree key, SyntaxToken colon, ValueTree value) {
     return new PairTreeImpl(key, colon, value);

@@ -1,8 +1,13 @@
 package org.sonar.swagger.parser;
 
 import com.sonar.sslr.api.typed.GrammarBuilder;
+import com.sonar.sslr.api.typed.Optional;
+
 import org.sonar.swagger.tree.impl.InternalSyntaxToken;
 import org.sonar.swagger.tree.impl.SeparatedList;
+
+import java.util.List;
+
 import org.sonar.plugins.swagger.api.tree.*;
 
 public class SwaggerGrammar {
@@ -17,7 +22,7 @@ public class SwaggerGrammar {
 
   public SwaggerTree SWAGGER() {
     return b.<SwaggerTree>nonterminal(SwaggerLexicalGrammar.SWAGGER).is(
-      f.json(
+      f.swagger(
         b.optional(b.token(SwaggerLexicalGrammar.BOM)),
         b.optional(VALUE()),
         b.token(SwaggerLexicalGrammar.EOF)));
@@ -26,14 +31,15 @@ public class SwaggerGrammar {
   public ObjectTree OBJECT() {
     return b.<ObjectTree>nonterminal(SwaggerLexicalGrammar.OBJECT).is(
       f.object(
-        b.token(SwaggerLexicalGrammar.SPACE),
-        b.optional(PAIR_LIST())));
+    	KEY(),
+    	b.token(SwaggerLexicalGrammar.COLON),
+        (Optional<List<PairTree>>) b.oneOrMore(PAIR_LIST())));
   }
 
   public ArrayTree ARRAY() {
     return b.<ArrayTree>nonterminal(SwaggerLexicalGrammar.ARRAY).is(
       f.array(
-        b.token(SwaggerLexicalGrammar.HYPHEN),
+        b.token(SwaggerLexicalGrammar.MINUS),
         b.optional(VALUE_LIST())
         ));
   }
