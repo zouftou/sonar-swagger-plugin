@@ -8,6 +8,7 @@ C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plug
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\swagger\tree\impl\ArrayTreeImpl.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plugins\swagger\api\visitors\DoubleDispatchVisitor.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\swagger\parser\SwaggerLexicalGrammar.java
+C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plugins\swagger\api\tree\RefTree.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plugins\swagger\api\tree\StringTree.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\swagger\visitors\metrics\LinesOfCodeVisitor.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\swagger\tree\impl\InternalSyntaxSpacing.java
@@ -27,6 +28,7 @@ C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plug
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\swagger\visitors\Issues.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plugins\swagger\api\tree\SyntaxToken.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\swagger\tree\impl\SwaggerTreeImpl.java
+C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\swagger\tree\impl\RefTreeImpl.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plugins\swagger\api\visitors\issue\Issue.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plugins\swagger\api\visitors\SubscriptionVisitor.java
 C:\Users\Zouftou\Workspace\swagger\swagger-frontend\src\main\java\org\sonar\plugins\swagger\api\CustomSwaggerRulesDefinition.java

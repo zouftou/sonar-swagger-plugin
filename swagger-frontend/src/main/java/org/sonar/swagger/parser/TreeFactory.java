@@ -9,17 +9,17 @@ import java.util.List;
 
 public class TreeFactory {
 
-  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, Optional<ValueTree> value, SyntaxToken eof) {
-    return new SwaggerTreeImpl(byteOrderMark.orNull(), value.orNull(), eof);
+  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, ValueTree value, SyntaxToken eof) {
+    return new SwaggerTreeImpl(byteOrderMark.orNull(), value, eof);
   }
 
-	public ObjectTree object(KeyTree key, SyntaxToken colon, Optional<List<PairTree>> pairs) {
-		return new ObjectTreeImpl(key, colon,pairs.orNull());
-	}
+  public ObjectTree object(KeyTree key, SyntaxToken colon, SeparatedList<PairTree> pairs) {
+	return new ObjectTreeImpl(key, colon,pairs);
+  }
 	
-	public ArrayTree array(InternalSyntaxToken leftBracket, Optional<SeparatedList<ValueTree>> values) {
-		return new ArrayTreeImpl(leftBracket, values.orNull());
-	}
+  public ArrayTree array(InternalSyntaxToken leftBracket, Optional<SeparatedList<ValueTree>> values) {
+	return new ArrayTreeImpl(leftBracket, values.orNull());
+  }
 
   public PairTree pair(KeyTree key, SyntaxToken colon, ValueTree value) {
     return new PairTreeImpl(key, colon, value);
@@ -65,6 +65,10 @@ public class TreeFactory {
     return new SeparatedList<>(pairs, commas);
   }
 
+  public RefTree ref(SyntaxToken token) {
+	    return new RefTreeImpl();
+  }
+  
   public StringTree string(SyntaxToken token) {
     return new StringTreeImpl(token);
   }

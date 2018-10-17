@@ -1,14 +1,18 @@
 package org.sonar.swagger.parser;
 
-import com.sonar.sslr.api.typed.GrammarBuilder;
-import com.sonar.sslr.api.typed.Optional;
-
+import org.sonar.plugins.swagger.api.tree.ArrayTree;
+import org.sonar.plugins.swagger.api.tree.KeyTree;
+import org.sonar.plugins.swagger.api.tree.LiteralTree;
+import org.sonar.plugins.swagger.api.tree.ObjectTree;
+import org.sonar.plugins.swagger.api.tree.PairTree;
+import org.sonar.plugins.swagger.api.tree.RefTree;
+import org.sonar.plugins.swagger.api.tree.StringTree;
+import org.sonar.plugins.swagger.api.tree.SwaggerTree;
+import org.sonar.plugins.swagger.api.tree.ValueTree;
 import org.sonar.swagger.tree.impl.InternalSyntaxToken;
 import org.sonar.swagger.tree.impl.SeparatedList;
 
-import java.util.List;
-
-import org.sonar.plugins.swagger.api.tree.*;
+import com.sonar.sslr.api.typed.GrammarBuilder;
 
 public class SwaggerGrammar {
 
@@ -24,7 +28,7 @@ public class SwaggerGrammar {
     return b.<SwaggerTree>nonterminal(SwaggerLexicalGrammar.SWAGGER).is(
       f.swagger(
         b.optional(b.token(SwaggerLexicalGrammar.BOM)),
-        b.optional(VALUE()),
+        VALUE(),
         b.token(SwaggerLexicalGrammar.EOF)));
   }
 
@@ -33,7 +37,7 @@ public class SwaggerGrammar {
       f.object(
     	KEY(),
     	b.token(SwaggerLexicalGrammar.COLON),
-        (Optional<List<PairTree>>) b.oneOrMore(PAIR_LIST())));
+    	PAIR_LIST()));
   }
 
   public ArrayTree ARRAY() {
@@ -75,18 +79,33 @@ public class SwaggerGrammar {
     return b.<ValueTree>nonterminal(SwaggerLexicalGrammar.VALUE).is(
       f.value(
         b.firstOf(
-          OBJECT(),
+          OBJECT(),/*
           ARRAY(),
           TRUE(),
           FALSE(),
           NULL(),
-          NUMBER(),
+          NUMBER(),*/
           STRING())));
   }
 
+  public RefTree REF() {
+    return b.<RefTree>nonterminal().is(
+    	      f.ref(b.token(SwaggerLexicalGrammar.REF)));
+  }
+  
   public StringTree STRING() {
     return b.<StringTree>nonterminal().is(
       f.string(b.token(SwaggerLexicalGrammar.STRING)));
+  }
+  
+  public StringTree DOUBLE_QUOTED_STRING() {
+	    return b.<StringTree>nonterminal().is(
+	      f.string(b.token(SwaggerLexicalGrammar.DOUBLE_QUOTED_STRING)));
+  }
+  
+  public StringTree SINGLE_QUOTED_STRING() {
+	    return b.<StringTree>nonterminal().is(
+	      f.string(b.token(SwaggerLexicalGrammar.SINGLE_QUOTED_STRING)));
   }
 
   public LiteralTree NUMBER() {

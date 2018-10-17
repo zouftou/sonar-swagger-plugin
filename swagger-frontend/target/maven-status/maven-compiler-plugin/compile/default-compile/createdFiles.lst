@@ -29,11 +29,13 @@ org\sonar\swagger\parser\SwaggerLexicalGrammar.class
 org\sonar\plugins\swagger\api\visitors\issue\FileIssue.class
 org\sonar\plugins\swagger\api\tree\LiteralTree.class
 org\sonar\plugins\swagger\api\visitors\DoubleDispatchVisitor.class
+org\sonar\plugins\swagger\api\tree\RefTree.class
 org\sonar\swagger\tree\impl\ArrayTreeImpl.class
 org\sonar\swagger\tree\impl\NumberTreeImpl.class
 org\sonar\plugins\swagger\api\visitors\SubscriptionVisitor.class
 org\sonar\swagger\tree\impl\InternalSyntaxSpacing.class
 org\sonar\swagger\tree\impl\LiteralTreeImpl.class
+org\sonar\swagger\tree\impl\RefTreeImpl.class
 org\sonar\swagger\visitors\Issues.class
 org\sonar\swagger\tree\impl\PairTreeImpl.class
 org\sonar\plugins\swagger\api\tree\SyntaxToken.class

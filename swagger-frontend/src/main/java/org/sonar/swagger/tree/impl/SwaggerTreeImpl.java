@@ -1,8 +1,7 @@
 package org.sonar.swagger.tree.impl;
 
-import com.google.common.collect.Iterators;
-
 import java.util.Iterator;
+
 import javax.annotation.Nullable;
 
 import org.sonar.plugins.swagger.api.tree.SwaggerTree;
@@ -11,13 +10,15 @@ import org.sonar.plugins.swagger.api.tree.Tree;
 import org.sonar.plugins.swagger.api.tree.ValueTree;
 import org.sonar.plugins.swagger.api.visitors.DoubleDispatchVisitor;
 
+import com.google.common.collect.Iterators;
+
 public class SwaggerTreeImpl extends SWAGGERTree implements SwaggerTree {
 
   private final SyntaxToken byteOrderMark;
   private final SyntaxToken eof;
   private final ValueTree value;
 
-  public SwaggerTreeImpl(@Nullable SyntaxToken byteOrderMark, @Nullable ValueTree value, SyntaxToken eof) {
+  public SwaggerTreeImpl(@Nullable SyntaxToken byteOrderMark,ValueTree value, SyntaxToken eof) {
     this.byteOrderMark = byteOrderMark;
     this.value = value;
     this.eof = eof;

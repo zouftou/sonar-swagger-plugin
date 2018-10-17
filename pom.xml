@@ -18,11 +18,12 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+  
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>sawgger-frontend</artifactId>
+        <artifactId>swagger-frontend</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -67,6 +68,11 @@
             <artifactId>guava</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.sonarsource.sslr</groupId>
+        <artifactId>sslr-testing-harness</artifactId>
+        <version>${sslr.version}</version>
       </dependency>
       <dependency>
         <groupId>org.sonarsource.analyzer-commons</groupId>
@@ -148,6 +154,17 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
   
   <build>
     <pluginManagement>
