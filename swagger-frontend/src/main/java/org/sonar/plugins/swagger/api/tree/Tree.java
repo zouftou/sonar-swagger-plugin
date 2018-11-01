@@ -18,6 +18,7 @@ public interface Tree {
 	    VALUE(ValueTree.class),
 	    KEY(KeyTree.class),
 	    STRING(StringTree.class),
+	    DOUBLE_QUOTED_STRING(DoubleQuotedStringTree.class),
 	    NUMBER(LiteralTree.class),
 	    FALSE(LiteralTree.class),
 	    TRUE(LiteralTree.class),

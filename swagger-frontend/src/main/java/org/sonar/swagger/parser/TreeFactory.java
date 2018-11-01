@@ -8,17 +8,17 @@ import org.sonar.plugins.swagger.api.tree.*;
 import java.util.List;
 
 public class TreeFactory {
-
-  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, ValueTree value, SyntaxToken eof) {
-    return new SwaggerTreeImpl(byteOrderMark.orNull(), value, eof);
-  }
-
-  public ObjectTree object(KeyTree key, SyntaxToken colon, SeparatedList<PairTree> pairs) {
-	return new ObjectTreeImpl(key, colon,pairs);
-  }
 	
-  public ArrayTree array(InternalSyntaxToken leftBracket, Optional<SeparatedList<ValueTree>> values) {
-	return new ArrayTreeImpl(leftBracket, values.orNull());
+  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, Optional<ValueTree> value, SyntaxToken eof) {
+    return new SwaggerTreeImpl(byteOrderMark.orNull(), value.orNull(), eof);
+  }
+
+  public ObjectTree object(KeyTree key, InternalSyntaxToken colon, Optional<SeparatedList<PairTree>> pairs) {
+    return new ObjectTreeImpl(key, colon, pairs.orNull());
+  }
+
+  public ArrayTree array(InternalSyntaxToken leftBracket, Optional<SeparatedList<ValueTree>> values, InternalSyntaxToken rightBracket) {
+    return new ArrayTreeImpl(leftBracket, values.orNull(), rightBracket);
   }
 
   public PairTree pair(KeyTree key, SyntaxToken colon, ValueTree value) {
@@ -65,12 +65,17 @@ public class TreeFactory {
     return new SeparatedList<>(pairs, commas);
   }
 
-  public RefTree ref(SyntaxToken token) {
-	    return new RefTreeImpl();
-  }
-  
   public StringTree string(SyntaxToken token) {
     return new StringTreeImpl(token);
+  }
+  
+  public DoubleQuotedStringTree doubleQuotedString(SyntaxToken doubleQuoteLeft, StringTree text, SyntaxToken doubleQuoteRight) {
+	    return new DoubleQuotedStringTreeImpl(doubleQuoteLeft, text, doubleQuoteRight);
+  }
+  
+  
+  public SingleQuotedStringTree singleQuotedString(SyntaxToken singleQuoteLeft, StringTree text, SyntaxToken singleQuoteRight) {
+	    return new SingleQuotedStringTreeImpl(singleQuoteLeft, text, singleQuoteRight);
   }
 
   public LiteralTree number(SyntaxToken token) {

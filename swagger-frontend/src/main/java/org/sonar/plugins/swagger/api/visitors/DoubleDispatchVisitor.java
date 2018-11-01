@@ -1,13 +1,24 @@
 package org.sonar.plugins.swagger.api.visitors;
 
-import com.google.common.base.Preconditions;
-
 import java.util.Iterator;
 import java.util.List;
+
 import javax.annotation.Nullable;
 
+import org.sonar.plugins.swagger.api.tree.ArrayTree;
+import org.sonar.plugins.swagger.api.tree.DoubleQuotedStringTree;
+import org.sonar.plugins.swagger.api.tree.KeyTree;
+import org.sonar.plugins.swagger.api.tree.LiteralTree;
+import org.sonar.plugins.swagger.api.tree.ObjectTree;
+import org.sonar.plugins.swagger.api.tree.PairTree;
+import org.sonar.plugins.swagger.api.tree.SingleQuotedStringTree;
+import org.sonar.plugins.swagger.api.tree.StringTree;
+import org.sonar.plugins.swagger.api.tree.SyntaxToken;
+import org.sonar.plugins.swagger.api.tree.Tree;
+import org.sonar.plugins.swagger.api.tree.ValueTree;
 import org.sonar.swagger.tree.impl.SWAGGERTree;
-import org.sonar.plugins.swagger.api.tree.*;
+
+import com.google.common.base.Preconditions;
 
 public abstract class DoubleDispatchVisitor implements TreeVisitor {
 
@@ -63,7 +74,7 @@ public abstract class DoubleDispatchVisitor implements TreeVisitor {
   public void visitPair(PairTree tree) {
     scanChildren(tree);
   }
-
+  
   public void visitKey(KeyTree tree) {
     scanChildren(tree);
   }
@@ -75,7 +86,15 @@ public abstract class DoubleDispatchVisitor implements TreeVisitor {
   public void visitString(StringTree tree) {
     scanChildren(tree);
   }
-
+  
+  public void visitDoubleQuotedString(DoubleQuotedStringTree tree) {
+    scanChildren(tree);
+  }
+  
+  public void visitSingleQuotedString(SingleQuotedStringTree tree) {
+    scanChildren(tree);
+  }
+  
   public void visitNumber(LiteralTree tree) {
     scanChildren(tree);
   }

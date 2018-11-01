@@ -18,9 +18,11 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 
   @Test
   public void swagger() throws IOException {
-    //checkParsed("");
-    checkParsed("swagger: \"2.0\"");
-    /*checkParsed(" {} ");
+	checkParsed("swagger:\ntitle: \"hsfhsd shfshh        \nsdhfshdf\"");
+	/*checkParsed(" {   } ");
+    checkParsed(" { \"abc\": \"def\" }");
+    checkParsed(" { \"abc\": \"def\", \"zzz\" : \"123\" }");
+	checkParsed(" {} ");
     checkParsed(" {   } ");
     checkParsed(" { \"abc\": \"def\" }");
     checkParsed(" { \"abc\": \"def\", \"zzz\" : \"123\" }");
@@ -56,8 +58,8 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 
   @Test
   public void notSwagger() {
-    checkNotParsed("{");
-    /*checkNotParsed("}");
+	  /*checkNotParsed("{");
+    checkNotParsed("}");
     checkNotParsed("blabla");
     checkNotParsed("\"abc\": 10");
     checkNotParsed("true, false");*/

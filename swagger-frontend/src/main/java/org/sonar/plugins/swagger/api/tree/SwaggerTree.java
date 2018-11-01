@@ -2,8 +2,8 @@ package org.sonar.plugins.swagger.api.tree;
 
 public interface SwaggerTree extends Tree {
 
-	  boolean hasByteOrderMark();
+  boolean hasByteOrderMark();
 
-	  ValueTree value();
+  ValueTree value();
 
 }

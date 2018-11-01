@@ -16,12 +16,14 @@ import java.util.List;
 
 public class ArrayTreeImpl extends SWAGGERTree implements ArrayTree {
 
-  private final SyntaxToken leftSpace;
+  private final SyntaxToken leftBracket;
   private final SeparatedList<ValueTree> values;
+  private final SyntaxToken rightBracket;
 
-  public ArrayTreeImpl(SyntaxToken leftSpace, @Nullable SeparatedList<ValueTree> values) {
-    this.leftSpace = leftSpace;
+  public ArrayTreeImpl(SyntaxToken leftBracket, @Nullable SeparatedList<ValueTree> values, SyntaxToken rightBracket) {
+    this.leftBracket = leftBracket;
     this.values = values;
+    this.rightBracket = rightBracket;
   }
 
   @Override
@@ -32,8 +34,9 @@ public class ArrayTreeImpl extends SWAGGERTree implements ArrayTree {
   @Override
   public Iterator<Tree> childrenIterator() {
     return Iterators.concat(
-      Iterators.singletonIterator(leftSpace),
-      values != null ? values.elementsAndSeparators(Functions.identity()) : new ArrayList<Tree>().iterator());
+      Iterators.singletonIterator(leftBracket),
+      values != null ? values.elementsAndSeparators(Functions.identity()) : new ArrayList<Tree>().iterator(),
+      Iterators.singletonIterator(rightBracket));
   }
 
   @Override
@@ -42,8 +45,13 @@ public class ArrayTreeImpl extends SWAGGERTree implements ArrayTree {
   }
 
   @Override
-  public SyntaxToken leftSpace() {
-    return leftSpace;
+  public SyntaxToken leftBracket() {
+    return leftBracket;
+  }
+
+  @Override
+  public SyntaxToken rightBracket() {
+    return rightBracket;
   }
 
   @Override

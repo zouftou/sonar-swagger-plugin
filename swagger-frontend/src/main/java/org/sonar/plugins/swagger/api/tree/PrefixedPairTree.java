@@ -1,7 +1,9 @@
 package org.sonar.plugins.swagger.api.tree;
 
-public interface PairTree extends Tree {
+public interface PrefixedPairTree extends Tree {
 
+  SyntaxToken doubleWhiteSpace();
+  
   KeyTree key();
 
   SyntaxToken colon();
