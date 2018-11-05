@@ -18,7 +18,11 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 
   @Test
   public void swagger() throws IOException {
-	checkParsed("swagger:\ntitle: \"hsfhsd shfshh        \nsdhfshdf\"");
+	checkParsed(" ");
+	checkParsed("khbhb");
+	checkParsed("swagger:\n  info: hhh");
+	checkParsed("swagger:\n- \"rrr\"\n- \"sss\"");
+	checkParsed("swagger:\n- \"rrrr\"\n- \'ssss\'");
 	/*checkParsed(" {   } ");
     checkParsed(" { \"abc\": \"def\" }");
     checkParsed(" { \"abc\": \"def\", \"zzz\" : \"123\" }");

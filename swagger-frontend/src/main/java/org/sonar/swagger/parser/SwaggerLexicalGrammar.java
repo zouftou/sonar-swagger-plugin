@@ -13,6 +13,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   PAIR,
   KEY,
   ARRAY,
+  ARRAY_ENTRY,
   VALUE,
 
   TRUE,
@@ -20,22 +21,21 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   NULL,
 
   STRING,
+  SINGLE_QUOTED_STRING,
+  DOUBLE_QUOTED_STRING,
   NUMBER,
 
-  COMMA,
   COLON,
   MINUS,
-  SINGLE_QUOTE,
-  DOUBLE_QUOTE,
-
-  LEFT_BRACKET,
-  RIGHT_BRACKET,
+  WHITESPACE,
+  INDENTATION,
+  NEW_LINE,
 
   BOM,
   EOF,
   
   SPACING;
-
+  //https://github.com/atom/language-yaml/blob/master/grammars/yaml.cson
   public static LexerlessGrammarBuilder createGrammar() {
     LexerlessGrammarBuilder b = LexerlessGrammarBuilder.create();
     tokens(b);
@@ -47,14 +47,11 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   
   private static void tokens(LexerlessGrammarBuilder b) {
 	
-    b.rule(COMMA).is(SPACING, ",");
     b.rule(COLON).is(":");
-    b.rule(MINUS).is(SPACING, "-");
-    b.rule(SINGLE_QUOTE).is(SPACING, "'");
-    b.rule(DOUBLE_QUOTE).is(SPACING, "\"");
-    
-    b.rule(LEFT_BRACKET).is(SPACING, "[");
-    b.rule(RIGHT_BRACKET).is(SPACING, "]");
+    b.rule(MINUS).is("-");
+    b.rule(WHITESPACE).is(" ");
+    b.rule(INDENTATION).is("  ");
+    b.rule(NEW_LINE).is("\n");
 
     b.rule(BOM).is("\ufeff");
     b.rule(EOF).is(SPACING, b.token(GenericTokenType.EOF, b.endOfInput()));
@@ -66,9 +63,10 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(NULL).is(SPACING, "null");
 
     b.rule(NUMBER).is(SPACING, b.regexp("[-]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
-    b.rule(STRING).is(SPACING, b.regexp("([^\"\'\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+"));
-    //b.rule(SINGLE_QUOTED_STRING).is(SPACING, b.regexp("\'([^\'\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\'"));
-    //b.rule(DOUBLE_QUOTED_STRING).is(SPACING, b.regexp("\"([^\"\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\""));
+    
+    b.rule(STRING).is(b.regexp("[^\\s\"':\\-\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*"));
+    b.rule(DOUBLE_QUOTED_STRING).is(b.regexp("\"([^\\s\"'\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+\""));
+    b.rule(SINGLE_QUOTED_STRING).is(b.regexp("\'([^\\s\"'\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+\'"));
 
     b.rule(SPACING).is(b.skippedTrivia(b.regexp("(?<!\\\\)[\\s]*+")));
   }

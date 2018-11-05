@@ -13,12 +13,12 @@ public interface Tree {
 
 	    SWAGGER(SwaggerTree.class),
 	    ARRAY(ArrayTree.class),
+	    ARRAY_ENTRY(ArrayEntryTree.class),
 	    OBJECT(ObjectTree.class),
 	    PAIR(PairTree.class),
 	    VALUE(ValueTree.class),
 	    KEY(KeyTree.class),
 	    STRING(StringTree.class),
-	    DOUBLE_QUOTED_STRING(DoubleQuotedStringTree.class),
 	    NUMBER(LiteralTree.class),
 	    FALSE(LiteralTree.class),
 	    TRUE(LiteralTree.class),

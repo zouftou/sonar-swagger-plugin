@@ -4,10 +4,12 @@ import java.util.List;
 
 public interface ArrayTree extends Tree {
 
-  SyntaxToken leftBracket();
+  KeyTree key();
+  
+  SyntaxToken colon();
+  
+  SyntaxToken newLine();
 
-  List<ValueTree> elements();
-
-  SyntaxToken rightBracket();
+  List<ArrayEntryTree> elements();
 
 }

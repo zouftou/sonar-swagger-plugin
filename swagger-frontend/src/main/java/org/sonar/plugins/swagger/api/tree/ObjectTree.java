@@ -7,7 +7,9 @@ public interface ObjectTree extends Tree {
   KeyTree key();
   
   SyntaxToken colon();
-
+  
+  SyntaxToken newLine();
+  
   List<PairTree> pairs();
 
 }

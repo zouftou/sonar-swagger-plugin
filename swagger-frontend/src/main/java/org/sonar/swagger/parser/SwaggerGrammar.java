@@ -1,13 +1,14 @@
 package org.sonar.swagger.parser;
 
+import java.util.List;
+
 import org.sonar.plugins.swagger.api.SwaggerKeyword;
+import org.sonar.plugins.swagger.api.tree.ArrayEntryTree;
 import org.sonar.plugins.swagger.api.tree.ArrayTree;
-import org.sonar.plugins.swagger.api.tree.DoubleQuotedStringTree;
 import org.sonar.plugins.swagger.api.tree.KeyTree;
 import org.sonar.plugins.swagger.api.tree.LiteralTree;
 import org.sonar.plugins.swagger.api.tree.ObjectTree;
 import org.sonar.plugins.swagger.api.tree.PairTree;
-import org.sonar.plugins.swagger.api.tree.SingleQuotedStringTree;
 import org.sonar.plugins.swagger.api.tree.StringTree;
 import org.sonar.plugins.swagger.api.tree.SwaggerTree;
 import org.sonar.plugins.swagger.api.tree.ValueTree;
@@ -33,42 +34,54 @@ public class SwaggerGrammar {
         b.optional(VALUE()),
         b.token(SwaggerLexicalGrammar.EOF)));
   }
-
+  
   public ObjectTree OBJECT() {
     return b.<ObjectTree>nonterminal(SwaggerLexicalGrammar.OBJECT).is(
       f.object(
     	KEY(),
         b.token(SwaggerLexicalGrammar.COLON),
-        b.optional(PAIR_LIST())));
+        b.token(SwaggerLexicalGrammar.NEW_LINE),
+        PAIR_LIST()));
   }
 
   public ArrayTree ARRAY() {
     return b.<ArrayTree>nonterminal(SwaggerLexicalGrammar.ARRAY).is(
       f.array(
-        b.token(SwaggerLexicalGrammar.LEFT_BRACKET),
-        b.optional(VALUE_LIST()),
-        b.token(SwaggerLexicalGrammar.RIGHT_BRACKET)));
+    	KEY(),
+        b.token(SwaggerLexicalGrammar.COLON),
+        b.token(SwaggerLexicalGrammar.NEW_LINE),
+        VALUE_LIST()));
   }
 
-  public SeparatedList<ValueTree> VALUE_LIST() {
-    return b.<SeparatedList<ValueTree>>nonterminal().is(
+  public List<ArrayEntryTree> VALUE_LIST() {
+    return b.<List<ArrayEntryTree>>nonterminal().is(
       f.valueList(
-        VALUE(),
-        b.zeroOrMore(f.newTuple1(b.token(SwaggerLexicalGrammar.COMMA), VALUE()))));
+    	ARRAY_ENTRY(),
+        b.zeroOrMore(f.newTuple2(b.token(SwaggerLexicalGrammar.NEW_LINE), ARRAY_ENTRY()))));
   }
-
+  
+  public ArrayEntryTree ARRAY_ENTRY() {
+    return b.<ArrayEntryTree>nonterminal(SwaggerLexicalGrammar.ARRAY_ENTRY).is(
+      f.arrayEntry(
+    	b.token(SwaggerLexicalGrammar.MINUS),
+    	b.token(SwaggerLexicalGrammar.WHITESPACE),
+        VALUE()));
+  }
+  
   public SeparatedList<PairTree> PAIR_LIST() {
     return b.<SeparatedList<PairTree>>nonterminal().is(
       f.pairList(
         PAIR(),
-        b.zeroOrMore(f.newTuple2(b.token(SwaggerLexicalGrammar.COMMA), PAIR()))));
+        b.zeroOrMore(f.newTuple2(b.token(SwaggerLexicalGrammar.NEW_LINE), PAIR()))));
   }
 
   public PairTree PAIR() {
     return b.<PairTree>nonterminal(SwaggerLexicalGrammar.PAIR).is(
       f.pair(
+        b.token(SwaggerLexicalGrammar.INDENTATION),
         KEY(),
         b.token(SwaggerLexicalGrammar.COLON),
+        b.token(SwaggerLexicalGrammar.WHITESPACE),
         VALUE()));
   }
 
@@ -103,21 +116,15 @@ public class SwaggerGrammar {
       f.string(b.token(SwaggerLexicalGrammar.STRING)));
   }
   
-  public DoubleQuotedStringTree DOUBLE_QUOTED_STRING() {
-    return b.<DoubleQuotedStringTree>nonterminal().is(
-      f.doubleQuotedString(
-    		  b.token(SwaggerLexicalGrammar.DOUBLE_QUOTE),
-    		  STRING(),
-    		  b.token(SwaggerLexicalGrammar.DOUBLE_QUOTE)));
+  public StringTree DOUBLE_QUOTED_STRING() {
+    return b.<StringTree>nonterminal().is(
+    	      f.string(b.token(SwaggerLexicalGrammar.DOUBLE_QUOTED_STRING)));
   }
   
   
-  public SingleQuotedStringTree SINGLE_QUOTED_STRING() {
-    return b.<SingleQuotedStringTree>nonterminal().is(
-      f.singleQuotedString(
-    		  b.token(SwaggerLexicalGrammar.SINGLE_QUOTE),
-    		  STRING(),
-    		  b.token(SwaggerLexicalGrammar.SINGLE_QUOTE)));
+  public StringTree SINGLE_QUOTED_STRING() {
+    return b.<StringTree>nonterminal().is(
+    	      f.string(b.token(SwaggerLexicalGrammar.SINGLE_QUOTED_STRING)));
   }
 
   public LiteralTree NUMBER() {

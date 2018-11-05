@@ -13,16 +13,20 @@ public class TreeFactory {
     return new SwaggerTreeImpl(byteOrderMark.orNull(), value.orNull(), eof);
   }
 
-  public ObjectTree object(KeyTree key, InternalSyntaxToken colon, Optional<SeparatedList<PairTree>> pairs) {
-    return new ObjectTreeImpl(key, colon, pairs.orNull());
+  public ObjectTree object(KeyTree key, InternalSyntaxToken colon,InternalSyntaxToken newLine, SeparatedList<PairTree> pairs) {
+    return new ObjectTreeImpl(key, colon,newLine, pairs);
   }
 
-  public ArrayTree array(InternalSyntaxToken leftBracket, Optional<SeparatedList<ValueTree>> values, InternalSyntaxToken rightBracket) {
-    return new ArrayTreeImpl(leftBracket, values.orNull(), rightBracket);
+  public ArrayTree array(KeyTree key, InternalSyntaxToken colon, InternalSyntaxToken newLine, List<ArrayEntryTree> values) {
+    return new ArrayTreeImpl(key, colon, newLine, values);
   }
 
-  public PairTree pair(KeyTree key, SyntaxToken colon, ValueTree value) {
-    return new PairTreeImpl(key, colon, value);
+  public ArrayEntryTree arrayEntry(SyntaxToken minus, SyntaxToken whitespace,ValueTree value) {
+	  return new ArrayEntryTreeImpl(minus, whitespace, value);
+  }
+  
+  public PairTree pair(SyntaxToken indentation, KeyTree key, SyntaxToken colon, SyntaxToken whitespace, ValueTree value) {
+    return new PairTreeImpl(indentation, key, colon, whitespace, value);
   }
 
   public KeyTree key(SyntaxToken key) {
@@ -33,20 +37,20 @@ public class TreeFactory {
     return new ValueTreeImpl(value);
   }
 
-  public SeparatedList<ValueTree> valueList(ValueTree value, Optional<List<Tuple<InternalSyntaxToken, ValueTree>>> subsequentValues) {
-    List<ValueTree> values = Lists.newArrayList();
-    List<InternalSyntaxToken> commas = Lists.newArrayList();
+  public SeparatedList<ArrayEntryTree> valueList(ArrayEntryTree entry, Optional<List<Tuple<InternalSyntaxToken, ArrayEntryTree>>> subsequentValues) {
+    List<ArrayEntryTree> values = Lists.newArrayList();
+    List<InternalSyntaxToken> newLines = Lists.newArrayList();
 
-    values.add(value);
+    values.add(entry);
 
     if (subsequentValues.isPresent()) {
-      for (Tuple<InternalSyntaxToken, ValueTree> t : subsequentValues.get()) {
-        commas.add(t.first());
+      for (Tuple<InternalSyntaxToken, ArrayEntryTree> t : subsequentValues.get()) {
+    	newLines.add(t.first());
         values.add(t.second());
       }
     }
 
-    return new SeparatedList<>(values, commas);
+    return new SeparatedList<>(values, newLines);
   }
 
   public SeparatedList<PairTree> pairList(PairTree pair, Optional<List<Tuple<InternalSyntaxToken, PairTree>>> subsequentPairs) {
@@ -67,15 +71,6 @@ public class TreeFactory {
 
   public StringTree string(SyntaxToken token) {
     return new StringTreeImpl(token);
-  }
-  
-  public DoubleQuotedStringTree doubleQuotedString(SyntaxToken doubleQuoteLeft, StringTree text, SyntaxToken doubleQuoteRight) {
-	    return new DoubleQuotedStringTreeImpl(doubleQuoteLeft, text, doubleQuoteRight);
-  }
-  
-  
-  public SingleQuotedStringTree singleQuotedString(SyntaxToken singleQuoteLeft, StringTree text, SyntaxToken singleQuoteRight) {
-	    return new SingleQuotedStringTreeImpl(singleQuoteLeft, text, singleQuoteRight);
   }
 
   public LiteralTree number(SyntaxToken token) {
