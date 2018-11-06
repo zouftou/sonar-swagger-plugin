@@ -1,0 +1,552 @@
+swagger: '2.0'
+info:
+  description: Orange FQC Traceability API definition
+  version: "1.0.5"
+  title: Orange FQC Traceability
+  termsOfService: 'http://todefine.com'
+  contact:
+    email: riad_iaiche@carrfour.com
+host: 'host:80'
+basePath: /v1/fqc/orange/
+tags:
+- name: orange
+  description: Orange operations
+- name: plot
+  description: Plot operations
+- name: factory
+  description: factory operations
+- name: restitution
+  description: Restitution operations
+paths:
+  '/oranges':
+    post:
+      tags:
+        - orange
+      summary: add an Orange variety
+      operationId: addOrangeVariety
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: orange
+          description: contains data for orange creation
+          required: true
+          schema:
+            $ref: '#/definitions/Orange'
+      responses:
+        '201':
+          description: Created with success
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden opeation
+        '404':
+          description: Not Found
+    get:
+      tags:
+        - orange
+      summary: get all orange varieties
+      operationId: getAllOrangeVarieties
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: language
+          type: string
+          required: false
+        - name: page
+          in: query
+          description: page
+          required: true
+          type: integer
+          format: int32
+        - name: size
+          in: query
+          description: size
+          required: true
+          type: integer
+          format: int32
+        - name: sortby
+          in: query
+          description: sortby.asc or sortby.desc
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrangePaginatedResult'
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden opeation
+        '404':
+          description: Not found
+  '/oranges/{code}':
+    get:
+      tags:
+        - orange
+      summary: get an Orange variety for specific language
+      operationId: getOrangeVariety
+      produces:
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: the variety of the orange to be fetched
+          type: string
+          required: true
+        - in: query
+          name: language
+          type: string
+          required: true
+          description: optionnaly specify the language
+      responses:
+        '201':
+          description: Created with success
+          schema:
+            $ref: '#/definitions/Orange'
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden operation
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - orange
+      summary: update an Orange variety for specific language
+      operationId: updateOrangeVariety
+      produces:
+        - application/json
+      parameters:
+        - name: code
+          in: path
+          description: the orange variety to be fetched
+          type: string
+          required: true
+        - in: query
+          name: language
+          type: string
+          required: true
+          description: must specify the language
+        - in: body
+          name: orange
+          required: true
+          schema:
+            $ref: '#/definitions/Orange'
+      responses:
+        '201':
+          description: Created with success
+
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden opeation
+        '404':
+          description: Not Found
+  '/plots':
+    post:
+      tags:
+        - plot
+      summary: Create a plot
+      operationId: createPlot
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: plot
+          description: contains data for plot creation
+          required: true
+          schema:
+            $ref: '#/definitions/Plot'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden operation
+        '404':
+          description: Plot Not Found
+    get:
+      tags:
+        - plot
+      summary: Get all plots
+      operationId: getAllPlots
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          in: query
+          description: page
+          required: true
+          type: integer
+          format: int32
+        - name: size
+          in: query
+          description: size
+          required: true
+          type: integer
+          format: int32
+        - name: sortby
+          in: query
+          description: sortby.asc or sortby.desc
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PlotPaginatedResult'
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden opeation
+        '404':
+          description: Not found
+  '/plots/{id}':
+    put:
+      tags:
+        - plot
+      summary: Update an existing plot
+      operationId: updatePlot
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: the id of the plot to be updated
+          type: string
+          required: true
+        - in: body
+          name: plot
+          description: contains data for plot update
+          required: true
+          schema:
+            $ref: '#/definitions/Plot'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden operation
+        '404':
+          description: Plot Not Found
+    get:
+      tags:
+        - plot
+      summary: Get one plot by code
+      operationId: getPlotById
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: the id of the plot to be fetched
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Plot'
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden opeation
+        '404':
+          description: Not found
+  '/plots/export':
+    get:
+      tags:
+       - plot
+      summary: Export all plots to file
+      operationId: exportPlots
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Plot'
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden operation
+        '404':
+          description: Plot Not Found
+  '/factories':
+    post:
+      tags:
+        - factory
+      summary: create a factory
+      operationId: createFactory
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: fatcory
+          description: contains data for factory creation
+          required: true
+          schema:
+            $ref: '#/definitions/Factory'
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden operation
+        '404':
+          description: Plot Not Found
+    get:
+      tags:
+        - factory
+      summary: Get all Factories
+      operationId: getAllFactories
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          in: query
+          description: page
+          required: true
+          type: integer
+          format: int32
+        - name: size
+          in: query
+          description: size
+          required: true
+          type: integer
+          format: int32
+        - name: sortby
+          in: query
+          description: sortby.asc or sortby.desc
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/FactoryPaginatedResult'
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden opeation
+        '404':
+          description: Not found
+  '/factories/{id}':
+    put:
+      tags:
+        - factory
+      summary: Update an existing factory
+      operationId: updateFactory
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: the id of the factory to be updated
+          type: string
+          required: true
+        - in: body
+          name: plot
+          description: contains data for factory update
+          required: true
+          schema:
+            $ref: '#/definitions/Plot'
+      responses:
+        '200':
+          description: successful operation
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden operation
+        '404':
+          description: Plot Not Found
+    get:
+      tags:
+        - factory
+      summary: Get one factory by id
+      operationId: getFactoryById
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: the id of the factory to be fetched
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/Factory'
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden opeation
+        '404':
+          description: Not found
+  '/factories/export':
+    get:
+      tags:
+       - factory
+      summary: Export all factories to file
+      operationId: exportFactories
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Factory'
+        '401':
+          description: Unauthorized operation
+        '403':
+          description: Forbidden operation
+        '404':
+          description: Plot Not Found
+
+definitions:
+  'Orange':
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      orange_translations:
+        type: array
+        items:
+          $ref: '#/definitions/OrangeTranslation'
+  'OrangeTranslation':
+    type: object
+    properties:
+      language:
+        type: string
+      variety:
+        type: string
+      description:
+        type: string
+      harvest_and_sale_period:
+        type: string
+  'Plot':
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      tree_number:
+        type: integer
+        format: int32
+      area:
+        type: number
+        format: double
+      supplier_code:
+        type: string
+      supplier_company:
+        type: string
+      orange_code:
+        type: integer
+        format: int32
+      coordinate:
+        $ref: '#/definitions/Coordinate'
+  'Factory':
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      expert_name:
+        type: string
+      ifs_certificate_number:
+        type: string
+      ifs_certificate_date:
+        type: string
+        example: dd/MM/yyyy
+      ifs_certificate_expiration_date:
+        type: string
+        example: dd/MM/yyyy
+      coordinate:
+         $ref: '#/definitions/Coordinate'
+  'Coordinate':
+    type: object
+    properties:
+      longitude:
+        type: number
+        format: double
+      latitude:
+        type: number
+        format: double
+      zone:
+        type: string
+      district:
+        type: string
+      city:
+        type: string
+  'OrangePaginatedResult':
+    type: object
+    required:
+      - content
+      - total
+    properties:
+      content:
+        type: array
+        items:
+           $ref: '#/definitions/Orange'
+        description: Orange Paginated Result
+      total:
+        type: integer
+        format: int64
+        description: total element
+    description: Response Paginated Result
+  'PlotPaginatedResult':
+    type: object
+    required:
+      - content
+      - total
+    properties:
+      content:
+        type: array
+        items:
+           $ref: '#/definitions/Plot'
+        description: Plot Paginated Result
+      total:
+        type: integer
+        format: int64
+        description: total element
+    description: Response Paginated Result
+  'FactoryPaginatedResult':
+    type: object
+    required:
+     - content
+     - total
+    properties:
+      content:
+        type: array
+        items:
+           $ref: '#/definitions/Factory'
+        description: Factory Paginated Result
+      total:
+        type: integer
+        format: int64
+        description: total element
+    description: Response Paginated Result
