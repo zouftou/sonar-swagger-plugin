@@ -9,6 +9,7 @@ import org.sonar.plugins.swagger.api.tree.KeyTree;
 import org.sonar.plugins.swagger.api.tree.LiteralTree;
 import org.sonar.plugins.swagger.api.tree.ObjectTree;
 import org.sonar.plugins.swagger.api.tree.PairTree;
+import org.sonar.plugins.swagger.api.tree.SimplePairTree;
 import org.sonar.plugins.swagger.api.tree.StringTree;
 import org.sonar.plugins.swagger.api.tree.SwaggerTree;
 import org.sonar.plugins.swagger.api.tree.ValueTree;
@@ -18,7 +19,7 @@ import org.sonar.swagger.tree.impl.SeparatedList;
 import com.sonar.sslr.api.typed.GrammarBuilder;
 
 public class SwaggerGrammar {
-	
+
   private final GrammarBuilder<InternalSyntaxToken> b;
   private final TreeFactory f;
 
@@ -31,8 +32,15 @@ public class SwaggerGrammar {
     return b.<SwaggerTree>nonterminal(SwaggerLexicalGrammar.SWAGGER).is(
       f.swagger(
         b.optional(b.token(SwaggerLexicalGrammar.BOM)),
-        b.optional(VALUE()),
+        b.optional(VALUE_LIST()),
         b.token(SwaggerLexicalGrammar.EOF)));
+  }
+  
+  public SeparatedList<ValueTree> VALUE_LIST() {
+    return b.<SeparatedList<ValueTree>>nonterminal().is(
+      f.valueList(
+    	VALUE(),
+        b.zeroOrMore(f.newTuple2(b.token(SwaggerLexicalGrammar.NEW_LINE), VALUE()))));
   }
   
   public ObjectTree OBJECT() {
@@ -50,17 +58,34 @@ public class SwaggerGrammar {
     	KEY(),
         b.token(SwaggerLexicalGrammar.COLON),
         b.token(SwaggerLexicalGrammar.NEW_LINE),
-        VALUE_LIST()));
-  }
-
-  public List<ArrayEntryTree> VALUE_LIST() {
-    return b.<List<ArrayEntryTree>>nonterminal().is(
-      f.valueList(
-    	ARRAY_ENTRY(),
-        b.zeroOrMore(f.newTuple2(b.token(SwaggerLexicalGrammar.NEW_LINE), ARRAY_ENTRY()))));
+        ENTRY_LIST()));
   }
   
-  public ArrayEntryTree ARRAY_ENTRY() {
+  public SimplePairTree KEY_VALUE() {
+    return b.<SimplePairTree>nonterminal(SwaggerLexicalGrammar.SIMPLE_PAIR).is(
+      f.simplePair(
+        KEY(),
+        b.token(SwaggerLexicalGrammar.COLON),
+        b.token(SwaggerLexicalGrammar.WHITESPACE),
+        b.firstOf(
+            TRUE(),
+            FALSE(),
+            NULL(),
+            NUMBER(),
+            DOUBLE_QUOTED_STRING(),
+  		    SINGLE_QUOTED_STRING(),
+            STRING())
+        ));
+  }
+
+  public List<ArrayEntryTree> ENTRY_LIST() {
+    return b.<List<ArrayEntryTree>>nonterminal().is(
+      f.entryList(
+    	ENTRY(),
+        b.zeroOrMore(f.newTuple2(b.token(SwaggerLexicalGrammar.NEW_LINE), ENTRY()))));
+  }
+  
+  public ArrayEntryTree ENTRY() {
     return b.<ArrayEntryTree>nonterminal(SwaggerLexicalGrammar.ARRAY_ENTRY).is(
       f.arrayEntry(
     	b.token(SwaggerLexicalGrammar.MINUS),
@@ -91,7 +116,27 @@ public class SwaggerGrammar {
     	    b.firstOf(
     		  b.token(SwaggerKeyword.SWAGGER),
     		  b.token(SwaggerKeyword.INFO),
-    		  b.token(SwaggerKeyword.TITLE)
+    		  b.token(SwaggerKeyword.TITLE),
+    		  b.token(SwaggerKeyword.DESCRIPTION),
+    		  b.token(SwaggerKeyword.TERMS_OF_SERVICE),
+    		  b.token(SwaggerKeyword.CONTACT),
+    		  b.token(SwaggerKeyword.NAME),
+    		  b.token(SwaggerKeyword.URL),
+    		  b.token(SwaggerKeyword.EMAIL),
+    		  b.token(SwaggerKeyword.LICENSE),
+    		  b.token(SwaggerKeyword.VERSION),
+    		  b.token(SwaggerKeyword.HOST),
+    		  b.token(SwaggerKeyword.BASE_PATH),
+    		  b.token(SwaggerKeyword.SCHEMES),
+    		  b.token(SwaggerKeyword.PRODUCES),
+    		  b.token(SwaggerKeyword.PATHS),
+    		  b.token(SwaggerKeyword.DEFINITIONS),
+    		  b.token(SwaggerKeyword.PARAMETERS),
+    		  b.token(SwaggerKeyword.RESPONSES),
+    		  b.token(SwaggerKeyword.SECURITY_DEFINITIONS),
+    		  b.token(SwaggerKeyword.SECURITY),
+    		  b.token(SwaggerKeyword.TAGS),
+    		  b.token(SwaggerKeyword.EXTERNAL_DOCS)
     	   )));
   }
 
@@ -101,6 +146,7 @@ public class SwaggerGrammar {
         b.firstOf(
           OBJECT(),
           ARRAY(),
+          KEY_VALUE(),
           TRUE(),
           FALSE(),
           NULL(),

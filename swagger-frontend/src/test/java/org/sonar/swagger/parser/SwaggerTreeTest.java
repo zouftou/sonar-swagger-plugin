@@ -23,6 +23,7 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 	checkParsed("swagger:\n  info: hhh");
 	checkParsed("swagger:\n- \"rrr\"\n- \"sss\"");
 	checkParsed("swagger:\n- \"rrrr\"\n- \'ssss\'");
+	checkParsed("swagger: '2.0'\ninfo:\n  description: Orange FQC Traceability API definition");
 	/*checkParsed(" {   } ");
     checkParsed(" { \"abc\": \"def\" }");
     checkParsed(" { \"abc\": \"def\", \"zzz\" : \"123\" }");
@@ -55,9 +56,8 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
     checkParsed("\ufeff ");
     checkParsed("\ufeff {}");
     checkParsed("\ufeff true");
-
-    checkParsed(new File("src/test/resources/many-pairs.json"));
-    checkParsed(new File("src/test/resources/many-values.json"));*/
+*/
+    //checkParsed(new File("src/test/resources/orange-1.0.5.yaml"));
   }
 
   @Test

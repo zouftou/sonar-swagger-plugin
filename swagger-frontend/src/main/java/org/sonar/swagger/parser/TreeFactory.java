@@ -9,8 +9,8 @@ import java.util.List;
 
 public class TreeFactory {
 	
-  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, Optional<ValueTree> value, SyntaxToken eof) {
-    return new SwaggerTreeImpl(byteOrderMark.orNull(), value.orNull(), eof);
+  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, Optional<SeparatedList<ValueTree>> values, SyntaxToken eof) {
+	    return new SwaggerTreeImpl(byteOrderMark.orNull(), values.orNull(), eof);
   }
 
   public ObjectTree object(KeyTree key, InternalSyntaxToken colon,InternalSyntaxToken newLine, SeparatedList<PairTree> pairs) {
@@ -28,7 +28,11 @@ public class TreeFactory {
   public PairTree pair(SyntaxToken indentation, KeyTree key, SyntaxToken colon, SyntaxToken whitespace, ValueTree value) {
     return new PairTreeImpl(indentation, key, colon, whitespace, value);
   }
-
+  
+  public SimplePairTree simplePair(KeyTree key, SyntaxToken colon, SyntaxToken whitespace, LiteralTree value) {
+    return new SimplePairTreeImpl(key, colon, whitespace, value);
+  }
+  
   public KeyTree key(SyntaxToken key) {
     return new KeyTreeImpl(key);
   }
@@ -37,7 +41,7 @@ public class TreeFactory {
     return new ValueTreeImpl(value);
   }
 
-  public SeparatedList<ArrayEntryTree> valueList(ArrayEntryTree entry, Optional<List<Tuple<InternalSyntaxToken, ArrayEntryTree>>> subsequentValues) {
+  public SeparatedList<ArrayEntryTree> entryList(ArrayEntryTree entry, Optional<List<Tuple<InternalSyntaxToken, ArrayEntryTree>>> subsequentValues) {
     List<ArrayEntryTree> values = Lists.newArrayList();
     List<InternalSyntaxToken> newLines = Lists.newArrayList();
 
@@ -45,6 +49,22 @@ public class TreeFactory {
 
     if (subsequentValues.isPresent()) {
       for (Tuple<InternalSyntaxToken, ArrayEntryTree> t : subsequentValues.get()) {
+    	newLines.add(t.first());
+        values.add(t.second());
+      }
+    }
+
+    return new SeparatedList<>(values, newLines);
+  }
+  
+  public SeparatedList<ValueTree> valueList(ValueTree entry, Optional<List<Tuple<InternalSyntaxToken, ValueTree>>> subsequentValues) {
+    List<ValueTree> values = Lists.newArrayList();
+    List<InternalSyntaxToken> newLines = Lists.newArrayList();
+
+    values.add(entry);
+
+    if (subsequentValues.isPresent()) {
+      for (Tuple<InternalSyntaxToken, ValueTree> t : subsequentValues.get()) {
     	newLines.add(t.first());
         values.add(t.second());
       }

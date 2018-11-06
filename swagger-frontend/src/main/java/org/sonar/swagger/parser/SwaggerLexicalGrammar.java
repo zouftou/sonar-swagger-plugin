@@ -11,6 +11,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   SWAGGER,
   OBJECT,
   PAIR,
+  SIMPLE_PAIR,
   KEY,
   ARRAY,
   ARRAY_ENTRY,

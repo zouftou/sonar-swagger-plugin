@@ -16,6 +16,7 @@ public interface Tree {
 	    ARRAY_ENTRY(ArrayEntryTree.class),
 	    OBJECT(ObjectTree.class),
 	    PAIR(PairTree.class),
+	    SIMPLE_PAIR(SimplePairTree.class),
 	    VALUE(ValueTree.class),
 	    KEY(KeyTree.class),
 	    STRING(StringTree.class),

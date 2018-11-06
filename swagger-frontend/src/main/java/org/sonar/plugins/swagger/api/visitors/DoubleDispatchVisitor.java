@@ -11,6 +11,7 @@ import org.sonar.plugins.swagger.api.tree.KeyTree;
 import org.sonar.plugins.swagger.api.tree.LiteralTree;
 import org.sonar.plugins.swagger.api.tree.ObjectTree;
 import org.sonar.plugins.swagger.api.tree.PairTree;
+import org.sonar.plugins.swagger.api.tree.SimplePairTree;
 import org.sonar.plugins.swagger.api.tree.StringTree;
 import org.sonar.plugins.swagger.api.tree.SyntaxToken;
 import org.sonar.plugins.swagger.api.tree.Tree;
@@ -58,7 +59,7 @@ public abstract class DoubleDispatchVisitor implements TreeVisitor {
     trees.forEach(this::scan);
   }
 
-  public void visitJson(SWAGGERTree tree) {
+  public void visitSwagger(SWAGGERTree tree) {
     scanChildren(tree);
   }
 
@@ -75,6 +76,10 @@ public abstract class DoubleDispatchVisitor implements TreeVisitor {
   }
 
   public void visitPair(PairTree tree) {
+    scanChildren(tree);
+  }
+  
+  public void visitSimplePair(SimplePairTree tree) {
     scanChildren(tree);
   }
   
