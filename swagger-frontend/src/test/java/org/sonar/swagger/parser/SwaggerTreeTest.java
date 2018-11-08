@@ -19,11 +19,12 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
   @Test
   public void swagger() throws IOException {
 	checkParsed(" ");
-	checkParsed("khbhb");
+	//checkParsed("khbhb");
 	checkParsed("swagger:\n  info: hhh");
 	checkParsed("swagger:\n- \"rrr\"\n- \"sss\"");
 	checkParsed("swagger:\n- \"rrrr\"\n- \'ssss\'");
 	checkParsed("swagger: '2.0'\ninfo:\n  description: Orange FQC Traceability API definition\n  title: \"test\"");
+	checkParsed("swagger: \"2.0\"\ninfo:\n  description: \"Orange FQC Traceability API definition\"\n  title: \"test\"");
 	/*checkParsed(" {   } ");
     checkParsed(" { \"abc\": \"def\" }");
     checkParsed(" { \"abc\": \"def\", \"zzz\" : \"123\" }");
@@ -57,10 +58,10 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
     checkParsed("\ufeff {}");
     checkParsed("\ufeff true");
 */
-	checkParsed(new File("src/test/resources/entry.yaml"));
+	//checkParsed(new File("src/test/resources/entry.yaml"));
 	checkParsed(new File("src/test/resources/object.yaml"));
-	checkParsed(new File("src/test/resources/array.yaml"));
-	checkParsed(new File("src/test/resources/arrayOfObject.yaml"));
+	//checkParsed(new File("src/test/resources/array.yaml"));
+	//checkParsed(new File("src/test/resources/arrayOfObject.yaml"));
     //checkParsed(new File("src/test/resources/petstore.yaml"));
   }
 

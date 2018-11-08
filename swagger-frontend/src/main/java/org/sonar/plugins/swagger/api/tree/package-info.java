@@ -17,12 +17,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+@ParametersAreNonnullByDefault
 package org.sonar.plugins.swagger.api.tree;
 
-import java.util.List;
-
-public interface ObjectTree extends Tree {
-
-  List<ObjectEntryTree> entries();
-
-}
+import javax.annotation.ParametersAreNonnullByDefault;

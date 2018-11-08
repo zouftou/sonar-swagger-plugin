@@ -8,69 +8,61 @@ import org.sonar.plugins.swagger.api.tree.*;
 import java.util.List;
 
 public class TreeFactory {
-	
-  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, Optional<SeparatedList<ValueTree>> values, SyntaxToken eof) {
-	    return new SwaggerTreeImpl(byteOrderMark.orNull(), values.orNull(), eof);
+  
+  public SwaggerTree swagger(Optional<SyntaxToken> byteOrderMark, Optional<SeparatedList<PairTree>> pairs, SyntaxToken eof) {
+    return new SwaggerTreeImpl(byteOrderMark.orNull(), pairs.orNull(), eof);
   }
 
-  public ObjectTree object(KeyTree key, InternalSyntaxToken colon,InternalSyntaxToken newLine, SeparatedList<PairTree> pairs) {
-    return new ObjectTreeImpl(key, colon,newLine, pairs);
+  public ObjectTree object(ObjectEntryTree entry, Optional<List<Tuple<InternalSyntaxToken, ObjectEntryTree>>> subsequentEntries) {
+    List<ObjectEntryTree> entries = Lists.newArrayList();
+    List<InternalSyntaxToken> indentations = Lists.newArrayList();
+
+    entries.add(entry);
+
+    if (subsequentEntries.isPresent()) {
+      for (Tuple<InternalSyntaxToken, ObjectEntryTree> t : subsequentEntries.get()) {
+    	indentations.add(t.first());
+        entries.add(t.second());
+      }
+    }
+
+    return new ObjectTreeImpl(new SeparatedList<>(entries, indentations));
+  }
+  
+  public ObjectEntryTree objectEntry(SyntaxToken indentation, PairTree pair) {
+    return new ObjectEntryTreeImpl(indentation, pair);
   }
 
-  public ArrayTree array(KeyTree key, InternalSyntaxToken colon, InternalSyntaxToken newLine, List<ArrayEntryTree> values) {
-    return new ArrayTreeImpl(key, colon, newLine, values);
+  public ArrayTree array(ArrayEntryTree entry, Optional<List<Tuple<InternalSyntaxToken, ArrayEntryTree>>> subsequentEntries) {
+    List<ArrayEntryTree> entries = Lists.newArrayList();
+    List<InternalSyntaxToken> newLines = Lists.newArrayList();
+
+    entries.add(entry);
+
+    if (subsequentEntries.isPresent()) {
+      for (Tuple<InternalSyntaxToken, ArrayEntryTree> t : subsequentEntries.get()) {
+    	newLines.add(t.first());
+        entries.add(t.second());
+      }
+    }
+
+    return new ArrayTreeImpl(new SeparatedList<>(entries, newLines));
+  }
+  
+  public ArrayEntryTree arrayEntry(SyntaxToken minus, SyntaxToken space, ValueTree value) {
+    return new ArrayEntryTreeImpl(minus, space, value);
+  }
+  
+  public PairTree pair(KeyTree key, SyntaxToken colon, SyntaxToken lineOrSpace, ValueTree value) {
+    return new PairTreeImpl(key, colon, lineOrSpace, value);
   }
 
-  public ArrayEntryTree arrayEntry(SyntaxToken minus, SyntaxToken whitespace,ValueTree value) {
-	  return new ArrayEntryTreeImpl(minus, whitespace, value);
-  }
-  
-  public PairTree pair(SyntaxToken indentation, KeyTree key, SyntaxToken colon, SyntaxToken whitespace, ValueTree value) {
-    return new PairTreeImpl(indentation, key, colon, whitespace, value);
-  }
-  
-  public SimplePairTree simplePair(KeyTree key, SyntaxToken colon, SyntaxToken whitespace, LiteralTree value) {
-    return new SimplePairTreeImpl(key, colon, whitespace, value);
-  }
-  
   public KeyTree key(SyntaxToken key) {
     return new KeyTreeImpl(key);
   }
 
   public ValueTree value(Tree value) {
     return new ValueTreeImpl(value);
-  }
-
-  public SeparatedList<ArrayEntryTree> entryList(ArrayEntryTree entry, Optional<List<Tuple<InternalSyntaxToken, ArrayEntryTree>>> subsequentValues) {
-    List<ArrayEntryTree> values = Lists.newArrayList();
-    List<InternalSyntaxToken> newLines = Lists.newArrayList();
-
-    values.add(entry);
-
-    if (subsequentValues.isPresent()) {
-      for (Tuple<InternalSyntaxToken, ArrayEntryTree> t : subsequentValues.get()) {
-    	newLines.add(t.first());
-        values.add(t.second());
-      }
-    }
-
-    return new SeparatedList<>(values, newLines);
-  }
-  
-  public SeparatedList<ValueTree> valueList(ValueTree entry, Optional<List<Tuple<InternalSyntaxToken, ValueTree>>> subsequentValues) {
-    List<ValueTree> values = Lists.newArrayList();
-    List<InternalSyntaxToken> newLines = Lists.newArrayList();
-
-    values.add(entry);
-
-    if (subsequentValues.isPresent()) {
-      for (Tuple<InternalSyntaxToken, ValueTree> t : subsequentValues.get()) {
-    	newLines.add(t.first());
-        values.add(t.second());
-      }
-    }
-
-    return new SeparatedList<>(values, newLines);
   }
 
   public SeparatedList<PairTree> pairList(PairTree pair, Optional<List<Tuple<InternalSyntaxToken, PairTree>>> subsequentPairs) {

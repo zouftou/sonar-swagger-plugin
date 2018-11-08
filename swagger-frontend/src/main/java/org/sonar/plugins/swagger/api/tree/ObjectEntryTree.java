@@ -19,10 +19,10 @@
  */
 package org.sonar.plugins.swagger.api.tree;
 
-import java.util.List;
+public interface ObjectEntryTree extends Tree {
 
-public interface ObjectTree extends Tree {
+  SyntaxToken indentation();
 
-  List<ObjectEntryTree> entries();
+  PairTree pair();
 
 }

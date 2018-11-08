@@ -9,12 +9,20 @@ import com.sonar.sslr.api.GenericTokenType;
 public enum SwaggerLexicalGrammar implements GrammarRuleKey {
 
   SWAGGER,
+  
   OBJECT,
+  OBJECT_ENTRY,
+  
   PAIR,
   SIMPLE_PAIR,
+  PREFIXED_PAIR,
   KEY,
+  KEY_VALUE,
+  SIMPLE_VALUE,
+  
   ARRAY,
   ARRAY_ENTRY,
+  
   VALUE,
 
   TRUE,

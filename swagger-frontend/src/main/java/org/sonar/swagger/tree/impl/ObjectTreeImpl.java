@@ -1,3 +1,22 @@
+/*
+ * SonarQube JSON Analyzer
+ * Copyright (C) 2015-2017 David RACODON
+ * david.racodon@gmail.com
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.sonar.swagger.tree.impl;
 
 import java.util.ArrayList;
@@ -5,30 +24,19 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import org.sonar.plugins.swagger.api.tree.KeyTree;
+import org.sonar.plugins.swagger.api.tree.ObjectEntryTree;
 import org.sonar.plugins.swagger.api.tree.ObjectTree;
-import org.sonar.plugins.swagger.api.tree.PairTree;
-import org.sonar.plugins.swagger.api.tree.SyntaxToken;
 import org.sonar.plugins.swagger.api.tree.Tree;
 import org.sonar.plugins.swagger.api.visitors.DoubleDispatchVisitor;
 
 import com.google.common.base.Functions;
-import com.google.common.collect.Iterators;
 
 public class ObjectTreeImpl extends SWAGGERTree implements ObjectTree {
 
-  private final KeyTree key;
-  private final SyntaxToken colon;
-  private final SyntaxToken newLine;
-  private final SeparatedList<PairTree> pairs;
+  private final SeparatedList<ObjectEntryTree> entries;
 
-  public ObjectTreeImpl(KeyTree key, SyntaxToken colon, SyntaxToken newLine, @Nullable SeparatedList<PairTree> pairs) {
-    this.key = key;
-	this.colon = colon;
-	this.newLine = newLine;
-    this.pairs = pairs;
+  public ObjectTreeImpl(SeparatedList<ObjectEntryTree> entries) {
+    this.entries = entries;
   }
 
   @Override
@@ -38,10 +46,7 @@ public class ObjectTreeImpl extends SWAGGERTree implements ObjectTree {
 
   @Override
   public Iterator<Tree> childrenIterator() {
-    return Iterators.concat(
-      Iterators.singletonIterator(key),
-      Iterators.singletonIterator(colon),
-      pairs != null ? pairs.elementsAndSeparators(Functions.identity()) : new ArrayList<Tree>().iterator());
+	return entries != null ? entries.elementsAndSeparators(Functions.identity()) : new ArrayList<Tree>().iterator();
   }
 
   @Override
@@ -50,22 +55,8 @@ public class ObjectTreeImpl extends SWAGGERTree implements ObjectTree {
   }
 
   @Override
-  public SyntaxToken colon() {
-    return colon;
+  public List<ObjectEntryTree> entries() {
+    return entries != null ? entries : Collections.emptyList();
   }
 
-  @Override
-  public List<PairTree> pairs() {
-    return pairs != null ? pairs : Collections.emptyList();
-  }
-
-  @Override
-  public KeyTree key() {
-	return key;
-  }
-
-@Override
-public SyntaxToken newLine() {
-	return newLine;
-}
 }
