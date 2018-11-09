@@ -21,41 +21,36 @@ package org.sonar.swagger.tree.impl;
 
 import java.util.Iterator;
 
-import org.sonar.plugins.swagger.api.tree.ArrayEntryTree;
+import org.sonar.plugins.swagger.api.tree.SimpleValueTree;
 import org.sonar.plugins.swagger.api.tree.SyntaxToken;
 import org.sonar.plugins.swagger.api.tree.Tree;
 import org.sonar.plugins.swagger.api.visitors.DoubleDispatchVisitor;
 
 import com.google.common.collect.Iterators;
 
-public class ArrayEntryTreeImpl extends SWAGGERTree implements ArrayEntryTree {
+public class SimpleValueTreeImpl extends SWAGGERTree implements SimpleValueTree {
 
-  private final SyntaxToken minus;
+  private final SyntaxToken space;
   private final Tree value;
 
-  public ArrayEntryTreeImpl(SyntaxToken minus, Tree value) {
-    this.minus = minus;
+  public SimpleValueTreeImpl(SyntaxToken space, Tree value) {
+	this.space = space;
     this.value = value;
   }
 
   @Override
   public Kind getKind() {
-    return Kind.ARRAY;
+    return Kind.VALUE;
   }
 
   @Override
   public Iterator<Tree> childrenIterator() {
-	return Iterators.forArray(minus, value);
+    return Iterators.singletonIterator(value);
   }
 
   @Override
   public void accept(DoubleDispatchVisitor visitor) {
-    visitor.visitArrayEntry(this);
-  }
-
-  @Override
-  public SyntaxToken minus() {
-    return minus;
+    visitor.visitSimpleValue(this);
   }
 
   @Override
@@ -63,4 +58,8 @@ public class ArrayEntryTreeImpl extends SWAGGERTree implements ArrayEntryTree {
     return value;
   }
 
+  @Override
+  public SyntaxToken space() {
+	return space;
+  }
 }

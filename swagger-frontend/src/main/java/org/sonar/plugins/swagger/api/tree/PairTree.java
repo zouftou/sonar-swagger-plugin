@@ -24,9 +24,7 @@ public interface PairTree extends Tree {
   KeyTree key();
 
   SyntaxToken colon();
-
-  SyntaxToken lineOrSpace();
   
-  ValueTree value();
+  Tree value();
 
 }

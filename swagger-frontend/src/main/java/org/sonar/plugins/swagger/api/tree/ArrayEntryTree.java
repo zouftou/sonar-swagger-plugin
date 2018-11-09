@@ -23,7 +23,5 @@ public interface ArrayEntryTree extends Tree {
 
   SyntaxToken minus();
 
-  SyntaxToken space();
-
-  ValueTree value();
+  Tree value();
 }

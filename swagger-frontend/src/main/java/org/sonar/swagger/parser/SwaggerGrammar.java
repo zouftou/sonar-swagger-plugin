@@ -8,6 +8,7 @@ import org.sonar.plugins.swagger.api.tree.LiteralTree;
 import org.sonar.plugins.swagger.api.tree.ObjectEntryTree;
 import org.sonar.plugins.swagger.api.tree.ObjectTree;
 import org.sonar.plugins.swagger.api.tree.PairTree;
+import org.sonar.plugins.swagger.api.tree.SimpleValueTree;
 import org.sonar.plugins.swagger.api.tree.StringTree;
 import org.sonar.plugins.swagger.api.tree.SwaggerTree;
 import org.sonar.plugins.swagger.api.tree.ValueTree;
@@ -66,8 +67,10 @@ public class SwaggerGrammar {
     return b.<ArrayEntryTree>nonterminal(SwaggerLexicalGrammar.ARRAY_ENTRY).is(
       f.arrayEntry(
 		b.token(SwaggerLexicalGrammar.MINUS),
-		b.token(SwaggerLexicalGrammar.WHITESPACE),
-		VALUE()));
+        b.firstOf(
+          VALUE_SIMPLE(),
+          VALUE()
+        )));
   }
 
   public PairTree PAIR() {
@@ -75,11 +78,10 @@ public class SwaggerGrammar {
       f.pair(
         KEY(),
         b.token(SwaggerLexicalGrammar.COLON),
-		b.firstOf(
-          b.token(SwaggerLexicalGrammar.NEW_LINE),
-          b.token(SwaggerLexicalGrammar.WHITESPACE)
-		),
-		VALUE()));
+        b.firstOf(
+          VALUE_SIMPLE(),
+          VALUE()
+        )));
   }
 
   public KeyTree KEY() {
@@ -115,17 +117,26 @@ public class SwaggerGrammar {
   public ValueTree VALUE() {
     return b.<ValueTree>nonterminal(SwaggerLexicalGrammar.VALUE).is(
       f.value(
+    	b.token(SwaggerLexicalGrammar.NEW_LINE),
         b.firstOf(
           OBJECT(),
-          ARRAY(),
+          ARRAY()
+        )));
+  }
+  
+  public SimpleValueTree VALUE_SIMPLE() {
+    return b.<SimpleValueTree>nonterminal(SwaggerLexicalGrammar.VALUE_SIMPLE).is(
+      f.simpleValue(
+    	b.token(SwaggerLexicalGrammar.WHITESPACE),
+        b.firstOf(
           TRUE(),
           FALSE(),
           NULL(),
           NUMBER(),
           DOUBLE_QUOTED_STRING(),
 		  SINGLE_QUOTED_STRING(),
-          STRING()
-          )));
+          STRING())
+        ));
   }
 
   public StringTree STRING() {

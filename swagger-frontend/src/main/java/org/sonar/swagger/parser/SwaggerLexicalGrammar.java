@@ -24,7 +24,8 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   ARRAY_ENTRY,
   
   VALUE,
-
+  VALUE_SIMPLE,
+  
   TRUE,
   FALSE,
   NULL,
@@ -60,7 +61,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(MINUS).is("-");
     b.rule(WHITESPACE).is(" ");
     b.rule(INDENTATION).is("  ");
-    b.rule(NEW_LINE).is("\n");
+    b.rule(NEW_LINE).is(System.getProperty("line.separator"));// \n for unix, \r\n for windows
 
     b.rule(BOM).is("\ufeff");
     b.rule(EOF).is(SPACING, b.token(GenericTokenType.EOF, b.endOfInput()));

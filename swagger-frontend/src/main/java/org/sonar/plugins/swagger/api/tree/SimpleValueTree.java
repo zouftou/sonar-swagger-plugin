@@ -19,9 +19,9 @@
  */
 package org.sonar.plugins.swagger.api.tree;
 
-public interface ValueTree extends Tree {
+public interface SimpleValueTree extends Tree {
 
-  SyntaxToken newLine();
+  SyntaxToken space();
   
   Tree value();
 

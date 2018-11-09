@@ -37,6 +37,7 @@ public interface Tree {
     OBJECT_ENTRY(ObjectEntryTree.class),
     PAIR(PairTree.class),
     VALUE(ValueTree.class),
+    VALUE_SIMPLE(SimpleValueTree.class),
     KEY(KeyTree.class),
     STRING(StringTree.class),
     NUMBER(LiteralTree.class),

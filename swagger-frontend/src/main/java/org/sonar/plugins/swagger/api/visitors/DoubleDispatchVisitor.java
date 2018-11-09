@@ -12,6 +12,7 @@ import org.sonar.plugins.swagger.api.tree.LiteralTree;
 import org.sonar.plugins.swagger.api.tree.ObjectEntryTree;
 import org.sonar.plugins.swagger.api.tree.ObjectTree;
 import org.sonar.plugins.swagger.api.tree.PairTree;
+import org.sonar.plugins.swagger.api.tree.SimpleValueTree;
 import org.sonar.plugins.swagger.api.tree.StringTree;
 import org.sonar.plugins.swagger.api.tree.SyntaxToken;
 import org.sonar.plugins.swagger.api.tree.Tree;
@@ -88,6 +89,10 @@ public abstract class DoubleDispatchVisitor implements TreeVisitor {
   }
 
   public void visitValue(ValueTree tree) {
+    scanChildren(tree);
+  }
+  
+  public void visitSimpleValue(SimpleValueTree tree) {
     scanChildren(tree);
   }
 

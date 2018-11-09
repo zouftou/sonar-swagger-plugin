@@ -49,20 +49,24 @@ public class TreeFactory {
     return new ArrayTreeImpl(new SeparatedList<>(entries, newLines));
   }
   
-  public ArrayEntryTree arrayEntry(SyntaxToken minus, SyntaxToken space, ValueTree value) {
-    return new ArrayEntryTreeImpl(minus, space, value);
+  public ArrayEntryTree arrayEntry(SyntaxToken minus, Tree value) {
+    return new ArrayEntryTreeImpl(minus, value);
   }
   
-  public PairTree pair(KeyTree key, SyntaxToken colon, SyntaxToken lineOrSpace, ValueTree value) {
-    return new PairTreeImpl(key, colon, lineOrSpace, value);
+  public PairTree pair(KeyTree key, SyntaxToken colon, Tree value) {
+    return new PairTreeImpl(key, colon, value);
   }
 
   public KeyTree key(SyntaxToken key) {
     return new KeyTreeImpl(key);
   }
 
-  public ValueTree value(Tree value) {
-    return new ValueTreeImpl(value);
+  public ValueTree value(SyntaxToken newLine, Tree value) {
+    return new ValueTreeImpl(newLine, value);
+  }
+  
+  public SimpleValueTree simpleValue(SyntaxToken space, Tree value) {
+    return new SimpleValueTreeImpl(space, value);
   }
 
   public SeparatedList<PairTree> pairList(PairTree pair, Optional<List<Tuple<InternalSyntaxToken, PairTree>>> subsequentPairs) {

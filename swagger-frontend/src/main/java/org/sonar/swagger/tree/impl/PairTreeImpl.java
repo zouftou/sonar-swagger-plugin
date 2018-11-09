@@ -30,13 +30,11 @@ public class PairTreeImpl extends SWAGGERTree implements PairTree {
 
   private final KeyTree key;
   private final SyntaxToken colon;
-  private final SyntaxToken lineOrSpace;
-  private final ValueTree value;
+  private final Tree value;
 
-  public PairTreeImpl(KeyTree key, SyntaxToken colon, SyntaxToken lineOrSpace, ValueTree value) {
+  public PairTreeImpl(KeyTree key, SyntaxToken colon, Tree value) {
     this.key = key;
     this.colon = colon;
-    this.lineOrSpace = lineOrSpace;
     this.value = value;
   }
 
@@ -61,17 +59,12 @@ public class PairTreeImpl extends SWAGGERTree implements PairTree {
   }
 
   @Override
-  public ValueTree value() {
+  public Tree value() {
     return value;
   }
 
   @Override
   public void accept(DoubleDispatchVisitor visitor) {
     visitor.visitPair(this);
-  }
-
-  @Override
-  public SyntaxToken lineOrSpace() {
-	return lineOrSpace;
   }
 }
