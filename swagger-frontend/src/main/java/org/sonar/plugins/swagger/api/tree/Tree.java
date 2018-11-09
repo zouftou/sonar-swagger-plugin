@@ -35,6 +35,7 @@ public interface Tree {
     ARRAY_ENTRY(ArrayEntryTree.class),
     OBJECT(ObjectTree.class),
     OBJECT_ENTRY(ObjectEntryTree.class),
+    UNNAMED_OBJECT(UnnamedObjectTree.class),
     PAIR(PairTree.class),
     VALUE(ValueTree.class),
     VALUE_SIMPLE(SimpleValueTree.class),

@@ -57,8 +57,8 @@ public class TreeFactory {
     return new PairTreeImpl(key, colon, value);
   }
 
-  public KeyTree key(SyntaxToken key) {
-    return new KeyTreeImpl(key);
+  public UnnamedObjectTree unnamedObject(KeyTree key, SyntaxToken colon, SimpleValueTree simpleValueTree, SyntaxToken newLine, ObjectTree objectTree) {
+    return new UnnamedObjectTreeImpl(key, colon, simpleValueTree, newLine, objectTree);
   }
 
   public ValueTree value(SyntaxToken newLine, Tree value) {
@@ -67,6 +67,10 @@ public class TreeFactory {
   
   public SimpleValueTree simpleValue(SyntaxToken space, Tree value) {
     return new SimpleValueTreeImpl(space, value);
+  }
+  
+  public KeyTree key(SyntaxToken key) {
+    return new KeyTreeImpl(key);
   }
 
   public SeparatedList<PairTree> pairList(PairTree pair, Optional<List<Tuple<InternalSyntaxToken, PairTree>>> subsequentPairs) {

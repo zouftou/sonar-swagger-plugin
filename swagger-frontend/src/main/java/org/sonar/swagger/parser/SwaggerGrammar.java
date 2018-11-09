@@ -11,6 +11,7 @@ import org.sonar.plugins.swagger.api.tree.PairTree;
 import org.sonar.plugins.swagger.api.tree.SimpleValueTree;
 import org.sonar.plugins.swagger.api.tree.StringTree;
 import org.sonar.plugins.swagger.api.tree.SwaggerTree;
+import org.sonar.plugins.swagger.api.tree.UnnamedObjectTree;
 import org.sonar.plugins.swagger.api.tree.ValueTree;
 import org.sonar.swagger.tree.impl.InternalSyntaxToken;
 import org.sonar.swagger.tree.impl.SeparatedList;
@@ -68,6 +69,7 @@ public class SwaggerGrammar {
       f.arrayEntry(
 		b.token(SwaggerLexicalGrammar.MINUS),
         b.firstOf(
+          UNNAMED_OBJECT(),
           VALUE_SIMPLE(),
           VALUE()
         )));
@@ -110,7 +112,41 @@ public class SwaggerGrammar {
 		  b.token(SwaggerKeyword.SECURITY_DEFINITIONS),
 		  b.token(SwaggerKeyword.SECURITY),
 		  b.token(SwaggerKeyword.TAGS),
-		  b.token(SwaggerKeyword.EXTERNAL_DOCS)
+		  b.token(SwaggerKeyword.EXTERNAL_DOCS),
+		  b.token(SwaggerKeyword.GET),
+		  b.token(SwaggerKeyword.PUT),
+		  b.token(SwaggerKeyword.POST),
+		  b.token(SwaggerKeyword.DELETE),
+		  b.token(SwaggerKeyword.OPTIONS),
+		  b.token(SwaggerKeyword.HEAD),
+		  b.token(SwaggerKeyword.PATCH),
+		  b.token(SwaggerKeyword.SUMMARY),
+		  b.token(SwaggerKeyword.OPERATION_ID),
+		  b.token(SwaggerKeyword.DEPRECATED),
+		  b.token(SwaggerKeyword.IN),
+		  b.token(SwaggerKeyword.REQUIRED),
+		  b.token(SwaggerKeyword.SCHEMA),
+		  b.token(SwaggerKeyword.TYPE),
+		  b.token(SwaggerKeyword.FORMAT),
+		  b.token(SwaggerKeyword.ALLOW_EMPTY_VALUE),
+		  b.token(SwaggerKeyword.ITEMS),
+		  b.token(SwaggerKeyword.COLLECTION_FORMAT),
+		  b.token(SwaggerKeyword.DEFAULT),
+		  b.token(SwaggerKeyword.MAXIMUM),
+		  b.token(SwaggerKeyword.EXCLUSIVE_MAXIMUM),
+		  b.token(SwaggerKeyword.MINIMUM),
+		  b.token(SwaggerKeyword.EXCLUSIVE_MINIMUM),
+		  b.token(SwaggerKeyword.MAX_LENGTH),
+		  b.token(SwaggerKeyword.MIN_LENGTH),
+		  b.token(SwaggerKeyword.PATTERN),
+		  b.token(SwaggerKeyword.MAX_ITEMS),
+		  b.token(SwaggerKeyword.MIN_ITEMS),
+		  b.token(SwaggerKeyword.UNIQUE_ITEMS),
+		  b.token(SwaggerKeyword.ENUM),
+		  b.token(SwaggerKeyword.MULTIPLE_OF),
+		  
+		  b.token(SwaggerLexicalGrammar.PATH),
+		  b.token(SwaggerLexicalGrammar.REF)
 	   )));
   }
 
@@ -139,6 +175,17 @@ public class SwaggerGrammar {
         ));
   }
 
+  public UnnamedObjectTree UNNAMED_OBJECT() {
+    return b.<UnnamedObjectTree>nonterminal(SwaggerLexicalGrammar.UNNAMED_OBJECT).is(
+      f.unnamedObject(
+        KEY(),
+        b.token(SwaggerLexicalGrammar.COLON),
+        VALUE_SIMPLE(),
+        b.token(SwaggerLexicalGrammar.NEW_LINE),
+        OBJECT()
+      ));
+  }
+  
   public StringTree STRING() {
     return b.<StringTree>nonterminal().is(
       f.string(b.token(SwaggerLexicalGrammar.STRING)));

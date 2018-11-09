@@ -12,6 +12,10 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   
   OBJECT,
   OBJECT_ENTRY,
+  UNNAMED_OBJECT,
+  
+  PATH,
+  REF,
   
   PAIR,
   SIMPLE_PAIR,
@@ -61,6 +65,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(MINUS).is("-");
     b.rule(WHITESPACE).is(" ");
     b.rule(INDENTATION).is("  ");
+    b.rule(REF).is("$ref");
     b.rule(NEW_LINE).is(System.getProperty("line.separator"));// \n for unix, \r\n for windows
 
     b.rule(BOM).is("\ufeff");
@@ -77,6 +82,9 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(STRING).is(b.regexp("[^\\s\"':\\-\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*"));
     b.rule(DOUBLE_QUOTED_STRING).is(b.regexp("\"([^\\s\"'\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+\""));
     b.rule(SINGLE_QUOTED_STRING).is(b.regexp("\'([^\\s\"'\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+\'"));
+    
+    //(/[a-zA-Z0-9_-]+)+/?
+    b.rule(PATH).is(b.regexp("(/[a-zA-Z0-9_-]+)+/?"));
 
     b.rule(SPACING).is(b.skippedTrivia(b.regexp("(?<!\\\\)[\\s]*+")));
   }

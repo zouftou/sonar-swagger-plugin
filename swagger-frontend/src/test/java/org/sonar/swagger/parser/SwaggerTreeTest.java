@@ -62,7 +62,8 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 	checkParsed(new File("src/test/resources/entry.yaml"));
 	checkParsed(new File("src/test/resources/object.yaml"));
 	checkParsed(new File("src/test/resources/array.yaml"));
-	//checkParsed(new File("src/test/resources/arrayOfObject.yaml"));
+	checkParsed(new File("src/test/resources/arrayOfObject.yaml"));
+	checkParsed(new File("src/test/resources/ObjectWithArray.yaml"));
     checkParsed(new File("src/test/resources/petstore.yaml"));
   }
 
@@ -81,9 +82,7 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
   }
 
   private void checkParsed(File file) throws IOException {
-	String s = Files.toString(file, Charsets.UTF_8);
-	System.out.println(s);
-    checkParsed(s);
+    checkParsed(Files.toString(file, Charsets.UTF_8));
   }
 
 }
