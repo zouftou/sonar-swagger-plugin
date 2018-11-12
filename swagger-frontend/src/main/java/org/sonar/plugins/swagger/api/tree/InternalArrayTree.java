@@ -19,16 +19,16 @@
  */
 package org.sonar.plugins.swagger.api.tree;
 
-import java.util.List;
+public interface InternalArrayTree extends Tree {
 
-import org.sonar.swagger.tree.impl.InternalSyntaxToken;
-
-public interface ObjectEntryTree extends Tree {
-
-  SyntaxToken indentation();
-
-  List<InternalSyntaxToken> indentations();
+  SyntaxToken space();
   
-  PairTree pair();
+  StringTree key();
+
+  SyntaxToken colon();
+  
+  SyntaxToken newLine();
+  
+  ArrayTree arrayTree();
 
 }

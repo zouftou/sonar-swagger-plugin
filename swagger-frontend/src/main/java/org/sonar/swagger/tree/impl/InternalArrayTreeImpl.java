@@ -26,34 +26,34 @@ import java.util.Iterator;
 import org.sonar.plugins.swagger.api.tree.*;
 import org.sonar.plugins.swagger.api.visitors.DoubleDispatchVisitor;
 
-public class UnnamedObjectTreeImpl extends SWAGGERTree implements UnnamedObjectTree {
+public class InternalArrayTreeImpl extends SWAGGERTree implements InternalArrayTree {
 
-  private final KeyTree key;
+  private final SyntaxToken space;
+  private final StringTree key;
   private final SyntaxToken colon;
-  private final SimpleValueTree simpleValueTree;
   private final SyntaxToken newLine;
-  private final ObjectTree objectTree;
+  private final ArrayTree arrayTree;
 
-  public UnnamedObjectTreeImpl(KeyTree key, SyntaxToken colon, SimpleValueTree simpleValueTree, SyntaxToken newLine, ObjectTree objectTree) {
-    this.key = key;
+  public InternalArrayTreeImpl(SyntaxToken space, StringTree key, SyntaxToken colon, SyntaxToken newLine, ArrayTree arrayTree) {
+    this.space = space;
+	this.key = key;
     this.colon = colon;
-    this.simpleValueTree = simpleValueTree;
     this.newLine = newLine;
-    this.objectTree = objectTree;
+    this.arrayTree = arrayTree;
   }
 
   @Override
   public Kind getKind() {
-    return Kind.UNNAMED_OBJECT;
+    return Kind.INTERNAL_ARRAY;
   }
 
   @Override
   public Iterator<Tree> childrenIterator() {
-    return Iterators.forArray(key, colon, simpleValueTree, newLine, objectTree);
+    return Iterators.forArray(space, key, colon, newLine, arrayTree);
   }
 
   @Override
-  public KeyTree key() {
+  public StringTree key() {
     return key;
   }
 
@@ -64,12 +64,7 @@ public class UnnamedObjectTreeImpl extends SWAGGERTree implements UnnamedObjectT
 
   @Override
   public void accept(DoubleDispatchVisitor visitor) {
-    visitor.visitUnnamedObject(this);
-  }
-
-  @Override
-  public SimpleValueTree simpleValueTree() {
-	return simpleValueTree;
+    visitor.visitInternalArray(this);
   }
 
   @Override
@@ -78,7 +73,12 @@ public class UnnamedObjectTreeImpl extends SWAGGERTree implements UnnamedObjectT
   }
 
   @Override
-  public ObjectTree objectTree() {
-	return objectTree;
+  public ArrayTree arrayTree() {
+	return arrayTree;
+  }
+
+  @Override
+  public SyntaxToken space() {
+	return space;
   }
 }

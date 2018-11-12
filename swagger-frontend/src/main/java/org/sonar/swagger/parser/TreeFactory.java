@@ -29,8 +29,8 @@ public class TreeFactory {
     return new ObjectTreeImpl(new SeparatedList<>(entries, indentations));
   }
   
-  public ObjectEntryTree objectEntry(SyntaxToken indentation, PairTree pair) {
-    return new ObjectEntryTreeImpl(indentation, pair);
+  public ObjectEntryTree objectEntry(SyntaxToken indentation, Optional<List<InternalSyntaxToken>> indentations, PairTree pair) {
+	  return new ObjectEntryTreeImpl(indentation,indentations.orNull(), pair);
   }
 
   public ArrayTree array(ArrayEntryTree entry, Optional<List<Tuple<InternalSyntaxToken, ArrayEntryTree>>> subsequentEntries) {
@@ -49,8 +49,8 @@ public class TreeFactory {
     return new ArrayTreeImpl(new SeparatedList<>(entries, newLines));
   }
   
-  public ArrayEntryTree arrayEntry(SyntaxToken minus, Tree value) {
-    return new ArrayEntryTreeImpl(minus, value);
+  public ArrayEntryTree arrayEntry(Optional<List<InternalSyntaxToken>> indentations, SyntaxToken minus, Tree value ) {
+    return new ArrayEntryTreeImpl(indentations.orNull(), minus, value);
   }
   
   public PairTree pair(KeyTree key, SyntaxToken colon, Tree value) {
@@ -61,6 +61,10 @@ public class TreeFactory {
     return new UnnamedObjectTreeImpl(key, colon, simpleValueTree, newLine, objectTree);
   }
 
+  public InternalArrayTree internalArray(SyntaxToken space, StringTree key, SyntaxToken colon, SyntaxToken newLine, ArrayTree arrayTree) {
+    return new InternalArrayTreeImpl(space, key, colon, newLine, arrayTree);
+  }
+  
   public ValueTree value(SyntaxToken newLine, Tree value) {
     return new ValueTreeImpl(newLine, value);
   }

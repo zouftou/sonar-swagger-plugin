@@ -1,3 +1,4 @@
 schemes:
+- ftp
 - "https"
-- "http"
+- 'http'

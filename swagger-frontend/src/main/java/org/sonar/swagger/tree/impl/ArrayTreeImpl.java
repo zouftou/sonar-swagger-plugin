@@ -41,7 +41,7 @@ public class ArrayTreeImpl extends SWAGGERTree implements ArrayTree {
 
   @Override
   public Kind getKind() {
-    return Kind.OBJECT;
+    return Kind.ARRAY;
   }
 
   @Override

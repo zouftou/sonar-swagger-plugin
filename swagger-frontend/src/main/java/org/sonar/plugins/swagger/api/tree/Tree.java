@@ -33,6 +33,7 @@ public interface Tree {
     SWAGGER(SwaggerTree.class),
     ARRAY(ArrayTree.class),
     ARRAY_ENTRY(ArrayEntryTree.class),
+    INTERNAL_ARRAY(InternalArrayTree.class),
     OBJECT(ObjectTree.class),
     OBJECT_ENTRY(ObjectEntryTree.class),
     UNNAMED_OBJECT(UnnamedObjectTree.class),

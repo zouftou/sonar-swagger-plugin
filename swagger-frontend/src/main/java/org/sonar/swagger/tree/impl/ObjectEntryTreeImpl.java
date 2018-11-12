@@ -20,6 +20,9 @@
 package org.sonar.swagger.tree.impl;
 
 import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 import org.sonar.plugins.swagger.api.tree.ObjectEntryTree;
 import org.sonar.plugins.swagger.api.tree.PairTree;
@@ -32,10 +35,12 @@ import com.google.common.collect.Iterators;
 public class ObjectEntryTreeImpl extends SWAGGERTree implements ObjectEntryTree {
 
   private final SyntaxToken indentation;
+  List<InternalSyntaxToken> indentations;
   private final PairTree pair;
 
-  public ObjectEntryTreeImpl(SyntaxToken indentation, PairTree pair) {
+  public ObjectEntryTreeImpl(SyntaxToken indentation, @Nullable List<InternalSyntaxToken> indentations, PairTree pair) {
     this.indentation = indentation;
+    this.indentations = indentations;
     this.pair = pair;
   }
 
@@ -62,5 +67,10 @@ public class ObjectEntryTreeImpl extends SWAGGERTree implements ObjectEntryTree 
   @Override
   public PairTree pair() {
 	return pair;
+  }
+
+  @Override
+  public List<InternalSyntaxToken> indentations() {
+	return indentations;
   }
 }

@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import org.sonar.plugins.swagger.api.tree.ArrayEntryTree;
 import org.sonar.plugins.swagger.api.tree.ArrayTree;
+import org.sonar.plugins.swagger.api.tree.InternalArrayTree;
 import org.sonar.plugins.swagger.api.tree.KeyTree;
 import org.sonar.plugins.swagger.api.tree.LiteralTree;
 import org.sonar.plugins.swagger.api.tree.ObjectEntryTree;
@@ -72,6 +73,11 @@ public abstract class DoubleDispatchVisitor implements TreeVisitor {
   public void visitUnnamedObject(UnnamedObjectTree tree) {
     scanChildren(tree);
   }
+  
+  public void visitInternalArray(InternalArrayTree tree) {
+    scanChildren(tree);
+  }
+  
   public void visitObjectEntry(ObjectEntryTree tree) {
     scanChildren(tree);
   }

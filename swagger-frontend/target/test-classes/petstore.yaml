@@ -33,7 +33,7 @@ paths:
       tags:
       - "pet"
       summary: "Add a new pet to the store"
-      description: ""
+      description: "desc"
       operationId: "addPet"
       consumes:
       - "application/json"

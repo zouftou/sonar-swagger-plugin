@@ -40,7 +40,7 @@ public class SimpleValueTreeImpl extends SWAGGERTree implements SimpleValueTree 
 
   @Override
   public Kind getKind() {
-    return Kind.VALUE;
+    return Kind.VALUE_SIMPLE;
   }
 
   @Override

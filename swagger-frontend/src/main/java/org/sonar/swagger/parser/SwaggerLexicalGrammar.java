@@ -15,6 +15,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   UNNAMED_OBJECT,
   
   PATH,
+  HTTP_STATUS,
   REF,
   
   PAIR,
@@ -26,6 +27,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   
   ARRAY,
   ARRAY_ENTRY,
+  INTERNAL_ARRAY,
   
   VALUE,
   VALUE_SIMPLE,
@@ -78,13 +80,15 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(NULL).is(SPACING, "null");
 
     b.rule(NUMBER).is(SPACING, b.regexp("[-]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
-    
+
     b.rule(STRING).is(b.regexp("[^\\s\"':\\-\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*"));
+    
     b.rule(DOUBLE_QUOTED_STRING).is(b.regexp("\"([^\\s\"'\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+\""));
     b.rule(SINGLE_QUOTED_STRING).is(b.regexp("\'([^\\s\"'\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+\'"));
-    
+
     //(/[a-zA-Z0-9_-]+)+/?
     b.rule(PATH).is(b.regexp("(/[a-zA-Z0-9_-]+)+/?"));
+    b.rule(HTTP_STATUS).is(b.regexp("[1-5][0-9][0-9]"));
 
     b.rule(SPACING).is(b.skippedTrivia(b.regexp("(?<!\\\\)[\\s]*+")));
   }
