@@ -29,7 +29,8 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   ARRAY,
   ARRAY_ENTRY,
   INTERNAL_ARRAY,
-  ARRAY_VOID,
+  EMPTY_ARRAY,
+  EMPTY_ARRAY_VALUE,
   
   VALUE,
   VALUE_SIMPLE,
@@ -71,7 +72,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(INDENTATION).is("  ");
     b.rule(REF).is("$ref");
     b.rule(NEW_LINE).is(System.getProperty("line.separator"));// \n for unix, \r\n for windows
-    b.rule(ARRAY_VOID).is("[]");
+    b.rule(EMPTY_ARRAY_VALUE).is("[]");
     
     b.rule(BOM).is("\ufeff");
     b.rule(EOF).is(SPACING, b.token(GenericTokenType.EOF, b.endOfInput()));

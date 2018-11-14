@@ -3,6 +3,7 @@ package org.sonar.swagger.parser;
 import org.sonar.plugins.swagger.api.SwaggerKeyword;
 import org.sonar.plugins.swagger.api.tree.ArrayEntryTree;
 import org.sonar.plugins.swagger.api.tree.ArrayTree;
+import org.sonar.plugins.swagger.api.tree.EmptyArrayTree;
 import org.sonar.plugins.swagger.api.tree.InternalArrayTree;
 import org.sonar.plugins.swagger.api.tree.KeyTree;
 import org.sonar.plugins.swagger.api.tree.LiteralTree;
@@ -75,6 +76,7 @@ public class SwaggerGrammar {
         b.firstOf(
           UNNAMED_OBJECT(),
           INTERNAL_ARRAY(),
+          EMPTY_ARRAY(),
           VALUE_SIMPLE(),
           VALUE()
         )));
@@ -202,6 +204,17 @@ public class SwaggerGrammar {
         b.token(SwaggerLexicalGrammar.COLON),
         b.token(SwaggerLexicalGrammar.NEW_LINE),
         ARRAY()
+      ));
+  }
+  
+  public EmptyArrayTree EMPTY_ARRAY() {
+    return b.<EmptyArrayTree>nonterminal(SwaggerLexicalGrammar.EMPTY_ARRAY).is(
+      f.emptyArray(
+    	b.token(SwaggerLexicalGrammar.WHITESPACE),
+        KEY(),
+        b.token(SwaggerLexicalGrammar.COLON),
+        b.token(SwaggerLexicalGrammar.WHITESPACE),
+        b.token(SwaggerLexicalGrammar.EMPTY_ARRAY_VALUE)
       ));
   }
   

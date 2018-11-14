@@ -65,6 +65,10 @@ public class TreeFactory {
     return new InternalArrayTreeImpl(space, key, colon, newLine, arrayTree);
   }
   
+  public EmptyArrayTree emptyArray(SyntaxToken space1, KeyTree key, SyntaxToken colon, SyntaxToken space2, SyntaxToken emptyTree) {
+    return new EmptyArrayTreeImpl(space1, key, colon, space2, emptyTree);
+  }
+  
   public ValueTree value(SyntaxToken newLine, Tree value) {
     return new ValueTreeImpl(newLine, value);
   }

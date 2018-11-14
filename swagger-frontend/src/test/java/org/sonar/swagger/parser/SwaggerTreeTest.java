@@ -59,14 +59,14 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
     checkParsed("\ufeff {}");
     checkParsed("\ufeff true");
 */
-	//checkParsed(new File("src/test/resources/entry.yaml"));
-	//checkParsed(new File("src/test/resources/object.yaml"));
-	//checkParsed(new File("src/test/resources/array.yaml"));
-	//checkParsed(new File("src/test/resources/arrayOfObject.yaml"));
-	//checkParsed(new File("src/test/resources/arrayOfArray.yaml"));
+	checkParsed(new File("src/test/resources/entry.yaml"));
+	checkParsed(new File("src/test/resources/object.yaml"));
+	checkParsed(new File("src/test/resources/array.yaml"));
+	checkParsed(new File("src/test/resources/arrayOfObject.yaml"));
+	checkParsed(new File("src/test/resources/arrayOfArray.yaml"));
 	checkParsed(new File("src/test/resources/arrayOfArrayVoid.yaml"));
-	//checkParsed(new File("src/test/resources/ObjectWithArray.yaml"));
-    //checkParsed(new File("src/test/resources/petstore.yaml"));
+	checkParsed(new File("src/test/resources/ObjectWithArray.yaml"));
+    checkParsed(new File("src/test/resources/petstore.yaml"));
   }
 
   @Test
