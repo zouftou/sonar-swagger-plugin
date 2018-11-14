@@ -61,7 +61,7 @@ public class TreeFactory {
     return new UnnamedObjectTreeImpl(key, colon, simpleValueTree, newLine, objectTree);
   }
 
-  public InternalArrayTree internalArray(SyntaxToken space, StringTree key, SyntaxToken colon, SyntaxToken newLine, ArrayTree arrayTree) {
+  public InternalArrayTree internalArray(SyntaxToken space, KeyTree key, SyntaxToken colon, SyntaxToken newLine, ArrayTree arrayTree) {
     return new InternalArrayTreeImpl(space, key, colon, newLine, arrayTree);
   }
   

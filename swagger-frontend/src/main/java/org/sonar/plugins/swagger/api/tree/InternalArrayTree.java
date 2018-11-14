@@ -23,7 +23,7 @@ public interface InternalArrayTree extends Tree {
 
   SyntaxToken space();
   
-  StringTree key();
+  KeyTree key();
 
   SyntaxToken colon();
   

@@ -18,6 +18,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   HTTP_STATUS,
   REF,
   
+  KEYWORD,
   PAIR,
   SIMPLE_PAIR,
   PREFIXED_PAIR,
@@ -28,6 +29,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   ARRAY,
   ARRAY_ENTRY,
   INTERNAL_ARRAY,
+  ARRAY_VOID,
   
   VALUE,
   VALUE_SIMPLE,
@@ -69,7 +71,8 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(INDENTATION).is("  ");
     b.rule(REF).is("$ref");
     b.rule(NEW_LINE).is(System.getProperty("line.separator"));// \n for unix, \r\n for windows
-
+    b.rule(ARRAY_VOID).is("[]");
+    
     b.rule(BOM).is("\ufeff");
     b.rule(EOF).is(SPACING, b.token(GenericTokenType.EOF, b.endOfInput()));
   }
@@ -81,13 +84,15 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
 
     b.rule(NUMBER).is(SPACING, b.regexp("[-]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
 
-    b.rule(STRING).is(b.regexp("[^\\s\"':\\-\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*"));
+    //[a-zA-Z_0-9]
+    b.rule(KEYWORD).is(b.regexp("\\w+"));
     
-    b.rule(DOUBLE_QUOTED_STRING).is(b.regexp("\"([^\\s\"'\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+\""));
-    b.rule(SINGLE_QUOTED_STRING).is(b.regexp("\'([^\\s\"'\\n](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+\'"));
-
-    //(/[a-zA-Z0-9_-]+)+/?
-    b.rule(PATH).is(b.regexp("(/[a-zA-Z0-9_-]+)+/?"));
+    //([^\\s\"'](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+
+    b.rule(STRING).is(b.regexp("[\\w:.#/]+"));
+    b.rule(DOUBLE_QUOTED_STRING).is(b.regexp("\"([^\"\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\""));
+    b.rule(SINGLE_QUOTED_STRING).is(b.regexp("\'([^\'\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\'"));
+    
+    b.rule(PATH).is(b.regexp("(/[a-zA-Z0-9_-{}]+)+"));
     b.rule(HTTP_STATUS).is(b.regexp("[1-5][0-9][0-9]"));
 
     b.rule(SPACING).is(b.skippedTrivia(b.regexp("(?<!\\\\)[\\s]*+")));

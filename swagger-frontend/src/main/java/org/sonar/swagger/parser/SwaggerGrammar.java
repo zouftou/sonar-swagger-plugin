@@ -73,8 +73,8 @@ public class SwaggerGrammar {
     	b.zeroOrMore(b.token(SwaggerLexicalGrammar.INDENTATION)),
 		b.token(SwaggerLexicalGrammar.MINUS),
         b.firstOf(
-          //UNNAMED_OBJECT(),
-          //INTERNAL_ARRAY(),
+          UNNAMED_OBJECT(),
+          INTERNAL_ARRAY(),
           VALUE_SIMPLE(),
           VALUE()
         )));
@@ -151,6 +151,7 @@ public class SwaggerGrammar {
 		  b.token(SwaggerKeyword.ENUM),
 		  b.token(SwaggerKeyword.MULTIPLE_OF),
 		  
+		  b.token(SwaggerLexicalGrammar.KEYWORD),
 		  b.token(SwaggerLexicalGrammar.PATH),
 		  b.token(SwaggerLexicalGrammar.REF),
 		  b.token(SwaggerLexicalGrammar.HTTP_STATUS)
@@ -162,7 +163,7 @@ public class SwaggerGrammar {
       f.value(
     	b.token(SwaggerLexicalGrammar.NEW_LINE),
         b.firstOf(
-          //OBJECT(),
+          OBJECT(),
           ARRAY()
         )));
   }
@@ -197,12 +198,13 @@ public class SwaggerGrammar {
     return b.<InternalArrayTree>nonterminal(SwaggerLexicalGrammar.INTERNAL_ARRAY).is(
       f.internalArray(
     	b.token(SwaggerLexicalGrammar.WHITESPACE),
-        STRING(),
+        KEY(),
         b.token(SwaggerLexicalGrammar.COLON),
         b.token(SwaggerLexicalGrammar.NEW_LINE),
         ARRAY()
       ));
   }
+  
   public StringTree STRING() {
     return b.<StringTree>nonterminal().is(
       f.string(b.token(SwaggerLexicalGrammar.STRING)));

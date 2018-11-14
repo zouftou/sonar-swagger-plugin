@@ -29,12 +29,12 @@ import org.sonar.plugins.swagger.api.visitors.DoubleDispatchVisitor;
 public class InternalArrayTreeImpl extends SWAGGERTree implements InternalArrayTree {
 
   private final SyntaxToken space;
-  private final StringTree key;
+  private final KeyTree key;
   private final SyntaxToken colon;
   private final SyntaxToken newLine;
   private final ArrayTree arrayTree;
 
-  public InternalArrayTreeImpl(SyntaxToken space, StringTree key, SyntaxToken colon, SyntaxToken newLine, ArrayTree arrayTree) {
+  public InternalArrayTreeImpl(SyntaxToken space, KeyTree key, SyntaxToken colon, SyntaxToken newLine, ArrayTree arrayTree) {
     this.space = space;
 	this.key = key;
     this.colon = colon;
@@ -53,7 +53,7 @@ public class InternalArrayTreeImpl extends SWAGGERTree implements InternalArrayT
   }
 
   @Override
-  public StringTree key() {
+  public KeyTree key() {
     return key;
   }
 
