@@ -152,6 +152,7 @@ public class SwaggerGrammar {
 		  b.token(SwaggerKeyword.UNIQUE_ITEMS),
 		  b.token(SwaggerKeyword.ENUM),
 		  b.token(SwaggerKeyword.MULTIPLE_OF),
+		  b.token(SwaggerKeyword.HEADERS),
 		  
 		  b.token(SwaggerLexicalGrammar.KEYWORD),
 		  b.token(SwaggerLexicalGrammar.PATH),
@@ -181,7 +182,8 @@ public class SwaggerGrammar {
           NUMBER(),
           DOUBLE_QUOTED_STRING(),
 		  SINGLE_QUOTED_STRING(),
-          STRING())
+          STRING(),
+          b.token(SwaggerLexicalGrammar.EMPTY_ARRAY_VALUE))
         ));
   }
 

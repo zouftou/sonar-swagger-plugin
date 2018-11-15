@@ -86,7 +86,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(NUMBER).is(SPACING, b.regexp("[-]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
 
     //[a-zA-Z_0-9]
-    b.rule(KEYWORD).is(b.regexp("\\w+"));
+    b.rule(KEYWORD).is(b.regexp("[\\w\\-]+"));
     
     //([^\\s\"'](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+
     b.rule(STRING).is(b.regexp("[\\w:.#/]+"));

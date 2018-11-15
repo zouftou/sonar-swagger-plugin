@@ -56,6 +56,7 @@ public enum SwaggerKeyword implements GrammarRuleKey {
     UNIQUE_ITEMS("uniqueItems"),
     ENUM("enum"),
     MULTIPLE_OF("multipleOf"),
+    HEADERS("headers"),
   DEFINITIONS("definitions"),
   PARAMETERS("parameters"),
   RESPONSES("responses"),
