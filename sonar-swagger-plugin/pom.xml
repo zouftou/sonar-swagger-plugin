@@ -1,67 +1,126 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.codehaus.sonar-plugins.swagger</groupId>
-		<artifactId>swagger</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>org.codehaus.sonar-plugins.swagger</groupId>
+    <artifactId>swagger</artifactId>
+    <version>1.1-SNAPSHOT</version>
+  </parent>
 
-	<artifactId>sonar-swagger-plugin</artifactId>
-	
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>swagger-frontend</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>swagger-checks</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.sonarsource.sonarqube</groupId>
-			<artifactId>sonar-plugin-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-	      <groupId>org.sonarsource.sonarqube</groupId>
-	      <artifactId>sonar-testing-harness</artifactId>
-	      <scope>test</scope>
-	    </dependency>
-	    <dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <scope>test</scope>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.mockito</groupId>
-	      <artifactId>mockito-all</artifactId>
-	      <scope>test</scope>
-	    </dependency>
-	    <dependency>
-	      <groupId>org.easytesting</groupId>
-	      <artifactId>fest-assert</artifactId>
-	      <scope>test</scope>
-	    </dependency>
-	</dependencies>
+  <artifactId>sonar-swagger-plugin</artifactId>
+  <packaging>sonar-plugin</packaging>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
-				<artifactId>sonar-packaging-maven-plugin</artifactId>
-				<configuration>
-					<pluginName>SonarSwagger</pluginName>
-					<skipDependenciesPackaging>true</skipDependenciesPackaging>
-					<pluginClass>org.sonar.plugins.sawgger.SwaggerPlugin</pluginClass>
-					<sonarLintSupported>true</sonarLintSupported>
-					<sonarQubeMinVersion>6.7</sonarQubeMinVersion> <!-- allow to depend on API 6.7+ but run on LTS(6.7) -->
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+  <name>SonarQube Swagger Analyzer :: SonarQube Plugin</name>
+  <description>Enables analysis of Swagger files.</description>
+  <url>https://github.com/zouftou/sonar-swagger-plugin</url>
+
+  <properties>
+    <sonar.pluginKey>Swagger</sonar.pluginKey>
+    <sonar.pluginName>SonarSwagger</sonar.pluginName>
+    <sonar.pluginClass>org.sonar.plugins.swagger.SwaggerPlugin</sonar.pluginClass>
+    <sonar.skipDependenciesPackaging>true</sonar.skipDependenciesPackaging>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>swagger-frontend</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>swagger-checks</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-plugin-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.sonarsource.sonarqube</groupId>
+      <artifactId>sonar-testing-harness</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>false</shadedArtifactAttached>
+              <minimizeJar>true</minimizeJar>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <filters>
+                <filter>
+                  <artifact>cglib:cglib-nodep</artifact>
+                  <includes>
+                    <include>**</include>
+                  </includes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-plugin-size</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <phase>verify</phase>
+            <configuration>
+              <rules>
+                <requireFilesSize>
+                  <maxsize>2100000</maxsize>
+                  <minsize>2000000</minsize>
+                  <files>
+                    <file>${project.build.directory}/${project.build.finalName}.jar</file>
+                  </files>
+                </requireFilesSize>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <destFile>${sonar.jacoco.reportPath}</destFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

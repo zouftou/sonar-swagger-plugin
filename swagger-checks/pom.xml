@@ -1,22 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
-	<parent>
-		<groupId>org.codehaus.sonar-plugins.swagger</groupId>
-		<artifactId>swagger</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	
-	<artifactId>swagger-checks</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>swagger-frontend</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+  <parent>
+    <groupId>org.codehaus.sonar-plugins.swagger</groupId>
+    <artifactId>swagger</artifactId>
+    <version>1.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>swagger-checks</artifactId>
+  <name>SonarQube Swagger Analyzer :: Checks</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>swagger-frontend</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>swagger-checks-testkit</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
       <artifactId>sonar-plugin-api</artifactId>
@@ -35,5 +38,36 @@
       <artifactId>hamcrest-all</artifactId>
       <scope>test</scope>
     </dependency>
-	</dependencies>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <id>generate-rule-descriptions</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>org.sonar.json.checks.GenerateRuleDescriptionsBatch</mainClass>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <destFile>${sonar.jacoco.reportPath}</destFile>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

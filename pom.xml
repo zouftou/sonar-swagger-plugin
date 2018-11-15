@@ -1,24 +1,71 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
+  <parent>
+    <groupId>org.sonarsource.parent</groupId>
+    <artifactId>parent</artifactId>
+    <version>41</version>
+  </parent>
+
   <groupId>org.codehaus.sonar-plugins.swagger</groupId>
   <artifactId>swagger</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  
+
+  <name>SonarQube Swagger Analyzer</name>
+  <description>Enables analysis of Swagger files in SonarQube</description>
+  <url>https://github.com/zouftou/sonar-swagger-plugin</url>
+  <inceptionYear>2018</inceptionYear>
+  <organization>
+    <name>Zouhir OUFTOU</name>
+    <url>mailto:zouhir.ouftou@gmail.com</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>GNU LGPL 3</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>zouftou</id>
+      <name>Zouhir OUFTOU</name>
+      <email>zouhir.ouftou@gmail.com</email>
+      <url>https://www.linkedin.com/in/zouhir-ouftou-09b76183/</url>
+    </developer>
+  </developers>
+
   <modules>
-  	<module>swagger-checks</module>
-  	<module>swagger-frontend</module>
-  	<module>sonar-swagger-plugin</module>
+    <module>swagger-frontend</module>
+    <module>swagger-checks</module>
+    <module>sonar-swagger-plugin</module>
+    <module>swagger-checks-testkit</module>
   </modules>
-  
+
+  <scm>
+    <connection>scm:git@github.com:zouftou/sonar-swagger-plugin.git</connection>
+    <developerConnection>scm:git@github.com:zouftou/sonar-swagger-plugin.git</developerConnection>
+    <url>https://github.com/zouftou/sonar-swagger-plugin</url>
+    <tag>HEAD</tag>
+  </scm>
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/zouftou/sonar-swagger-plugin/issues</url>
+  </issueManagement>
+
   <properties>
+    <license.title>SonarQube Swagger Analyzer</license.title>
+    <license.owner>Zouhir OUFTOU</license.owner>
+    <license.mailto>zouhir.ouftou@gmail.com</license.mailto>
     <sonar.version>5.6</sonar.version>
-    <sslr.version>1.23</sslr.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <sslr.version>1.22</sslr.version>
+    <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
   </properties>
-  
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -29,6 +76,11 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>swagger-checks</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>swagger-checks-testkit</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -165,29 +217,107 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-  
+
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco.version}</version>
-          <configuration>
-            <includes>
-              <include>org.sonar.*</include>
-            </includes>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <configuration>
-	          <source>1.8</source>
-	          <target>1.8</target>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.9</version>
+        <configuration>
+          <destFile>${sonar.jacoco.reportPath}</destFile>
+          <append>true</append>
+        </configuration>
+        <executions>
+          <execution>
+            <id>agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.8</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.4</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>ossrh</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>its</id>
+      <modules>
+        <module>its</module>
+      </modules>
+    </profile>
+  </profiles>
+
 </project>

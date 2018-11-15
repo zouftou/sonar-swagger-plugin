@@ -1,7 +1,7 @@
 /*
- * SonarQube JSON Analyzer
- * Copyright (C) 2015-2017 David RACODON
- * david.racodon@gmail.com
+ * SonarQube Swagger Analyzer
+ * Copyright (C) 2018-2020 Zouhir OUFTOU
+ * zouhir.ouftou@gmail.com
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
