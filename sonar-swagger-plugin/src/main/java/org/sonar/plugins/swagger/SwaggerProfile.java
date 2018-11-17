@@ -30,7 +30,7 @@ public class SwaggerProfile extends ProfileDefinition {
 
 	private final RuleFinder ruleFinder;
 
-	public static final String SONARQUBE_WAY_PROFILE_NAME = "SonarQube Way";
+	public static final String SONARQUBE_WAY_PROFILE_NAME = "Sonar Way";
 
 	public SwaggerProfile(RuleFinder ruleFinder) {
 		this.ruleFinder = ruleFinder;

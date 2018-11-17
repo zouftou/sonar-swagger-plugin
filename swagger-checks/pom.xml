@@ -42,23 +42,23 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <executions>
-          <execution>
-            <id>generate-rule-descriptions</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>java</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <mainClass>org.sonar.json.checks.GenerateRuleDescriptionsBatch</mainClass>
-        </configuration>
-      </plugin>
+<!--       <plugin> -->
+<!--         <groupId>org.codehaus.mojo</groupId> -->
+<!--         <artifactId>exec-maven-plugin</artifactId> -->
+<!--         <version>1.6.0</version> -->
+<!--         <executions> -->
+<!--           <execution> -->
+<!--             <id>generate-rule-descriptions</id> -->
+<!--             <phase>prepare-package</phase> -->
+<!--             <goals> -->
+<!--               <goal>java</goal> -->
+<!--             </goals> -->
+<!--           </execution> -->
+<!--         </executions> -->
+<!--         <configuration> -->
+<!--           <mainClass>org.sonar.swagger.checks.GenerateRuleDescriptionsBatch</mainClass> -->
+<!--         </configuration> -->
+<!--       </plugin> -->
 
       <plugin>
         <groupId>org.jacoco</groupId>

@@ -82,7 +82,7 @@ public class SwaggerSquidSensor implements Sensor {
       fileSystem.predicates().hasType(InputFile.Type.MAIN),
       fileSystem.predicates().hasLanguage(SwaggerLanguage.KEY));
 
-    this.parser = null;//SwaggerParserBuilder.createParser(fileSystem.encoding());
+    this.parser = SwaggerParserBuilder.createParser(fileSystem.encoding());
 
     this.checks = SwaggerChecks.createSwaggerCheck(checkFactory)
       .addChecks(CheckList.REPOSITORY_KEY, CheckList.getChecks())

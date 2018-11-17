@@ -1,6 +1,6 @@
 /*
  * SonarQube Swagger Analyzer
- * Copyright (C) 2018-2020 Zouhir OUFTOU
+ * Copyright (C) 2015-2017 Zouhir OUFTOU
  * zouhir.ouftou@gmail.com
  *
  * This program is free software; you can redistribute it and/or

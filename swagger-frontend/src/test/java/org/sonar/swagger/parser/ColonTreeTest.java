@@ -30,12 +30,12 @@ public class ColonTreeTest extends CommonSyntaxTokenTreeTest {
   @Test
   public void comma() {
     checkParsed(":");
-    checkParsed(" :");
-    checkParsed("  :");
   }
 
   @Test
   public void notComma() {
+    checkNotParsed(" :");
+    checkNotParsed("  :");
     checkNotParsed(",");
     checkNotParsed(";");
   }

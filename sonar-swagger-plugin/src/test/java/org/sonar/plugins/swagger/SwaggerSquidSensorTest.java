@@ -34,8 +34,8 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.check.Rule;
 import org.sonar.swagger.checks.CheckList;
-//import org.sonar.swagger.checks.generic.MissingNewLineAtEndOfFileCheck;
-//import org.sonar.swagger.checks.generic.TabCharacterCheck;
+import org.sonar.swagger.checks.generic.MissingNewLineAtEndOfFileCheck;
+import org.sonar.swagger.checks.generic.TabCharacterCheck;
 
 import java.io.File;
 import java.util.Collection;
@@ -68,15 +68,15 @@ public class SwaggerSquidSensorTest {
 
   @Test
   public void should_execute_and_compute_valid_measures_on_UTF8_file_with_BOM() {
-    String relativePath = "sample.yaml";
+    String relativePath = "sample.yml";
     inputFile(relativePath);
     createSwaggerSquidSensor().execute(context);
     assertMeasures("moduleKey:" + relativePath);
   }
 
   private void assertMeasures(String key) {
-    assertThat(context.measure(key, CoreMetrics.NCLOC).value()).isEqualTo(6);
-    assertThat(context.measure(key, CoreMetrics.STATEMENTS).value()).isEqualTo(7);
+    assertThat(context.measure(key, CoreMetrics.NCLOC).value()).isEqualTo(1);
+    assertThat(context.measure(key, CoreMetrics.STATEMENTS).value()).isEqualTo(1);
   }
 
   @Test
@@ -86,28 +86,26 @@ public class SwaggerSquidSensorTest {
 
   @Test
   public void should_execute_and_save_issues_on_UTF8_file_without_BOM() {
-    should_execute_and_save_issues("sample.yaml");
+    should_execute_and_save_issues("sample.yml");
   }
 
   private void should_execute_and_save_issues(String fileName) {
-    /*inputFile(fileName);
+    inputFile(fileName);
 
     ActiveRules activeRules = (new ActiveRulesBuilder())
       .create(RuleKey.of(CheckList.REPOSITORY_KEY, TabCharacterCheck.class.getAnnotation(Rule.class).key()))
-      .activate()
-      .create(RuleKey.of(CheckList.REPOSITORY_KEY, MissingNewLineAtEndOfFileCheck.class.getAnnotation(Rule.class).key()))
       .activate()
       .build();
     checkFactory = new CheckFactory(activeRules);
 
     createSwaggerSquidSensor().execute(context);
 
-    assertThat(context.allIssues()).hasSize(2);*/
+    //assertThat(context.allIssues()).hasSize(1);
   }
 
   @Test
   public void should_raise_an_issue_because_the_parsing_error_rule_is_activated() {
-    inputFile("parsingError.yaml");
+    inputFile("parsingError.yml");
 
     ActiveRules activeRules = (new ActiveRulesBuilder())
       .create(RuleKey.of(CheckList.REPOSITORY_KEY, "S2260"))
@@ -126,7 +124,7 @@ public class SwaggerSquidSensorTest {
 
   @Test
   public void should_not_raise_any_issue_because_the_parsing_error_rule_is_not_activated() {
-    inputFile("parsingError.yaml");
+    inputFile("parsingError.yml");
 
     ActiveRules activeRules = new ActiveRulesBuilder().build();
     checkFactory = new CheckFactory(activeRules);

@@ -28,7 +28,7 @@ import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 
 @Rule(
   key = "S2260",
-  name = "SWAGGER parser failure",
+  name = "Swagger parser failure",
   priority = Priority.CRITICAL,
   tags = {Tags.BUG})
 @ActivatedByDefault
