@@ -36,6 +36,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   PATH,
   HTTP_STATUS,
   REF,
+  SCOPE,
   
   KEYWORD,
   PAIR,
@@ -112,6 +113,8 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(DOUBLE_QUOTED_STRING).is(b.regexp("\"([^\"\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\""));
     b.rule(SINGLE_QUOTED_STRING).is(b.regexp("\'([^\'\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\'"));
     
+    // ex: write:pets
+    b.rule(SCOPE).is(b.regexp("[\\w]+:[\\w]+"));
     b.rule(PATH).is(b.regexp("(/[a-zA-Z0-9_-{}]+)+"));
     b.rule(HTTP_STATUS).is(b.regexp("[1-5][0-9][0-9]"));
 

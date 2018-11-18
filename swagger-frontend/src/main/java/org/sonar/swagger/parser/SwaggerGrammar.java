@@ -173,9 +173,11 @@ public class SwaggerGrammar {
 		  b.token(SwaggerKeyword.MULTIPLE_OF),
 		  b.token(SwaggerKeyword.HEADERS),
 		  
+		  b.token(SwaggerLexicalGrammar.SCOPE),
 		  b.token(SwaggerLexicalGrammar.KEYWORD),
 		  b.token(SwaggerLexicalGrammar.PATH),
 		  b.token(SwaggerLexicalGrammar.REF),
+		  
 		  b.token(SwaggerLexicalGrammar.HTTP_STATUS)
 	   )));
   }

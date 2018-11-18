@@ -26,13 +26,13 @@ import org.sonar.api.utils.ValidationMessages;
 import org.sonar.swagger.checks.CheckList;
 import org.sonar.squidbridge.annotations.AnnotationBasedProfileBuilder;
 
-public class SwaggerProfile extends ProfileDefinition {
+public class SwaggerProfileDefinition extends ProfileDefinition {
 
 	private final RuleFinder ruleFinder;
 
 	public static final String SONARQUBE_WAY_PROFILE_NAME = "Sonar Way";
 
-	public SwaggerProfile(RuleFinder ruleFinder) {
+	public SwaggerProfileDefinition(RuleFinder ruleFinder) {
 		this.ruleFinder = ruleFinder;
 	}
 

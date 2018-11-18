@@ -28,7 +28,7 @@ public class SwaggerPlugin implements Plugin {
 	    context.addExtensions(
 	    	      SwaggerLanguage.class,
 	    	      SwaggerSquidSensor.class,
-	    	      SwaggerProfile.class,
+	    	      SwaggerProfileDefinition.class,
 	    	      SwaggerRulesDefinition.class);
 	}
 }

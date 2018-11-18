@@ -40,4 +40,10 @@ public final class CheckList {
 	      FileNameCheck.class,
 	      ParsingErrorCheck.class);
 	  }
-	}
+	  
+	  @SuppressWarnings("rawtypes")
+	  public static Collection<Class> getApiGuidelinesChecks() {
+	    return ImmutableList.<Class>of(
+	      FileNameCheck.class);
+	  }
+}

@@ -33,15 +33,15 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SwaggerProfileTest {
+public class SwaggerProfileDefinitionTest {
 
   @Test
   public void should_create_sonarqube_way_profile() {
     ValidationMessages validation = ValidationMessages.create();
-    SwaggerProfile definition = new SwaggerProfile(universalRuleFinder());
+    SwaggerProfileDefinition definition = new SwaggerProfileDefinition(universalRuleFinder());
     RulesProfile profile = definition.createProfile(validation);
 
-    assertThat(profile.getName()).isEqualTo(SwaggerProfile.SONARQUBE_WAY_PROFILE_NAME);
+    assertThat(profile.getName()).isEqualTo(SwaggerProfileDefinition.SONARQUBE_WAY_PROFILE_NAME);
     assertThat(profile.getLanguage()).isEqualTo(SwaggerLanguage.KEY);
     //assertThat(profile.getActiveRulesByRepository(CheckList.REPOSITORY_KEY)).hasSize(5);
     assertThat(validation.hasErrors()).isFalse();

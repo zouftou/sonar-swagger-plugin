@@ -468,7 +468,7 @@ paths:
           description: "successful operation"
           schema:
             type: "string"
-          headers:
+          heders:
             X-Rate-Limit:
               type: "integer"
               format: "int32"

@@ -85,7 +85,7 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 	checkParsed(new File("src/test/resources/arrayOfArray.yaml"));
 	checkParsed(new File("src/test/resources/arrayOfArrayVoid.yaml"));
 	checkParsed(new File("src/test/resources/ObjectWithArray.yaml"));
-    //checkParsed(new File("src/test/resources/petstore.yaml"));
+    checkParsed(new File("src/test/resources/petstore.yaml"));
   }
 
   @Test
@@ -102,6 +102,7 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
     assertThat(tree).isNotNull();
   }
 
+  @SuppressWarnings("deprecation")
   private void checkParsed(File file) throws IOException {
     checkParsed(Files.toString(file, Charsets.UTF_8));
   }

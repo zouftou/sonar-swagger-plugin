@@ -75,8 +75,8 @@ public class SwaggerSquidSensorTest {
   }
 
   private void assertMeasures(String key) {
-    assertThat(context.measure(key, CoreMetrics.NCLOC).value()).isEqualTo(1);
-    assertThat(context.measure(key, CoreMetrics.STATEMENTS).value()).isEqualTo(1);
+    assertThat(context.measure(key, CoreMetrics.NCLOC).value()).isEqualTo(5);
+    assertThat(context.measure(key, CoreMetrics.STATEMENTS).value()).isEqualTo(5);
   }
 
   @Test
