@@ -116,6 +116,7 @@ public class SwaggerGrammar {
     return b.<KeyTree>nonterminal(SwaggerLexicalGrammar.KEY).is(
       f.key(
 	    b.firstOf(
+	      b.token(SwaggerKeyword.HEADERS),
 		  b.token(SwaggerKeyword.SWAGGER),
 		  b.token(SwaggerKeyword.INFO),
 		  b.token(SwaggerKeyword.TITLE),
@@ -171,7 +172,7 @@ public class SwaggerGrammar {
 		  b.token(SwaggerKeyword.UNIQUE_ITEMS),
 		  b.token(SwaggerKeyword.ENUM),
 		  b.token(SwaggerKeyword.MULTIPLE_OF),
-		  b.token(SwaggerKeyword.HEADERS),
+		  
 		  
 		  b.token(SwaggerLexicalGrammar.SCOPE),
 		  b.token(SwaggerLexicalGrammar.KEYWORD),

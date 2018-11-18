@@ -74,6 +74,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
   EOF,
   
   SPACING;
+
   //https://github.com/atom/language-yaml/blob/master/grammars/yaml.cson
   public static LexerlessGrammarBuilder createGrammar() {
     LexerlessGrammarBuilder b = LexerlessGrammarBuilder.create();
@@ -95,35 +96,35 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(EMPTY_ARRAY_VALUE).is("[]");
     
     b.rule(BOM).is("\ufeff");
-    b.rule(EOF).is(SPACING, b.token(GenericTokenType.EOF, b.endOfInput()));
+    b.rule(EOF).is(SPACING,b.token(GenericTokenType.EOF, b.endOfInput()));
   }
 
   private static void types(LexerlessGrammarBuilder b) {
-    b.rule(TRUE).is(SPACING, "true");
-    b.rule(FALSE).is(SPACING, "false");
-    b.rule(NULL).is(SPACING, "null");
+    b.rule(TRUE).is(SPACING,"true");
+    b.rule(FALSE).is(SPACING,"false");
+    b.rule(NULL).is(SPACING,"null");
 
-    b.rule(NUMBER).is(SPACING, b.regexp("[-]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
+    b.rule(NUMBER).is(SPACING,b.regexp("[-]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"));
 
     //[a-zA-Z_0-9]
-    b.rule(KEYWORD).is(b.regexp("[\\w\\-]+"));
+    b.rule(KEYWORD).is(SPACING,b.regexp("[\\w\\-]+"));
     
     //([^\\s\"'](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+
-    b.rule(STRING).is(b.regexp("[\\w:.#/]+"));
-    b.rule(DOUBLE_QUOTED_STRING).is(b.regexp("\"([^\"\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\""));
-    b.rule(SINGLE_QUOTED_STRING).is(b.regexp("\'([^\'\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\'"));
+    b.rule(STRING).is(SPACING,b.regexp("[\\w:.#/]+"));
+    b.rule(DOUBLE_QUOTED_STRING).is(SPACING,b.regexp("\"([^\"\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\""));
+    b.rule(SINGLE_QUOTED_STRING).is(SPACING,b.regexp("\'([^\'\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\'"));
     
     // ex: write:pets
-    b.rule(SCOPE).is(b.regexp("[\\w]+:[\\w]+"));
-    b.rule(PATH).is(b.regexp("(/[a-zA-Z0-9_-{}]+)+"));
-    b.rule(HTTP_STATUS).is(b.regexp("[1-5][0-9][0-9]"));
+    b.rule(SCOPE).is(SPACING,b.regexp("[\\w]+:[\\w]+"));
+    b.rule(PATH).is(SPACING,b.regexp("(/[a-zA-Z0-9_-{}]+)+"));
+    b.rule(HTTP_STATUS).is(SPACING,b.regexp("[1-5][0-9][0-9]"));
 
     b.rule(SPACING).is(b.skippedTrivia(b.regexp("(?<!\\\\)[\\s]*+")));
   }
   
   private static void keywords(LexerlessGrammarBuilder b) {
     for (SwaggerKeyword tokenType : SwaggerKeyword.values()) {
-        b.rule(tokenType).is(SPACING, tokenType.getValue());
+        b.rule(tokenType).is(tokenType.getValue());
     }
   }
 

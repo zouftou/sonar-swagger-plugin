@@ -33,7 +33,7 @@ paths:
       tags:
       - "pet"
       summary: "Add a new pet to the store"
-      description: "desc"
+      description: ""
       operationId: "addPet"
       consumes:
       - "application/json"
@@ -468,7 +468,7 @@ paths:
           description: "successful operation"
           schema:
             type: "string"
-          heders:
+          headers:
             X-Rate-Limit:
               type: "integer"
               format: "int32"

@@ -19,15 +19,16 @@
  */
 package org.sonar.swagger.parser;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import org.junit.Test;
-import org.sonar.plugins.swagger.api.tree.SwaggerTree;
+import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.Test;
+import org.sonar.plugins.swagger.api.tree.SwaggerTree;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 
@@ -37,9 +38,9 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 
   @Test
   public void swagger() throws IOException {
-	checkParsed(" ");
+	//checkParsed(" ");
 	//checkParsed("khbhb");
-	//checkParsed("swagger:\n  info: hhh");
+	checkParsed("swagger:\r\n  info: hhh");
 	//checkParsed("swagger:\n- \"rrr\"\n- \"sss\"");
 	//checkParsed("swagger:\n- \"rrrr\"\n- \'ssss\'");
 	//checkParsed("swagger: \"2.0\"\ninfo:\n  description: \"Orange FQC Traceability API definition\"\n  title: \"test\"");
@@ -79,13 +80,13 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
     checkParsed("\ufeff true");
 */
 	checkParsed(new File("src/test/resources/entry.yaml"));
-	checkParsed(new File("src/test/resources/object.yaml"));
 	checkParsed(new File("src/test/resources/array.yaml"));
 	checkParsed(new File("src/test/resources/arrayOfObject.yaml"));
 	checkParsed(new File("src/test/resources/arrayOfArray.yaml"));
 	checkParsed(new File("src/test/resources/arrayOfArrayVoid.yaml"));
 	checkParsed(new File("src/test/resources/ObjectWithArray.yaml"));
     checkParsed(new File("src/test/resources/petstore.yaml"));
+    //checkParsed(new File("src/test/resources/orange.yaml"));
   }
 
   @Test
@@ -102,7 +103,6 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
     assertThat(tree).isNotNull();
   }
 
-  @SuppressWarnings("deprecation")
   private void checkParsed(File file) throws IOException {
     checkParsed(Files.toString(file, Charsets.UTF_8));
   }
