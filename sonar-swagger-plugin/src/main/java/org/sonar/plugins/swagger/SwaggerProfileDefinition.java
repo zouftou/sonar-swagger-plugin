@@ -23,8 +23,8 @@ import org.sonar.api.profiles.ProfileDefinition;
 import org.sonar.api.profiles.RulesProfile;
 import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.utils.ValidationMessages;
-import org.sonar.swagger.checks.CheckList;
 import org.sonar.squidbridge.annotations.AnnotationBasedProfileBuilder;
+import org.sonar.swagger.checks.CheckList;
 
 public class SwaggerProfileDefinition extends ProfileDefinition {
 

@@ -38,64 +38,33 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
 
   @Test
   public void swagger() throws IOException {
-	//checkParsed(" ");
-	//checkParsed("khbhb");
+	checkParsed("");
+	checkParsed(" ");
 	checkParsed("swagger:\r\n  info: hhh");
-	//checkParsed("swagger:\n- \"rrr\"\n- \"sss\"");
-	//checkParsed("swagger:\n- \"rrrr\"\n- \'ssss\'");
-	//checkParsed("swagger: \"2.0\"\ninfo:\n  description: \"Orange FQC Traceability API definition\"\n  title: \"test\"");
-	//checkParsed("swagger: '2.0'\ninfo:\n  description: Orange FQC Traceability API definition\n  title: \"test\"");
-	//checkParsed("swagger: \"2.0\"\ninfo:\n  description: \"Orange FQC Traceability API definition\"\n  title: \"test\"");
-	/*checkParsed(" {   } ");
-    checkParsed(" { \"abc\": \"def\" }");
-    checkParsed(" { \"abc\": \"def\", \"zzz\" : \"123\" }");
-	checkParsed(" {} ");
-    checkParsed(" {   } ");
-    checkParsed(" { \"abc\": \"def\" }");
-    checkParsed(" { \"abc\": \"def\", \"zzz\" : \"123\" }");
-    checkParsed(" { \"abc\": \"def\", \"zzz\" : [] }");
-    checkParsed(" { \"abc\": \"def\", \"zzz\" : {} }");
-    checkParsed(" { \"abc\": \"def\", \"zzz\" : { \"abc\": \"def\" , \"zzz\" : true } }");
-    checkParsed(" { \"abc\": \"def\", \"zzz\" : { \"abc\": \"def\" , \"zzz\" : null } }");
-    checkParsed(" { \"abc\": \"def\", \"zzz\" : { \"abc\": \"def\" , \"zzz\" : 123 } , \"zzzz\": [ {}, {\"dd\": -12e+13} ]}");
-    checkParsed(" { \"abc\": \"def\", \"zzz\" : { \"abc\": \"def\" , \"zzz\" : 123 } ,\n \"z\\\\\\\\z\\\"zz\": [ {}, {\"dd\": \n -12e+13} ]}");
-    checkParsed("[]");
-    checkParsed(" []");
-    checkParsed(" [   ] ");
-    checkParsed(" [ true, \"abc\" ] ");
-    checkParsed(" [ {}, true ] ");
-    checkParsed("null");
-    checkParsed(" null ");
-    checkParsed("true");
-    checkParsed(" true ");
-    checkParsed("false");
-    checkParsed(" false ");
-    checkParsed("\"abc\"");
-    checkParsed(" \"abc\" ");
-    checkParsed("1.2");
-    checkParsed(" 1.2 ");
-    checkParsed("\ufeff");
-    checkParsed("\ufeff ");
-    checkParsed("\ufeff {}");
-    checkParsed("\ufeff true");
-*/
+	checkParsed("swagger:\n- \"rrr\"\n- \"sss\"");
+	checkParsed("swagger:\n- \"rrrr\"\n- \'ssss\'");
+	checkParsed("swagger: \"2.0\"\ninfo:\n  description: \"Orange FQC Traceability API definition\"\n  title: \"test\"");
+	checkParsed("swagger: '2.0'\ninfo:\n  description: Orange FQC Traceability API definition\n  title: \"test\"");
+	checkParsed("swagger: \"2.0\"\ninfo:\n  description: \"Orange FQC Traceability API definition\"\n  title: \"test\"");
+
 	checkParsed(new File("src/test/resources/entry.yaml"));
 	checkParsed(new File("src/test/resources/array.yaml"));
 	checkParsed(new File("src/test/resources/arrayOfObject.yaml"));
 	checkParsed(new File("src/test/resources/arrayOfArray.yaml"));
 	checkParsed(new File("src/test/resources/arrayOfArrayVoid.yaml"));
 	checkParsed(new File("src/test/resources/ObjectWithArray.yaml"));
-    checkParsed(new File("src/test/resources/petstore.yaml"));
+    //checkParsed(new File("src/test/resources/petstore.yaml"));
     //checkParsed(new File("src/test/resources/orange.yaml"));
   }
 
   @Test
   public void notSwagger() {
-	  /*checkNotParsed("{");
-    checkNotParsed("}");
+	checkNotParsed("khbhb");
+	checkNotParsed("swagger:");
+    checkNotParsed("#");
     checkNotParsed("blabla");
     checkNotParsed("\"abc\": 10");
-    checkNotParsed("true, false");*/
+    checkNotParsed("true, false");
   }
 
   private void checkParsed(String toParse) throws IOException {
@@ -106,5 +75,4 @@ public class SwaggerTreeTest extends CommonSwaggerTreeTest {
   private void checkParsed(File file) throws IOException {
     checkParsed(Files.toString(file, Charsets.UTF_8));
   }
-
 }

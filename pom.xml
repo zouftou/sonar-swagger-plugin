@@ -43,7 +43,6 @@
     <module>swagger-frontend</module>
     <module>swagger-checks</module>
     <module>sonar-swagger-plugin</module>
-    <module>swagger-checks-testkit</module>
   </modules>
 
   <scm>

@@ -19,6 +19,7 @@
  */
 package org.sonar.swagger.tree.impl;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ArrayEntryTreeImpl extends SWAGGERTree implements ArrayEntryTree {
   private final Tree value;
 
   public ArrayEntryTreeImpl(@Nullable List<InternalSyntaxToken> indentations, SyntaxToken minus, Tree value) {
-    this.indentations = indentations;
+    this.indentations = indentations != null ? indentations : Collections.emptyList();
 	this.minus = minus;
     this.value = value;
   }

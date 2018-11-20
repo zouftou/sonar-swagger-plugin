@@ -23,6 +23,7 @@ import java.util.Collection;
 
 import org.sonar.swagger.checks.generic.FileNameCheck;
 import org.sonar.swagger.checks.generic.ParsingErrorCheck;
+import org.sonar.swagger.checks.guidelines.VersionCheck;
 
 import com.google.common.collect.ImmutableList;
 
@@ -38,6 +39,7 @@ public final class CheckList {
 	  public static Collection<Class> getChecks() {
 	    return ImmutableList.<Class>of(
 	      FileNameCheck.class,
+	      VersionCheck.class,
 	      ParsingErrorCheck.class);
 	  }
 	  

@@ -92,7 +92,7 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     b.rule(WHITESPACE).is(" ");
     b.rule(INDENTATION).is("  ");
     b.rule(REF).is("$ref");
-    b.rule(NEW_LINE).is(System.getProperty("line.separator"));// \n for unix, \r\n for windows
+    b.rule(NEW_LINE).is(b.regexp("[\r]?\n"));//System.getProperty("line.separator"));// \n for unix, \r\n for windows
     b.rule(EMPTY_ARRAY_VALUE).is("[]");
     
     b.rule(BOM).is("\ufeff");
@@ -109,10 +109,16 @@ public enum SwaggerLexicalGrammar implements GrammarRuleKey {
     //[a-zA-Z_0-9]
     b.rule(KEYWORD).is(SPACING,b.regexp("[\\w\\-]+"));
     
+    /**
+     * Correct the regular expression for STRING,DOUBLE_QUOTED_STRING, SINGLE_QUOTED_STRING 
+     */
     //([^\\s\"'](?!\\s*#(?!\\{))([^#\\n]|((?<!\\s)#))*)+
-    b.rule(STRING).is(SPACING,b.regexp("[\\w:.#/]+"));
-    b.rule(DOUBLE_QUOTED_STRING).is(SPACING,b.regexp("\"([^\"\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\""));
-    b.rule(SINGLE_QUOTED_STRING).is(SPACING,b.regexp("\'([^\'\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\'"));
+    //"\"([^\"\\\\]*+(\\\\([\\\\\"/bfnrt]|u[0-9a-fA-F]{4}))?+)*+\""
+    //b.regexp("[\\w:\\s.#/]+")
+    
+    b.rule(STRING).is(b.regexp("[\\w:\\s.#/]+"));
+    b.rule(DOUBLE_QUOTED_STRING).is("\"",b.regexp("[\\w:\\s.#/]+"),"\"");
+    b.rule(SINGLE_QUOTED_STRING).is("'",b.regexp("[\\w:\\s.#/]+"),"'");
     
     // ex: write:pets
     b.rule(SCOPE).is(SPACING,b.regexp("[\\w]+:[\\w]+"));
