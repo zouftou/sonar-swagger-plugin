@@ -55,10 +55,10 @@ public class VersionCheck extends DoubleDispatchVisitorCheck {
   @Override
   public void visitPair(PairTree tree) {
 	  String swaggerKey = tree.key().actualText();
-	  if((SwaggerKeyword.SWAGGER).equals(swaggerKey)) {
+	  if(SwaggerKeyword.SWAGGER.getValue().equals(swaggerKey)) {
 		  SimpleValueTree simpleValue = (SimpleValueTree) tree.value();
 		  StringTree stringValue = (StringTree) simpleValue.value();
-	      if (Pattern.compile(regularExpression).matcher(stringValue.actualText()).matches()) {
+	      if (!Pattern.compile(regularExpression).matcher(stringValue.actualText()).matches()) {
 	        addPreciseIssue(tree, message);
 	      }
 	  }

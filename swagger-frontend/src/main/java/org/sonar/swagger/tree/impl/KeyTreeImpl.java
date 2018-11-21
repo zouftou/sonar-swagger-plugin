@@ -48,7 +48,10 @@ public class KeyTreeImpl extends SWAGGERTree implements KeyTree {
 
   @Override
   public String actualText() {
-    return key.text().substring(1, key.text().length() - 1);
+	  if(key.text().startsWith("\"") || key.text().startsWith("'")) {
+		  return key.text().substring(1, key.text().length() - 1);
+	  }
+	  return key.text();
   }
 
   @Override

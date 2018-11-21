@@ -7,7 +7,7 @@ info:
   contact:
     email: riad_iaiche@carrfour.com
 host: 'host:80'
-basePath: /v1/fqc/orange/
+basePath: "/v1/fqc/orange/"
 tags:
   - name: orange
     description: Orange operations

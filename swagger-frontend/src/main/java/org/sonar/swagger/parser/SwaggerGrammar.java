@@ -196,7 +196,7 @@ public class SwaggerGrammar {
   public SimpleValueTree VALUE_SIMPLE() {
     return b.<SimpleValueTree>nonterminal(SwaggerLexicalGrammar.VALUE_SIMPLE).is(
       f.simpleValue(
-    	b.token(SwaggerLexicalGrammar.WHITESPACE),
+    	b.token(SwaggerLexicalGrammar.SPACE),
         b.firstOf(
           TRUE(),
           FALSE(),
@@ -223,7 +223,7 @@ public class SwaggerGrammar {
   public InternalArrayTree INTERNAL_ARRAY() {
     return b.<InternalArrayTree>nonterminal(SwaggerLexicalGrammar.INTERNAL_ARRAY).is(
       f.internalArray(
-    	b.token(SwaggerLexicalGrammar.WHITESPACE),
+    	b.token(SwaggerLexicalGrammar.SPACE),
         KEY(),
         b.token(SwaggerLexicalGrammar.COLON),
         b.token(SwaggerLexicalGrammar.NEW_LINE),
@@ -234,10 +234,10 @@ public class SwaggerGrammar {
   public EmptyArrayTree EMPTY_ARRAY() {
     return b.<EmptyArrayTree>nonterminal(SwaggerLexicalGrammar.EMPTY_ARRAY).is(
       f.emptyArray(
-    	b.token(SwaggerLexicalGrammar.WHITESPACE),
+    	b.token(SwaggerLexicalGrammar.SPACE),
         KEY(),
         b.token(SwaggerLexicalGrammar.COLON),
-        b.token(SwaggerLexicalGrammar.WHITESPACE),
+        b.token(SwaggerLexicalGrammar.SPACE),
         b.token(SwaggerLexicalGrammar.EMPTY_ARRAY_VALUE)
       ));
   }
