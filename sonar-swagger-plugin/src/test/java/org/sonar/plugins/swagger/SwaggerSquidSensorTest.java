@@ -1,22 +1,3 @@
-/*
- * SonarQube Swagger Analyzer
- * Copyright (C) 2018-2020 Zouhir OUFTOU
- * zouhir.ouftou@gmail.com
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
 package org.sonar.plugins.swagger;
 
 import com.google.common.base.Charsets;
@@ -34,7 +15,6 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.check.Rule;
 import org.sonar.swagger.checks.CheckList;
-import org.sonar.swagger.checks.generic.MissingNewLineAtEndOfFileCheck;
 import org.sonar.swagger.checks.generic.TabCharacterCheck;
 
 import java.io.File;
@@ -45,111 +25,106 @@ import static org.mockito.Mockito.mock;
 
 public class SwaggerSquidSensorTest {
 
-  private final File baseDir = new File("src/test/resources");
-  private final SensorContextTester context = SensorContextTester.create(baseDir);
-  private CheckFactory checkFactory = new CheckFactory(mock(ActiveRules.class));
+	private final File baseDir = new File("src/test/resources");
+	private final SensorContextTester context = SensorContextTester.create(baseDir);
+	private CheckFactory checkFactory = new CheckFactory(mock(ActiveRules.class));
 
-  @Test
-  public void should_create_a_valid_sensor_descriptor() {
-    DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
-    createSwaggerSquidSensor().describe(descriptor);
-    assertThat(descriptor.name()).isEqualTo("Swagger Squid Sensor");
-    assertThat(descriptor.languages()).containsOnly("swagger");
-    assertThat(descriptor.type()).isEqualTo(InputFile.Type.MAIN);
-  }
+	@Test
+	public void should_create_a_valid_sensor_descriptor() {
+		DefaultSensorDescriptor descriptor = new DefaultSensorDescriptor();
+		createSwaggerSquidSensor().describe(descriptor);
+		assertThat(descriptor.name()).isEqualTo("Swagger Squid Sensor");
+		assertThat(descriptor.languages()).containsOnly("swagger");
+		assertThat(descriptor.type()).isEqualTo(InputFile.Type.MAIN);
+	}
 
-  @Test
-  public void should_execute_and_compute_valid_measures_on_UTF8_file_without_BOM() {
-    String relativePath = "sampleUTF8WithBOM.yml";
-    inputFile(relativePath);
-    createSwaggerSquidSensor().execute(context);
-    assertMeasures("moduleKey:" + relativePath);
-  }
+	@Test
+	public void should_execute_and_compute_valid_measures_on_UTF8_file_without_BOM() {
+		String relativePath = "sampleUTF8WithBOM.yml";
+		inputFile(relativePath);
+		createSwaggerSquidSensor().execute(context);
+		assertMeasures("moduleKey:" + relativePath);
+	}
 
-  @Test
-  public void should_execute_and_compute_valid_measures_on_UTF8_file_with_BOM() {
-    String relativePath = "sample.yml";
-    inputFile(relativePath);
-    createSwaggerSquidSensor().execute(context);
-    assertMeasures("moduleKey:" + relativePath);
-  }
+	@Test
+	public void should_execute_and_compute_valid_measures_on_UTF8_file_with_BOM() {
+		String relativePath = "sample.yml";
+		inputFile(relativePath);
+		createSwaggerSquidSensor().execute(context);
+		assertMeasures("moduleKey:" + relativePath);
+	}
 
-  private void assertMeasures(String key) {
-    assertThat(context.measure(key, CoreMetrics.NCLOC).value()).isEqualTo(5);
-    assertThat(context.measure(key, CoreMetrics.STATEMENTS).value()).isEqualTo(5);
-  }
+	private void assertMeasures(String key) {
+		assertThat(context.measure(key, CoreMetrics.NCLOC).value()).isEqualTo(5);
+		assertThat(context.measure(key, CoreMetrics.STATEMENTS).value()).isEqualTo(5);
+	}
 
-  @Test
-  public void should_execute_and_save_issues_on_UTF8_file_with_BOM() {
-    should_execute_and_save_issues("sampleUTF8WithBOM.yml");
-  }
+	@Test
+	public void should_execute_and_save_issues_on_UTF8_file_with_BOM() {
+		should_execute_and_save_issues("sampleUTF8WithBOM.yml");
+	}
 
-  @Test
-  public void should_execute_and_save_issues_on_UTF8_file_without_BOM() {
-    should_execute_and_save_issues("sample.yml");
-  }
+	@Test
+	public void should_execute_and_save_issues_on_UTF8_file_without_BOM() {
+		should_execute_and_save_issues("sample.yml");
+	}
 
-  private void should_execute_and_save_issues(String fileName) {
-    inputFile(fileName);
+	private void should_execute_and_save_issues(String fileName) {
+		inputFile(fileName);
 
-    ActiveRules activeRules = (new ActiveRulesBuilder())
-      .create(RuleKey.of(CheckList.REPOSITORY_KEY, TabCharacterCheck.class.getAnnotation(Rule.class).key()))
-      .activate()
-      .build();
-    checkFactory = new CheckFactory(activeRules);
+		ActiveRules activeRules = (new ActiveRulesBuilder())
+				.create(RuleKey.of(CheckList.REPOSITORY_KEY, TabCharacterCheck.class.getAnnotation(Rule.class).key()))
+				.activate().build();
+		checkFactory = new CheckFactory(activeRules);
 
-    createSwaggerSquidSensor().execute(context);
+		createSwaggerSquidSensor().execute(context);
 
-    //assertThat(context.allIssues()).hasSize(1);
-  }
+		// assertThat(context.allIssues()).hasSize(1);
+	}
 
-  @Test
-  public void should_raise_an_issue_because_the_parsing_error_rule_is_activated() {
-    inputFile("parsingError.yml");
+	@Test
+	public void should_raise_an_issue_because_the_parsing_error_rule_is_activated() {
+		inputFile("parsingError.yml");
 
-    ActiveRules activeRules = (new ActiveRulesBuilder())
-      .create(RuleKey.of(CheckList.REPOSITORY_KEY, "S2260"))
-      .activate()
-      .build();
+		ActiveRules activeRules = (new ActiveRulesBuilder()).create(RuleKey.of(CheckList.REPOSITORY_KEY, "S2260"))
+				.activate().build();
 
-    checkFactory = new CheckFactory(activeRules);
+		checkFactory = new CheckFactory(activeRules);
 
-    context.setActiveRules(activeRules);
-    createSwaggerSquidSensor().execute(context);
-    Collection<Issue> issues = context.allIssues();
-    assertThat(issues).hasSize(1);
-    Issue issue = issues.iterator().next();
-    assertThat(issue.primaryLocation().textRange().start().line()).isEqualTo(1);
-  }
+		context.setActiveRules(activeRules);
+		createSwaggerSquidSensor().execute(context);
+		Collection<Issue> issues = context.allIssues();
+		assertThat(issues).hasSize(1);
+		Issue issue = issues.iterator().next();
+		assertThat(issue.primaryLocation().textRange().start().line()).isEqualTo(1);
+	}
 
-  @Test
-  public void should_not_raise_any_issue_because_the_parsing_error_rule_is_not_activated() {
-    inputFile("parsingError.yml");
+	@Test
+	public void should_not_raise_any_issue_because_the_parsing_error_rule_is_not_activated() {
+		inputFile("parsingError.yml");
 
-    ActiveRules activeRules = new ActiveRulesBuilder().build();
-    checkFactory = new CheckFactory(activeRules);
+		ActiveRules activeRules = new ActiveRulesBuilder().build();
+		checkFactory = new CheckFactory(activeRules);
 
-    context.setActiveRules(activeRules);
-    createSwaggerSquidSensor().execute(context);
-    Collection<Issue> issues = context.allIssues();
-    assertThat(issues).hasSize(0);
-  }
+		context.setActiveRules(activeRules);
+		createSwaggerSquidSensor().execute(context);
+		Collection<Issue> issues = context.allIssues();
+		assertThat(issues).hasSize(0);
+	}
 
-  private SwaggerSquidSensor createSwaggerSquidSensor() {
-	SwaggerSquidSensor swaggerSquidSensor = new SwaggerSquidSensor(context.fileSystem(), checkFactory, null);
-    return swaggerSquidSensor;
-  }
+	private SwaggerSquidSensor createSwaggerSquidSensor() {
+		SwaggerSquidSensor swaggerSquidSensor = new SwaggerSquidSensor(context.fileSystem(), checkFactory, null);
+		return swaggerSquidSensor;
+	}
 
-  private void inputFile(String relativePath) {
-    DefaultInputFile inputFile = new DefaultInputFile("moduleKey", relativePath)
-      .setModuleBaseDir(baseDir.toPath())
-      .setType(InputFile.Type.MAIN)
-      .setLanguage(SwaggerLanguage.KEY);
+	private void inputFile(String relativePath) {
+		DefaultInputFile inputFile = new DefaultInputFile("moduleKey", relativePath).setModuleBaseDir(baseDir.toPath())
+				.setType(InputFile.Type.MAIN).setLanguage(SwaggerLanguage.KEY);
 
-    context.fileSystem().setEncoding(Charsets.UTF_8);
-    context.fileSystem().add(inputFile);
+		context.fileSystem().setEncoding(Charsets.UTF_8);
+		context.fileSystem().add(inputFile);
 
-    inputFile.initMetadata(new FileMetadata().readMetadata(inputFile.file(), Charsets.UTF_8));
-  }
+		inputFile.initMetadata(new FileMetadata().readMetadata(inputFile.file(), Charsets.UTF_8));
+	}
 
 }

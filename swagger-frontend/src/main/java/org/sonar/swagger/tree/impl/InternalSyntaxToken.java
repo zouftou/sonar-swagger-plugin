@@ -1,22 +1,3 @@
-/*
- * SonarQube Swagger Analyzer
- * Copyright (C) 2018-2020 Zouhir OUFTOU
- * zouhir.ouftou@gmail.com
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
 package org.sonar.swagger.tree.impl;
 
 import org.sonar.plugins.swagger.api.tree.SyntaxToken;
@@ -27,94 +8,94 @@ import java.util.Iterator;
 
 public class InternalSyntaxToken extends SWAGGERTree implements SyntaxToken {
 
-  private final int line;
-  private final int column;
-  private final String value;
-  private final boolean isEOF;
-  private final boolean isBOM;
-  private int endLine;
-  private int endColumn;
+	private final int line;
+	private final int column;
+	private final String value;
+	private final boolean isEOF;
+	private final boolean isBOM;
+	private int endLine;
+	private int endColumn;
 
-  public InternalSyntaxToken(int line, int column, String value, boolean isEOF, boolean isBOM) {
-    this.value = value;
-    this.line = line;
-    this.column = column;
-    this.isEOF = isEOF;
-    this.isBOM = isBOM;
-    calculateEndOffsets();
-  }
+	public InternalSyntaxToken(int line, int column, String value, boolean isEOF, boolean isBOM) {
+		this.value = value;
+		this.line = line;
+		this.column = column;
+		this.isEOF = isEOF;
+		this.isBOM = isBOM;
+		calculateEndOffsets();
+	}
 
-  private void calculateEndOffsets() {
-    String[] lines = value.split("\r\n|\n|\r", -1);
-    endColumn = column + value.length();
-    endLine = line + lines.length - 1;
+	private void calculateEndOffsets() {
+		String[] lines = value.split("\r\n|\n|\r", -1);
+		endColumn = column + value.length();
+		endLine = line + lines.length - 1;
 
-    if (endLine != line) {
-      endColumn = lines[lines.length - 1].length();
-    }
-  }
+		if (endLine != line) {
+			endColumn = lines[lines.length - 1].length();
+		}
+	}
 
-  @Override
-  public int endLine() {
-    return endLine;
-  }
+	@Override
+	public int endLine() {
+		return endLine;
+	}
 
-  @Override
-  public int endColumn() {
-    return endColumn;
-  }
+	@Override
+	public int endColumn() {
+		return endColumn;
+	}
 
-  @Override
-  public int line() {
-    return line;
-  }
+	@Override
+	public int line() {
+		return line;
+	}
 
-  @Override
-  public int column() {
-    return column;
-  }
+	@Override
+	public int column() {
+		return column;
+	}
 
-  @Override
-  public Kind getKind() {
-    return Kind.TOKEN;
-  }
+	@Override
+	public Kind getKind() {
+		return Kind.TOKEN;
+	}
 
-  @Override
-  public boolean isLeaf() {
-    return true;
-  }
+	@Override
+	public boolean isLeaf() {
+		return true;
+	}
 
-  public boolean isEOF() {
-    return isEOF;
-  }
+	public boolean isEOF() {
+		return isEOF;
+	}
 
-  public boolean isBOM() {
-    return isBOM;
-  }
+	public boolean isBOM() {
+		return isBOM;
+	}
 
-  @Override
-  public Iterator<Tree> childrenIterator() {
-    throw new UnsupportedOperationException();
-  }
+	@Override
+	public Iterator<Tree> childrenIterator() {
+		throw new UnsupportedOperationException();
+	}
 
-  @Override
-  public void accept(DoubleDispatchVisitor visitor) {
-    visitor.visitToken(this);
-  }
+	@Override
+	public void accept(DoubleDispatchVisitor visitor) {
+		visitor.visitToken(this);
+	}
 
-  @Override
-  public SyntaxToken getFirstToken() {
-    return this;
-  }
+	@Override
+	public SyntaxToken getFirstToken() {
+		return this;
+	}
 
-  @Override
-  public SyntaxToken getLastToken() {
-    return this;
-  }
+	@Override
+	public SyntaxToken getLastToken() {
+		return this;
+	}
 
-  @Override
-  public String text() {
-    return value;
-  }
+	@Override
+	public String text() {
+		return value;
+	}
 
 }
