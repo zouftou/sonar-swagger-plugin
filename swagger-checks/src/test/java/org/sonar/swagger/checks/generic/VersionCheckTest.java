@@ -9,6 +9,6 @@ public class VersionCheckTest {
 
 	@Test
 	public void should_follow_the_default_naming_convention_and_not_raise_an_issue() {
-		SwaggerCheckVerifier.verify(new VersionCheck(), CheckTestUtils.getTestFile("myfile.yaml")).noMore();
+		SwaggerCheckVerifier.verify(new VersionCheck(), CheckTestUtils.getTestFile("test-file.yaml")).noMore();
 	}
 }

@@ -8,9 +8,9 @@ import java.util.Set;
 
 import org.sonar.swagger.tree.impl.InternalSyntaxToken;
 import org.sonar.plugins.swagger.api.tree.Tree;
-import org.sonar.plugins.swagger.api.visitors.SubscriptionVisitor;
+import org.sonar.plugins.swagger.api.visitors.SubscriptionVisitorCheck;
 
-public class LinesOfCodeVisitor extends SubscriptionVisitor {
+public class LinesOfCodeVisitor extends SubscriptionVisitorCheck {
 
 	private Set<Integer> linesOfCode = Sets.newHashSet();
 

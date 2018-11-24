@@ -5,6 +5,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
+import org.sonar.check.RuleProperty;
 import org.sonar.plugins.swagger.api.SwaggerKeyword;
 import org.sonar.plugins.swagger.api.tree.PairTree;
 import org.sonar.plugins.swagger.api.tree.SimpleValueTree;
@@ -17,17 +18,28 @@ import org.sonar.swagger.checks.Tags;
 
 import com.google.common.annotations.VisibleForTesting;
 
-@Rule(key = "swagger-version", name = "Swagger version should be x.y.z", priority = Priority.MAJOR, tags = {
-		Tags.CONVENTION })
+@Rule(
+		key = "version",
+		name = "Swagger version should be x.y.z",
+		priority = Priority.MAJOR,
+		tags = {Tags.CONVENTION })
 @ActivatedByDefault
 @SqaleConstantRemediation("2min")
 public class VersionCheck extends DoubleDispatchVisitorCheck {
 
 	private static final String DEFAULT_REGULAR_EXPRESSION = "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$";
-	private static final String DEFAULT_MESSAGE = "The regular expression matches Swagger version.";
+	private static final String DEFAULT_MESSAGE = "The regular expression matches this key.";
 
+	@RuleProperty(
+			key = "regularExpression",
+			description = "The regular expression. See " + CheckUtils.LINK_TO_JAVA_REGEX_PATTERN_DOC + " for detailed regular expression syntax.",
+			defaultValue = DEFAULT_REGULAR_EXPRESSION)
 	private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
-
+	
+	@RuleProperty(
+			key = "message",
+			description = "The issue message",
+			defaultValue = DEFAULT_MESSAGE)
 	private String message = DEFAULT_MESSAGE;
 
 	@Override

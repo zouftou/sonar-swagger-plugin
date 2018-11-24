@@ -1,6 +1,11 @@
 package org.sonar.plugins.swagger;
 
-import com.google.common.base.Charsets;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
+import java.io.File;
+import java.util.Collection;
+
 import org.junit.Test;
 import org.sonar.api.batch.fs.InputFile;
 import org.sonar.api.batch.fs.internal.DefaultInputFile;
@@ -15,13 +20,11 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.rule.RuleKey;
 import org.sonar.check.Rule;
 import org.sonar.swagger.checks.CheckList;
-import org.sonar.swagger.checks.generic.TabCharacterCheck;
+import org.sonar.swagger.checks.generic.ParsingErrorCheck;
+import org.sonar.swagger.checks.generic.StructureCheck;
+import org.sonar.swagger.checks.generic.VersionCheck;
 
-import java.io.File;
-import java.util.Collection;
-
-import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import com.google.common.base.Charsets;
 
 public class SwaggerSquidSensorTest {
 
@@ -58,36 +61,46 @@ public class SwaggerSquidSensorTest {
 		assertThat(context.measure(key, CoreMetrics.NCLOC).value()).isEqualTo(5);
 		assertThat(context.measure(key, CoreMetrics.STATEMENTS).value()).isEqualTo(5);
 	}
-
+	/*
 	@Test
-	public void should_execute_and_save_issues_on_UTF8_file_with_BOM() {
-		should_execute_and_save_issues("sampleUTF8WithBOM.yml");
+	public void should_execute_and_save_structure_issue_on_UTF8_file_with_BOM() {
+		should_execute_and_save_issues("sampleUTF8WithBOM.yml", StructureCheck.class);
 	}
 
 	@Test
-	public void should_execute_and_save_issues_on_UTF8_file_without_BOM() {
-		should_execute_and_save_issues("sample.yml");
+	public void should_execute_and_save_structure_issue_on_UTF8_file_without_BOM() {
+		should_execute_and_save_issues("sample.yml", StructureCheck.class);
+	}*/
+	
+	@Test
+	public void should_execute_and_save_version_issue_on_UTF8_file_with_BOM() {
+		should_execute_and_save_issues("sampleUTF8WithBOM.yml", VersionCheck.class);
 	}
 
-	private void should_execute_and_save_issues(String fileName) {
+	@Test
+	public void should_execute_and_save_version_issue_on_UTF8_file_without_BOM() {
+		should_execute_and_save_issues("sample.yml", VersionCheck.class);
+	}
+
+	private void should_execute_and_save_issues(String fileName, Class<?> clazz) {
 		inputFile(fileName);
 
 		ActiveRules activeRules = (new ActiveRulesBuilder())
-				.create(RuleKey.of(CheckList.REPOSITORY_KEY, TabCharacterCheck.class.getAnnotation(Rule.class).key()))
+				.create(RuleKey.of(CheckList.REPOSITORY_KEY, clazz.getAnnotation(Rule.class).key()))
 				.activate().build();
 		checkFactory = new CheckFactory(activeRules);
 
 		createSwaggerSquidSensor().execute(context);
 
-		// assertThat(context.allIssues()).hasSize(1);
+		assertThat(context.allIssues()).hasSize(1);
 	}
 
 	@Test
 	public void should_raise_an_issue_because_the_parsing_error_rule_is_activated() {
 		inputFile("parsingError.yml");
 
-		ActiveRules activeRules = (new ActiveRulesBuilder()).create(RuleKey.of(CheckList.REPOSITORY_KEY, "S2260"))
-				.activate().build();
+		ActiveRules activeRules = (new ActiveRulesBuilder()).create(
+				RuleKey.of(CheckList.REPOSITORY_KEY, ParsingErrorCheck.class.getAnnotation(Rule.class).key())).activate().build();
 
 		checkFactory = new CheckFactory(activeRules);
 

@@ -7,12 +7,12 @@ import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.measures.Metric;
 import org.sonar.plugins.swagger.api.tree.Tree;
-import org.sonar.plugins.swagger.api.visitors.SubscriptionVisitor;
+import org.sonar.plugins.swagger.api.visitors.SubscriptionVisitorCheck;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class MetricsVisitor extends SubscriptionVisitor {
+public class MetricsVisitor extends SubscriptionVisitorCheck {
 
 	private final SensorContext sensorContext;
 	private final FileSystem fileSystem;

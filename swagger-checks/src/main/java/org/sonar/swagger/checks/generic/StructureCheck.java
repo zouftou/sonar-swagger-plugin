@@ -1,67 +1,77 @@
 package org.sonar.swagger.checks.generic;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.util.Iterator;
+import java.util.List;
 
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
-import org.sonar.plugins.swagger.api.SwaggerKeyword;
+import org.sonar.check.RuleProperty;
+import org.sonar.plugins.swagger.api.tree.ArrayEntryTree;
+import org.sonar.plugins.swagger.api.tree.ArrayTree;
+import org.sonar.plugins.swagger.api.tree.ObjectEntryTree;
+import org.sonar.plugins.swagger.api.tree.ObjectTree;
 import org.sonar.plugins.swagger.api.tree.PairTree;
-import org.sonar.plugins.swagger.api.tree.SimpleValueTree;
-import org.sonar.plugins.swagger.api.tree.StringTree;
+import org.sonar.plugins.swagger.api.tree.SwaggerTree;
+import org.sonar.plugins.swagger.api.tree.Tree;
+import org.sonar.plugins.swagger.api.tree.ValueTree;
 import org.sonar.plugins.swagger.api.visitors.DoubleDispatchVisitorCheck;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
-import org.sonar.swagger.checks.CheckUtils;
 import org.sonar.swagger.checks.Tags;
+import org.sonar.swagger.tree.impl.SWAGGERTree;
 
-import com.google.common.annotations.VisibleForTesting;
-
-@Rule(key = "swagger-structure", name = "Swagger version should be x.y.z", priority = Priority.MAJOR, tags = {
-		Tags.CONVENTION })
-@ActivatedByDefault
+@Rule(
+		key = "structure",
+		name = "Swagger structure is not valide",
+		priority = Priority.MAJOR,
+		tags = {Tags.CONVENTION })
 @SqaleConstantRemediation("2min")
+@ActivatedByDefault
 public class StructureCheck extends DoubleDispatchVisitorCheck {
 
-	private static final String DEFAULT_REGULAR_EXPRESSION = "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$";
-	private static final String DEFAULT_MESSAGE = "The regular expression matches Swagger version.";
+	private static final String DEFAULT_MESSAGE = "The Swagger structure is not valid";
 
-	private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
-
+	@RuleProperty(
+			key = "message",
+			description = "The issue message",
+			defaultValue = DEFAULT_MESSAGE)
 	private String message = DEFAULT_MESSAGE;
-
+	
 	@Override
-	public void visitPair(PairTree tree) {
-		String swaggerKey = tree.key().actualText();
-		if (SwaggerKeyword.SWAGGER.getValue().equals(swaggerKey)) {
-			SimpleValueTree simpleValue = (SimpleValueTree) tree.value();
-			StringTree stringValue = (StringTree) simpleValue.value();
-			if (!Pattern.compile(regularExpression).matcher(stringValue.actualText()).matches()) {
-				addPreciseIssue(tree, message);
+	public void visitSwagger(SwaggerTree tree) {
+		List<PairTree> pairs = tree.pairs();
+		
+		for(PairTree pair : pairs) {
+			if(pair.value() instanceof ValueTree) {
+				checkChildren(((ValueTree)pair.value()).value());
 			}
 		}
-		super.visitPair(tree);
-	}
-
-	@Override
-	public void validateParameters() {
-		try {
-			Pattern.compile(regularExpression);
-		} catch (PatternSyntaxException exception) {
-			throw new IllegalStateException(CheckUtils.paramsErrorMessage(this.getClass(),
-					"regularExpression parameter \"" + regularExpression + "\" is not a valid regular expression."),
-					exception);
-		}
-	}
-
-	@VisibleForTesting
-	public void setRegularExpression(String regularExpression) {
-		this.regularExpression = regularExpression;
-	}
-
-	@VisibleForTesting
-	public void setMessage(String message) {
-		this.message = message;
+		super.visitSwagger(tree);
 	}
 	
+	public void checkChildren(Tree tree) {
+		Iterator<Tree> childrenIterator = ((SWAGGERTree) tree).childrenIterator();
+
+		Tree child;
+/*		
+		if(tree instanceof ObjectTree) {
+			while (childrenIterator.hasNext()) {
+				child = childrenIterator.next();
+				if(child instanceof ObjectEntryTree) {
+					if (!((ObjectEntryTree)child).indentations().isEmpty()) {
+						addPreciseIssue(child, message);
+					}
+				}
+			}
+		}else if(tree instanceof ArrayTree) {
+			while (childrenIterator.hasNext()) {
+				child = childrenIterator.next();
+				if(child instanceof ArrayEntryTree) {
+					if (((ArrayEntryTree)child).indentations().isEmpty()) {
+						addPreciseIssue(child, message);
+					}
+				}
+			}
+		}*/
+	}
 }

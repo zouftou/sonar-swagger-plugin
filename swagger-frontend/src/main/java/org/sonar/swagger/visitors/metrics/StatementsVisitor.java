@@ -5,9 +5,9 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 
 import org.sonar.plugins.swagger.api.tree.Tree;
-import org.sonar.plugins.swagger.api.visitors.SubscriptionVisitor;
+import org.sonar.plugins.swagger.api.visitors.SubscriptionVisitorCheck;
 
-public class StatementsVisitor extends SubscriptionVisitor {
+public class StatementsVisitor extends SubscriptionVisitorCheck {
 
 	private int statements;
 

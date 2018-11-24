@@ -12,9 +12,9 @@ import org.sonar.plugins.swagger.api.tree.KeyTree;
 import org.sonar.plugins.swagger.api.tree.LiteralTree;
 import org.sonar.plugins.swagger.api.tree.SyntaxToken;
 import org.sonar.plugins.swagger.api.tree.Tree;
-import org.sonar.plugins.swagger.api.visitors.SubscriptionVisitor;
+import org.sonar.plugins.swagger.api.visitors.SubscriptionVisitorCheck;
 
-public class SyntaxHighlighterVisitor extends SubscriptionVisitor {
+public class SyntaxHighlighterVisitor extends SubscriptionVisitorCheck {
 
 	private final SensorContext sensorContext;
 	private final FileSystem fileSystem;

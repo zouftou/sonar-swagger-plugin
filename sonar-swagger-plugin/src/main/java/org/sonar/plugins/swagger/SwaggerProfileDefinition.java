@@ -11,7 +11,7 @@ public class SwaggerProfileDefinition extends ProfileDefinition {
 
 	private final RuleFinder ruleFinder;
 
-	public static final String SONARQUBE_WAY_PROFILE_NAME = "Sonar Way";
+	public static final String SONARQUBE_WAY_PROFILE_NAME = "SonarQube Way";
 
 	public SwaggerProfileDefinition(RuleFinder ruleFinder) {
 		this.ruleFinder = ruleFinder;
@@ -21,7 +21,8 @@ public class SwaggerProfileDefinition extends ProfileDefinition {
 	public RulesProfile createProfile(ValidationMessages messages) {
 		AnnotationBasedProfileBuilder annotationBasedProfileBuilder = new AnnotationBasedProfileBuilder(ruleFinder);
 		return annotationBasedProfileBuilder.build(
-				CheckList.REPOSITORY_KEY, SONARQUBE_WAY_PROFILE_NAME,
+				CheckList.REPOSITORY_KEY,
+				SONARQUBE_WAY_PROFILE_NAME,
 				SwaggerLanguage.KEY,
 				CheckList.getChecks(),
 				messages);

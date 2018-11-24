@@ -12,7 +12,8 @@ public class SwaggerRulesDefinition implements RulesDefinition {
 				.setName(CheckList.REPOSITORY_NAME);
 		new AnnotationBasedRulesDefinition(repository, SwaggerLanguage.KEY)
 		        .addRuleClasses(false,CheckList.getChecks());
+		
 		repository.done();
 	}
-	
+
 }

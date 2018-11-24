@@ -30,7 +30,8 @@ public class SwaggerChecks {
 	}
 
 	public SwaggerChecks addChecks(String repositoryKey, Iterable<Class> checkClass) {
-		checksByRepository.add(checkFactory.<SwaggerCheck>create(repositoryKey).addAnnotatedChecks(checkClass));
+		checksByRepository.add(checkFactory.<SwaggerCheck>create(repositoryKey)
+				.addAnnotatedChecks(checkClass));
 
 		return this;
 	}

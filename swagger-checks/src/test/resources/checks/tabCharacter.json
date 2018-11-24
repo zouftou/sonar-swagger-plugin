@@ -1,8 +1,0 @@
-{
-  "def": {},
-  "abc" : [true, null],
-  "abc" : false,
-
-  "zzz":	{ "ddd": "jjj", "aaa": "\"jjj", "ee": [244, 333]}
-}
-

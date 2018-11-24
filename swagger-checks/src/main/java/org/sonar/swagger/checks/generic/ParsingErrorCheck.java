@@ -7,9 +7,12 @@ import org.sonar.plugins.swagger.api.visitors.DoubleDispatchVisitorCheck;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 
-@Rule(key = "S2260", name = "Swagger parser failure", priority = Priority.CRITICAL, tags = { Tags.BUG })
+@Rule(
+		key = "S2260",
+		name = "Swagger parser failure",
+		priority = Priority.CRITICAL,
+		tags = {Tags.BUG})
 @ActivatedByDefault
 @SqaleConstantRemediation("5min")
 public class ParsingErrorCheck extends DoubleDispatchVisitorCheck {
-	
 }
