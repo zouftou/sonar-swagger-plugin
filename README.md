@@ -23,8 +23,6 @@ This [SonarQube](http://www.sonarqube.org) plugin analyzes [Swagger](https://swa
 ## Available Rules
 
 ### Generic
-* BOM should not be used for UTF-8 files
 * File names should comply with a naming convention
-* Files should contain an empty new line at the end
-* Regular expression on key
-* Tabulation characters should not be used
+* Parsing Error
+* Swagger version check

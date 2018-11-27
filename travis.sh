@@ -7,7 +7,7 @@ mvn -B clean install -Pits -Dsonar.runtimeVersion=$SQ_VERSION
 if [ "$SQ_VERSION" == "LTS" ]; then
 
     mvnCommand='mvn -B sonar:sonar'
-    commonArgs="-Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.organization=racodond-github"
+    commonArgs="-Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.organization=zouftou-github"
     githubArgs="-Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=$TRAVIS_PULL_REQUEST -Dsonar.github.repository=$TRAVIS_REPO_SLUG -Dsonar.github.oauth=$GITHUB_TOKEN"
     branchArgs=''
 

@@ -68,10 +68,10 @@ public abstract class SubscriptionVisitor implements TreeVisitor {
 	}
 
 	private void visitChildren(Tree tree) {
-		SWAGGERTree jsonTree = (SWAGGERTree) tree;
+		SWAGGERTree swaggerTree = (SWAGGERTree) tree;
 
-		if (!jsonTree.isLeaf()) {
-			for (Iterator<Tree> iter = jsonTree.childrenIterator(); iter.hasNext();) {
+		if (!swaggerTree.isLeaf()) {
+			for (Iterator<Tree> iter = swaggerTree.childrenIterator(); iter.hasNext();) {
 				Tree next = iter.next();
 
 				if (next != null) {

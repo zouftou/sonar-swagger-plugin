@@ -9,7 +9,7 @@ While raising a bug, please provide:
 Any contribution is more than welcome!
  
 You feel like:
-* Adding a new check? Just [open an issue](https://github.com/zouftou/sonar-swagger/issues/new) to discuss the value of your check. Once validated, code, don't forget to add a lot of unit tests and open a PR.
+* Adding a new check? Just [open an issue](https://github.com/zouftou/sonar-swagger-plugin/issues/new) to discuss the value of your check. Once validated, code, don't forget to add a lot of unit tests and open a PR.
 * Fixing some bugs or improving existing checks? Just open a PR.
 
 ## Building / Testing / Releasing
