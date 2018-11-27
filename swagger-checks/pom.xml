@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.codehaus.sonar-plugins.swagger</groupId>
     <artifactId>swagger</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>swagger-checks</artifactId>
@@ -15,10 +15,6 @@
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>swagger-frontend</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>swagger-checks-testkit</artifactId>
     </dependency>
     <dependency>
       <groupId>org.sonarsource.sonarqube</groupId>
@@ -37,6 +33,10 @@
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert</artifactId>
     </dependency>
   </dependencies>
 
