@@ -23,9 +23,9 @@ public class MetricsVisitorTest {
     File moduleBaseDir = new File("src/test/resources/");
     SensorContextTester context = SensorContextTester.create(moduleBaseDir);
 
-    DefaultInputFile inputFile = new DefaultInputFile("moduleKey", "metrics.json")
+    DefaultInputFile inputFile = new DefaultInputFile("moduleKey", "metrics.yaml")
       .setModuleBaseDir(moduleBaseDir.toPath())
-      .setLanguage("json")
+      .setLanguage("swagger")
       .setType(InputFile.Type.MAIN);
 
     context.fileSystem().add(inputFile);
@@ -38,8 +38,8 @@ public class MetricsVisitorTest {
 
     metricsVisitor.scanTree(treeVisitorContext);
 
-    String componentKey = "moduleKey:metrics.json";
-    assertThat(context.measure(componentKey, CoreMetrics.NCLOC).value()).isEqualTo(6);
+    String componentKey = "moduleKey:metrics.yaml";
+    assertThat(context.measure(componentKey, CoreMetrics.NCLOC).value()).isEqualTo(7);
     assertThat(context.measure(componentKey, CoreMetrics.STATEMENTS).value()).isEqualTo(7);
   }
 

@@ -10,7 +10,7 @@ public class FileNameCheckTest {
 
 	  @Test
 	  public void should_follow_the_default_naming_convention_and_not_raise_an_issue() {
-	    SwaggerCheckVerifier.verify(new FileNameCheck(), CheckTestUtils.getTestFile("structure.yaml"))
+	    SwaggerCheckVerifier.verify(new FileNameCheck(), CheckTestUtils.getTestFile("sample.yaml"))
 	      .noMore();
 	  }
 

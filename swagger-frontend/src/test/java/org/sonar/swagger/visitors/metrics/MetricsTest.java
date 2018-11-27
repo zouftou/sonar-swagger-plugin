@@ -16,20 +16,20 @@ public class MetricsTest {
 
   @Test
   public void metrics() {
-    String path = "src/test/resources/metrics.json";
+    String path = "src/test/resources/metrics.yaml";
     Tree tree = PARSER.parse(new File(path));
     assertMetrics(tree);
   }
 
   @Test
   public void metrics_UTF8_file_with_BOM() {
-    String path = "src/test/resources/metricsUtf8WithBom.json";
+    String path = "src/test/resources/metricsUtf8WithBom.yaml";
     Tree tree = PARSER.parse(new File(path));
     assertMetrics(tree);
   }
 
   private void assertMetrics(Tree tree) {
-    assertThat(new LinesOfCodeVisitor(tree).getNumberOfLinesOfCode()).isEqualTo(6);
+    assertThat(new LinesOfCodeVisitor(tree).getNumberOfLinesOfCode()).isEqualTo(7);
     assertThat(new StatementsVisitor(tree).getNumberOfStatements()).isEqualTo(7);
   }
 

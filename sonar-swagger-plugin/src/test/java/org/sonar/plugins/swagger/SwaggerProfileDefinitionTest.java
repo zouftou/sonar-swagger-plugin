@@ -24,7 +24,7 @@ public class SwaggerProfileDefinitionTest {
 
 		assertThat(profile.getName()).isEqualTo(SwaggerProfileDefinition.SONARQUBE_WAY_PROFILE_NAME);
 		assertThat(profile.getLanguage()).isEqualTo(SwaggerLanguage.KEY);
-		assertThat(profile.getActiveRulesByRepository(CheckList.REPOSITORY_KEY)).hasSize(4);
+		assertThat(profile.getActiveRulesByRepository(CheckList.REPOSITORY_KEY)).hasSize(3);
 		assertThat(validation.hasErrors()).isFalse();
 	}
 

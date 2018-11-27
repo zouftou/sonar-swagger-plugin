@@ -1,10 +1,10 @@
 package org.sonar.swagger.parser;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import org.junit.Test;
 import org.sonar.plugins.swagger.api.tree.Tree;
 import org.sonar.plugins.swagger.api.tree.ValueTree;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class ValueTreeTest extends CommonSwaggerTreeTest {
 
@@ -14,37 +14,28 @@ public class ValueTreeTest extends CommonSwaggerTreeTest {
 
   @Test
   public void value() {
-    checkParsed("[]", Tree.Kind.ARRAY);
-    checkParsed(" []", Tree.Kind.ARRAY);
-    checkParsed(" [ ]", Tree.Kind.ARRAY);
-    checkParsed("{}", Tree.Kind.OBJECT);
-    checkParsed(" {}", Tree.Kind.OBJECT);
-    checkParsed(" { }", Tree.Kind.OBJECT);
-    checkParsed("null", Tree.Kind.NULL);
-    checkParsed(" null", Tree.Kind.NULL);
-    checkParsed("true", Tree.Kind.TRUE);
-    checkParsed(" true", Tree.Kind.TRUE);
-    checkParsed("false", Tree.Kind.FALSE);
-    checkParsed("\"abc\"", Tree.Kind.STRING);
-    checkParsed(" \"abc\"", Tree.Kind.STRING);
-    checkParsed("1", Tree.Kind.NUMBER);
-    checkParsed("1.5", Tree.Kind.NUMBER);
-    checkParsed(" 1", Tree.Kind.NUMBER);
-    checkParsed(" 1.5", Tree.Kind.NUMBER);
-    checkParsed("-1.5", Tree.Kind.NUMBER);
-    checkParsed(" -1.5", Tree.Kind.NUMBER);
+	ValueTree tree;
+	
+    tree = checkParsed("\n- ftp\n- \"https\"\n- 'http'");
+    assertThat(tree.value().is(Tree.Kind.ARRAY));
+    
+    tree = checkParsed("\n  description: \"This is a\"");
+    assertThat(tree.value().is(Tree.Kind.OBJECT));
+	  
   }
 
   @Test
   public void notValue() {
-    checkNotParsed("abc");
+    checkNotParsed("\n");
+    checkNotParsed("- ftp\n- \"https\"\n- 'http'");
+    checkNotParsed("  description: \"This is a\"");
   }
 
-  private void checkParsed(String toParse, Tree.Kind kind) {
+  private ValueTree checkParsed(String toParse) {
     ValueTree tree = (ValueTree) parser().parse(toParse);
     assertThat(tree).isNotNull();
     assertThat(tree.value()).isNotNull();
-    assertThat(tree.value().is(kind)).isTrue();
+    return tree;
   }
 
 }

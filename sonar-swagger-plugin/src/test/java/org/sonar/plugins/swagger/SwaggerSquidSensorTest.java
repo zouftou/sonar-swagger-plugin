@@ -21,7 +21,6 @@ import org.sonar.api.rule.RuleKey;
 import org.sonar.check.Rule;
 import org.sonar.swagger.checks.CheckList;
 import org.sonar.swagger.checks.generic.ParsingErrorCheck;
-import org.sonar.swagger.checks.generic.StructureCheck;
 import org.sonar.swagger.checks.generic.VersionCheck;
 
 import com.google.common.base.Charsets;
@@ -61,16 +60,6 @@ public class SwaggerSquidSensorTest {
 		assertThat(context.measure(key, CoreMetrics.NCLOC).value()).isEqualTo(5);
 		assertThat(context.measure(key, CoreMetrics.STATEMENTS).value()).isEqualTo(5);
 	}
-	/*
-	@Test
-	public void should_execute_and_save_structure_issue_on_UTF8_file_with_BOM() {
-		should_execute_and_save_issues("sampleUTF8WithBOM.yml", StructureCheck.class);
-	}
-
-	@Test
-	public void should_execute_and_save_structure_issue_on_UTF8_file_without_BOM() {
-		should_execute_and_save_issues("sample.yml", StructureCheck.class);
-	}*/
 	
 	@Test
 	public void should_execute_and_save_version_issue_on_UTF8_file_with_BOM() {

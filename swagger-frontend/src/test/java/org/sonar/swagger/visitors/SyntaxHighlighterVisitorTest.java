@@ -43,7 +43,7 @@ public class SyntaxHighlighterVisitorTest {
     fileSystem.setEncoding(Charsets.UTF_8);
     file = tempFolder.newFile();
     inputFile = new DefaultInputFile("moduleKey", file.getName())
-      .setLanguage("json")
+      .setLanguage("swagger")
       .setType(InputFile.Type.MAIN);
     fileSystem.add(inputFile);
 
@@ -62,45 +62,39 @@ public class SyntaxHighlighterVisitorTest {
 
   @Test
   public void truee() throws Exception {
-    highlight("true");
-    assertHighlighting(1, 0, 4, CONSTANT);
+    highlight("test: true");
+    assertHighlighting(1, 6, 4, CONSTANT);
   }
 
   @Test
   public void falsee() throws Exception {
-    highlight("false");
-    assertHighlighting(1, 0, 5, CONSTANT);
+    highlight("test: false");
+    assertHighlighting(1, 6, 5, CONSTANT);
   }
 
   @Test
   public void nulle() throws Exception {
-    highlight("null");
-    assertHighlighting(1, 0, 4, CONSTANT);
+    highlight("test: null");
+    assertHighlighting(1, 6, 4, CONSTANT);
   }
 
   @Test
   public void number() throws Exception {
-    highlight("1.3e-1");
-    assertHighlighting(1, 0, 6, CONSTANT);
+    highlight("test: 1.3e-1");
+    assertHighlighting(1, 6, 6, CONSTANT);
   }
 
   @Test
   public void string() throws Exception {
-    highlight("\"blabla\"");
-    assertHighlighting(1, 0, 8, STRING);
+    highlight("test: \"blabla\"");
+    assertHighlighting(1, 6, 8, STRING);
   }
 
   @Test
   public void key() throws Exception {
-    highlight("{\"blabla\": 2}");
-    assertHighlighting(1, 1, 8, KEYWORD);
-    assertHighlighting(1, 11, 1, CONSTANT);
-  }
-
-  @Test
-  public void byte_order_mark() throws Exception {
-    highlight("\ufefftrue");
-    assertHighlighting(1, 0, 4, CONSTANT);
+    highlight("test: 89");
+    assertHighlighting(1, 0, 4, KEYWORD);
+    assertHighlighting(1, 6, 1, CONSTANT);
   }
 
   private void highlight(String string) throws Exception {
