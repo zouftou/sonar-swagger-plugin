@@ -1,6 +1,7 @@
 package org.sonar.swagger.parser;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class EmptyArrayTreeTest extends CommonSwaggerTreeTest {
     EmptyArrayTree tree;
 
     tree = checkParsed(" tab: []");
-    assertThat(tree.emptyTree().is(Tree.Kind.TOKEN));
+    assertTrue(tree.emptyTree().is(Tree.Kind.TOKEN));
   }
 
   @Test

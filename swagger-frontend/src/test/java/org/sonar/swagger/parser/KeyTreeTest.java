@@ -20,14 +20,7 @@ public class KeyTreeTest extends CommonSwaggerTreeTest {
 
   @Test
   public void notKey() {
-    checkNotParsed("a\\abc");
-    checkNotParsed("123");
-    checkNotParsed("12\\3");
-    checkNotParsed("12\"3");
-    checkNotParsed("\"12\\3\"");
-    checkNotParsed("\"\\\"");
-    checkNotParsed("\"\\u13F\"");
-    checkNotParsed("\"\\u13F\"");
+    checkNotParsed("");
   }
 
   private void checkParsed(String toParse) {

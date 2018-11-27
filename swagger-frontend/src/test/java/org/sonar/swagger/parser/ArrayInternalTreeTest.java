@@ -1,6 +1,7 @@
 package org.sonar.swagger.parser;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +24,8 @@ public class ArrayInternalTreeTest extends CommonSwaggerTreeTest {
     InternalArrayTree tree;
 
     tree = checkParsed(" tab:\n- ftp\n- \"http\"");
-    assertThat(tree.arrayTree().is(Tree.Kind.ARRAY));
-    assertThat(tree.arrayTree().entries().size()).isEqualTo(2);;
+    assertTrue(tree.arrayTree().is(Tree.Kind.ARRAY));
+    assertThat(tree.arrayTree().entries().size()).isEqualTo(2);
 
   }
 

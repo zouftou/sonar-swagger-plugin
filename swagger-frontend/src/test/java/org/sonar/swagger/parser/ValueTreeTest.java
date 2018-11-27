@@ -1,6 +1,7 @@
 package org.sonar.swagger.parser;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sonar.plugins.swagger.api.tree.Tree;
@@ -17,10 +18,10 @@ public class ValueTreeTest extends CommonSwaggerTreeTest {
 	ValueTree tree;
 	
     tree = checkParsed("\n- ftp\n- \"https\"\n- 'http'");
-    assertThat(tree.value().is(Tree.Kind.ARRAY));
+    assertTrue(tree.value().is(Tree.Kind.ARRAY));
     
     tree = checkParsed("\n  description: \"This is a\"");
-    assertThat(tree.value().is(Tree.Kind.OBJECT));
+    assertTrue(tree.value().is(Tree.Kind.OBJECT));
 	  
   }
 

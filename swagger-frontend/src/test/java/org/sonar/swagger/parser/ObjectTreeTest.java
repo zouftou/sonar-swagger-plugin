@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import org.junit.Test;
 import org.sonar.plugins.swagger.api.tree.ObjectTree;
+import org.sonar.plugins.swagger.api.tree.SimpleValueTree;
 import org.sonar.plugins.swagger.api.tree.Tree;
 
 import java.io.File;
@@ -24,11 +25,11 @@ public class ObjectTreeTest extends CommonSwaggerTreeTest {
 
     tree = checkParsed("  description: \"This is a\"");
     assertThat(tree.entries()).hasSize(1);
-    assertThat(tree.entries().get(0).pair().value().is(Tree.Kind.VALUE_SIMPLE));
+    assertTrue(tree.entries().get(0).pair().value().is(Tree.Kind.VALUE_SIMPLE));
     
     tree = checkParsed("  description: null");
     assertThat(tree.entries()).hasSize(1);
-    assertThat(tree.entries().get(0).pair().value().is(Tree.Kind.NULL));
+    assertTrue(((SimpleValueTree)tree.entries().get(0).pair().value()).value().is(Tree.Kind.NULL));
   }
 
   @Test

@@ -1,6 +1,7 @@
 package org.sonar.swagger.parser;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,6 @@ public class ObjectUnnamedTreeTest extends CommonSwaggerTreeTest {
     		"  externalDocs:\n" + 
     		"    description: \"Find out more\"");
     assertThat(tree.key().actualText()).isEqualTo("name");
-    assertThat(tree.simpleValueTree().is(Tree.Kind.STRING));
     assertThat(tree.objectTree().entries()).hasSize(2);
   }
 

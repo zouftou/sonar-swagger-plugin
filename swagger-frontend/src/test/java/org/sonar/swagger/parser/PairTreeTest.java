@@ -21,21 +21,23 @@ public class PairTreeTest extends CommonSwaggerTreeTest {
     assertTrue(tree.value().is(Tree.Kind.VALUE_SIMPLE));
 
     tree = checkParsed("key:\n  abc: 1\n  def: 2");
+    ValueTree valueTree = (ValueTree)tree.value();
     assertThat(tree.key().actualText()).isEqualTo("key");
-    assertTrue(tree.value().is(Tree.Kind.OBJECT));
-    assertThat(((ObjectTree) tree.value()).entries().size()).isEqualTo(2);
+    assertTrue(valueTree.value().is(Tree.Kind.OBJECT));
+    assertThat(((ObjectTree)valueTree.value()).entries().size()).isEqualTo(2);
 
     tree = checkParsed("key: null");
-    assertTrue(tree.value().is(Tree.Kind.NULL));
+    assertTrue(tree.value().is(Tree.Kind.VALUE_SIMPLE));
+    assertTrue(((SimpleValueTree)tree.value()).value().is(Tree.Kind.NULL));
 
     tree = checkParsed("key: false");
-    assertTrue(tree.value().is(Tree.Kind.FALSE));
+    assertTrue(((SimpleValueTree)tree.value()).value().is(Tree.Kind.FALSE));
 
     tree = checkParsed("key: true");
-    assertTrue(tree.value().is(Tree.Kind.TRUE));
+    assertTrue(((SimpleValueTree)tree.value()).value().is(Tree.Kind.TRUE));
 
     tree = checkParsed("key: 1");
-    assertTrue(tree.value().is(Tree.Kind.NUMBER));
+    assertTrue(((SimpleValueTree)tree.value()).value().is(Tree.Kind.NUMBER));
   }
 
   @Test

@@ -1,6 +1,7 @@
 package org.sonar.swagger.parser;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,13 +24,13 @@ public class ObjectEntryTreeTest extends CommonSwaggerTreeTest {
     ObjectEntryTree tree;
 
     tree = checkParsed("  title: \"abc\"");
-    assertThat(tree.pair().value().is(Tree.Kind.VALUE_SIMPLE));
+    assertTrue(tree.pair().value().is(Tree.Kind.VALUE_SIMPLE));
     
     tree = checkParsed("  title: 'abc'");
-    assertThat(tree.pair().value().is(Tree.Kind.VALUE_SIMPLE));
+    assertTrue(tree.pair().value().is(Tree.Kind.VALUE_SIMPLE));
     
     tree = checkParsed("    title: abc");
-    assertThat(tree.pair().value().is(Tree.Kind.VALUE_SIMPLE));
+    assertTrue(tree.pair().value().is(Tree.Kind.VALUE_SIMPLE));
   }
 
   @Test
