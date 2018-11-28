@@ -9,10 +9,10 @@
 # SonarQube Swagger Analyzer
 
 ## Description
-This [SonarQube](http://www.sonarqube.org) plugin analyzes [Swagger](https://swagger.io/) files and:
+This [SonarQube](http://www.sonarqube.org) plugin analyzes [Swagger 2.0](https://swagger.io/) files and:
 
  * Computes metrics: lines of code, statements, etc.
- * Checks various guidelines to find out potential bugs and code smells through more than [3 checks](#available-rules)
+ * Checks various guidelines to find out potential bugs and code smells through more than [4 checks](#available-rules)
  * Provides the ability to write your own checks
  
  
@@ -31,6 +31,7 @@ This [SonarQube](http://www.sonarqube.org) plugin analyzes [Swagger](https://swa
 ## Available Rules
 
 ### Generic
+* BOM should not be used for UTF-8 files
 * File names should comply with a naming convention
-* Parsing Error
-* Swagger version check
+* Parsing Error Swagger files.
+* Swagger version should folow the [Semantic Versioning] (https://semver.org/spec/v2.0.0.html)

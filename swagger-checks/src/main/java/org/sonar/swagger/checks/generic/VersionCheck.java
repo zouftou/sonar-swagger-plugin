@@ -39,7 +39,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 @Rule(
 		key = "version",
-		name = "Swagger version should be x.y.z",
+		name = "Swagger version should follow Semantic Versioning Specification.",
 		priority = Priority.MAJOR,
 		tags = {Tags.CONVENTION })
 @ActivatedByDefault
@@ -51,7 +51,7 @@ public class VersionCheck extends DoubleDispatchVisitorCheck {
 
 	@RuleProperty(
 			key = "regularExpression",
-			description = "The regular expression. See " + CheckUtils.LINK_TO_JAVA_REGEX_PATTERN_DOC + " for detailed regular expression syntax.",
+			description = "The regular expression. See " + CheckUtils.LINK_TO_SEMANTIC_VERSIONING_SPEC+ " for detailed regular expression syntax.",
 			defaultValue = DEFAULT_REGULAR_EXPRESSION)
 	private String regularExpression = DEFAULT_REGULAR_EXPRESSION;
 	

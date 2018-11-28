@@ -26,6 +26,8 @@ public class CheckUtils {
 
 	public static final String LINK_TO_JAVA_REGEX_PATTERN_DOC = "http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html";
 
+	public static final String LINK_TO_SEMANTIC_VERSIONING_SPEC = "https://semver.org/spec/v2.0.0.html";
+	
 	private CheckUtils() {
 	}
 

@@ -21,6 +21,7 @@ package org.sonar.swagger.checks;
 
 import java.util.Collection;
 
+import org.sonar.swagger.checks.generic.BOMCheck;
 import org.sonar.swagger.checks.generic.FileNameCheck;
 import org.sonar.swagger.checks.generic.ParsingErrorCheck;
 import org.sonar.swagger.checks.generic.VersionCheck;
@@ -39,6 +40,7 @@ public final class CheckList {
 	@SuppressWarnings("rawtypes")
 	public static Collection<Class> getChecks() {
 		return ImmutableList.<Class>of(
+				BOMCheck.class,
 				FileNameCheck.class,
 				ParsingErrorCheck.class,
 				VersionCheck.class

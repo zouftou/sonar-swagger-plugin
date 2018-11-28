@@ -19,19 +19,41 @@
  */
 package org.sonar.swagger.checks.generic;
 
+import com.google.common.base.Charsets;
+
+import java.nio.charset.Charset;
+
 import org.sonar.check.Priority;
 import org.sonar.check.Rule;
 import org.sonar.swagger.checks.Tags;
+import org.sonar.swagger.visitors.CharsetAwareVisitor;
+import org.sonar.plugins.swagger.api.tree.SwaggerTree;
 import org.sonar.plugins.swagger.api.visitors.DoubleDispatchVisitorCheck;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 import org.sonar.squidbridge.annotations.SqaleConstantRemediation;
 
 @Rule(
-		key = "parsing-error",
-		name = "Swagger parser failure",
-		priority = Priority.CRITICAL,
-		tags = {Tags.BUG})
-@ActivatedByDefault
+  key = "bom-utf8-files",
+  name = "BOM should not be used for UTF-8 files",
+  priority = Priority.MAJOR,
+  tags = {Tags.PITFALL})
 @SqaleConstantRemediation("5min")
-public class ParsingErrorCheck extends DoubleDispatchVisitorCheck {
+@ActivatedByDefault
+public class BOMCheck extends DoubleDispatchVisitorCheck implements CharsetAwareVisitor {
+
+  private Charset charset;
+
+  @Override
+  public void setCharset(Charset charset) {
+    this.charset = charset;
+  }
+
+  @Override
+  public void visitSwagger(SwaggerTree tree) {
+    if (charset.equals(Charsets.UTF_8) && tree.hasByteOrderMark()) {
+      addFileIssue("Remove the BOM.");
+    }
+    super.visitSwagger(tree);
+  }
+
 }

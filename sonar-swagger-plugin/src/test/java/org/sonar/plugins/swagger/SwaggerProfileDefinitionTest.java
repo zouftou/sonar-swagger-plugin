@@ -41,9 +41,9 @@ public class SwaggerProfileDefinitionTest {
 		SwaggerProfileDefinition definition = new SwaggerProfileDefinition(universalRuleFinder());
 		RulesProfile profile = definition.createProfile(validation);
 
-		assertThat(profile.getName()).isEqualTo(SwaggerProfileDefinition.SONARQUBE_WAY_PROFILE_NAME);
+		assertThat(profile.getName()).isEqualTo(SwaggerProfileDefinition.SONARGUBE_WAY_PROFILE_NAME);
 		assertThat(profile.getLanguage()).isEqualTo(SwaggerLanguage.KEY);
-		assertThat(profile.getActiveRulesByRepository(CheckList.REPOSITORY_KEY)).hasSize(3);
+		assertThat(profile.getActiveRulesByRepository(CheckList.REPOSITORY_KEY)).hasSize(4);
 		assertThat(validation.hasErrors()).isFalse();
 	}
 

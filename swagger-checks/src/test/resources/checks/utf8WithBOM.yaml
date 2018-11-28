@@ -1,0 +1,8 @@
+﻿swagger: "2.0"
+info:
+    description: "This is a sample server Petstore server."
+  version: "1.0.0"
+  title: "Swagger Petstore"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
