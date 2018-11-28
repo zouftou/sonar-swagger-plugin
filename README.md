@@ -12,7 +12,7 @@
 This [SonarQube](http://www.sonarqube.org) plugin analyzes [Swagger](https://swagger.io/) files and:
 
  * Computes metrics: lines of code, statements, etc.
- * Checks various guidelines to find out potential bugs and code smells through more than [12 checks](#available-rules)
+ * Checks various guidelines to find out potential bugs and code smells through more than [3 checks](#available-rules)
  * Provides the ability to write your own checks
  
  
