@@ -1,6 +1,6 @@
 [![Release](https://img.shields.io/github/release/zouftou/sonar-swagger-plugin.svg)](https://github.com/zouftou/sonar-swagger-plugin/releases/latest)
 [![Build Status](https://api.travis-ci.org/zouftou/sonar-swagger-plugin.svg?branch=master)](https://travis-ci.org/zouftou/sonar-swagger-plugin)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/imfckm45thk6vvh4/branch/master?svg=true)](https://ci.appveyor.com/project/racodond/sonar-swagger-plugin/branch/master)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/imfckm45thk6vvh4/branch/master?svg=true)](https://ci.appveyor.com/project/zouftou/sonar-swagger-plugin/branch/master)
 
 [![Quality Gate status](https://sonarcloud.io/api/project_badges/measure?project=org.codehaus.sonar-plugins.swagger%3Aswagger&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.codehaus.sonar-plugins.swagger%3Aswagger)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=org.codehaus.sonar-plugins.swagger%3Aswagger&metric=ncloc)](https://sonarcloud.io/dashboard?id=org.codehaus.sonar-plugins.swagger%3Aswagger)
