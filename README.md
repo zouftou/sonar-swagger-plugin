@@ -26,6 +26,7 @@ This [SonarQube](http://www.sonarqube.org) plugin analyzes [Swagger 2.0](https:/
  
 ## Troubleshooting
  This syntax is not supported :
+ ```
  description: 200 response
           examples:
             application/json: |-
@@ -44,7 +45,7 @@ This [SonarQube](http://www.sonarqube.org) plugin analyzes [Swagger 2.0](https:/
                       }
                   ]
               }
- 
+ ```
  
 ## Available Rules
 
